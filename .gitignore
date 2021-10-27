@@ -115,7 +115,3 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-## NON DEFAULTS
-
-# Moved to templates
-kustomization.yaml

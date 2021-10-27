@@ -4,7 +4,3 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
-images:
-  - name: k8s-sample-gke-about
-    newName: jchengdeveng/k8s-sample-gke-about
-    newTag: "${IMAGE_TAG}"

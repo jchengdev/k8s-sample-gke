@@ -22,8 +22,8 @@ spec:
         app: about-cluster
     spec:
       containers:
-        - image: jchengdeveng/k8s-sample-gke-about:latest
-          name: k8s-sample-gke-about
+        - image: jchengdeveng/k8s-sample-gke-about
+          name: about-cluster
           resources:
             limits:
               memory: 200Mi
