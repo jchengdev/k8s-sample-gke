@@ -11,8 +11,16 @@ RUN cd /thttpd \
   && make CCOPT='-O2 -s -static' thttpd
 RUN adduser --disabled-password static
 
-# Switch to the busy image
-FROM busybox AS prod
+# Intermediate build just for image labels adjustments
+FROM busybox AS source
+ARG SOURCE_COMMIT=not-set 
+WORKDIR /source
+# Use the .dockerignore file to control what ends up inside the image!
+COPY ./static .
+RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./index.html
+
+# Switch to the scratch image
+FROM scratch AS prod
 
 ARG BUILD_DATE=not-set 
 ARG SOURCE_COMMIT=not-set 
@@ -29,9 +37,7 @@ USER static
 WORKDIR /home/static/www
 
 # Copy the static website
-# Use the .dockerignore file to control what ends up inside the image!
-COPY --chown=static:static ./static .
-RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./index.html
+COPY --from=source /source .
 
 # Run thttpd
 CMD ["/thttpd", "-D", "-h", "0.0.0.0", "-p", "8080", "-d", "/home/static/www", "-u", "static", "-l", "-", "-M", "60"]
