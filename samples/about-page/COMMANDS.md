@@ -10,4 +10,4 @@
 - `docker tag about-page:latest jchengdeveng/k8s-sample-gke-about`
 - `docker push jchengdeveng/k8s-sample-gke-about`
 - `docker run --rm -d -p 80:8080 jchengdeveng/k8s-sample-gke-about`
-- `kubectl apply -f ./k8s/.`
+- `kubectl apply -k ./k8s/.`
