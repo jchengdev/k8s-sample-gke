@@ -12,5 +12,5 @@
 - `docker tag about-page:latest jchengdeveng/k8s-sample-gke-about:"$(git rev-parse --short HEAD)"`
 - `docker push jchengdeveng/k8s-sample-gke-about:"$(git rev-parse --short HEAD)"`
 - `docker run --rm -d -p 80:8080 jchengdeveng/k8s-sample-gke-about:"$(git rev-parse --short HEAD)"`
-- `sed "s~IMAGE_TAG~$(git rev-parse --short HEAD)~g" ./k8s/templates/kustomization.template.yaml > ./k8s/kustomization.yaml`
+- `IMAGE_TAG="$(git rev-parse --short HEAD)" envsubst < ./k8s/templates/kustomization.template.yaml > ./k8s/kustomization.yaml`
 - `kubectl apply -k ./k8s/.`

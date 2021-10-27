@@ -6,5 +6,5 @@ resources:
   - ingress.yaml
 images:
   - name: k8s-sample-gke-about
-    newName: k8s-sample-gke-about
-    newTag: IMAGE_TAG
+    newName: jchengdeveng/k8s-sample-gke-about
+    newTag: "${IMAGE_TAG}"
