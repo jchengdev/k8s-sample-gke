@@ -2,7 +2,7 @@ version: '2.4'
 services: 
   static-about: 
     container_name: 'k8s-sample-about-page'
-    image: 'jchengdeveng/k8s-sample-gke-about'
+    image: 'jchengdeveng/k8s-sample-gke-about:latest'
     build:
       context: .
       dockerfile: Dockerfile
