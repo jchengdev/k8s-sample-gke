@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: about-cluster
+  name: about-cluster
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: about-cluster
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: about-cluster
+    spec:
+      containers:
+        - image: jchengdeveng/k8s-sample-gke-about
+          name: about-cluster
+          resources:
+            limits:
+              memory: 100Mi
+            requests:
+              cpu: 5m
+              memory: 10Mi
