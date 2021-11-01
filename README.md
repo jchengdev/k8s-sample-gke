@@ -12,4 +12,4 @@ Related courses:
 
 ## Ignore List
 
-- \<TODO\>
+- Leftover comments in YAML files
