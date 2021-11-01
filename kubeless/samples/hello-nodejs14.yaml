@@ -1,0 +1,13 @@
+apiVersion: kubeless.io/v1beta1
+kind: Function
+metadata:
+  name: hello-nodejs14
+spec:
+  handler: handler.hello
+  runtime: nodejs14
+  function: |
+    module.exports = {
+      hello: function(event, context) {
+        return 'Hello world from \'hello-nodejs14\' Function'
+      }
+    }
