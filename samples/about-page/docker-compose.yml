@@ -11,7 +11,7 @@ services:
         BUILD_DATE: '$BUILD_DATE'
         SOURCE_COMMIT: '$COMMIT'
     ports: 
-      - 80:8080
+      - 80:80
     # volumes: 
     #   - .:/node/app
     #   - /node/node_modules 
