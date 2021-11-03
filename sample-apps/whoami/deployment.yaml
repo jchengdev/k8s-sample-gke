@@ -24,9 +24,9 @@ spec:
       containers:
         - image: jwilder/whoami
           name: whoami
-          resources:
-            limits:
-              memory: 100Mi
-            requests:
-              cpu: 5m
-              memory: 10Mi
+          # resources:
+          #   limits:
+          #     memory: 100Mi
+          #   requests:
+          #     cpu: 5m
+          #     memory: 10Mi

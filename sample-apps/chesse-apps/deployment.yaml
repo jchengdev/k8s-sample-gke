@@ -24,12 +24,12 @@ spec:
       containers:
         - image: errm/cheese:cheddar
           name: cheese
-          resources:
-            limits:
-              memory: 100Mi
-            requests:
-              cpu: 5m
-              memory: 10Mi
+          # resources:
+          #   limits:
+          #     memory: 100Mi
+          #   requests:
+          #     cpu: 5m
+          #     memory: 10Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -57,12 +57,12 @@ spec:
       containers:
         - image: errm/cheese:stilton
           name: cheese
-          resources:
-            limits:
-              memory: 100Mi
-            requests:
-              cpu: 5m
-              memory: 10Mi
+          # resources:
+          #   limits:
+          #     memory: 100Mi
+          #   requests:
+          #     cpu: 5m
+          #     memory: 10Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -90,9 +90,9 @@ spec:
       containers:
         - image: errm/cheese:wensleydale
           name: cheese
-          resources:
-            limits:
-              memory: 100Mi
-            requests:
-              cpu: 5m
-              memory: 10Mi
+          # resources:
+          #   limits:
+          #     memory: 100Mi
+          #   requests:
+          #     cpu: 5m
+          #     memory: 10Mi
