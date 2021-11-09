@@ -1,0 +1,279 @@
+### YAML ANCHORS & TEMPLATES ###
+
+.job-rules:
+  - &job-rules-on-schedule
+    if: '$CI_PIPELINE_SOURCE == "schedule"'
+  - &job-rules-on-schedule-master-branch
+    if: '$CI_PIPELINE_SOURCE == "schedule" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  - &job-rules-never-schedule
+    if: '$CI_PIPELINE_SOURCE == "schedule"'
+    when: never
+  - &job-rules-always-pipeline-changes
+    if: '$CI_COMMIT_BRANCH == "structure/pipeline"'
+    when: always # even failed jobs won't prevent next jobs from being executed (OK in this case)
+  - &job-rules-never-pipeline-changes
+    if: '$CI_COMMIT_BRANCH == "structure/pipeline"'
+    when: never
+  - &job-rules-on-new-development-branch
+    if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_SLUG =~ /develop-/ && $CI_COMMIT_BEFORE_SHA == "0000000000000000000000000000000000000000"'
+  - &job-rules-on-development-push
+    if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_SLUG =~ /develop-/'
+  - &job-rules-on-merge-request
+    if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  - &job-rules-on-master-push
+    if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+# .gatsby-cli_template:
+#   before_script: &gatsby-cli_template_before_script
+#     - echo $CI_RUNNER_ID
+#     - 'echo using cache: $CI_PROJECT_ID'
+#     - export GATSBYCLI_TGZ=$(ls $CACHE_ROOT/.npm-pack | grep -i gatsby-cli.*tgz$ | sort | tail -n 1) && echo $GATSBYCLI_TGZ
+#     - npm install -g --no-audit $CACHE_ROOT/.npm-pack/$GATSBYCLI_TGZ
+
+# .deploy_template: &deploy_template
+#   environment:
+#     url: 'https://$DOMAIN'
+#   before_script: &deploy_template_before_script
+#     - echo $CI_RUNNER_ID
+#     - 'echo using cache: $CI_PROJECT_ID'
+#     - export SURGE_TGZ=$(ls $CACHE_ROOT/.npm-pack | grep -i surge.*tgz$ | sort | tail -n 1) && echo $SURGE_TGZ
+#     - npm install -g --no-audit $CACHE_ROOT/.npm-pack/$SURGE_TGZ
+#   script:
+#     - 'echo Deploy URL: https://$DOMAIN'
+#     # Environment Variables set as secrets from Gitlab CE web UI
+#     # - echo SURGE_LOGIN $SURGE_LOGIN  # as defined by surge.sh
+#     # - echo SURGE_TOKEN $SURGE_TOKEN  # as defined by surge.sh
+#     # - echo PROD_DOMAIN $PROD_DOMAIN  # custom definition for Gitlab CE
+#     # if using inside app (e.g. Node context) EnvVars should be prepended with K8S_SECRET_
+#     - surge --project ./public --domain $DOMAIN
+
+### STAGES
+
+stages:
+  - cache # for optimization and correctness of shared cache (e.g. up-to-date packages)
+  # - build
+  - post-build
+  # - test
+  # - review
+  # - stg deploy
+  # - prod deploy
+  # - prod test
+
+### GLOBAL CONFIGS ###
+
+variables:
+  CACHE_FALLBACK_KEY: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR
+  CACHE_ROOT: . # /builds folder
+  RVW_BASE_DOMAIN: surge.sh
+  # STG_DOMAIN: abashed-suit.surge.sh
+  # PROD_DOMAIN: unwritten-kite.surge.sh
+
+workflow: # pipeline activation
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH'
+    # these rules avoid pipeline duplication when working with merge requests
+
+default:
+  image: 'node:lts' # better lock into a specific version
+  tags:
+    - 'node'
+  cache:
+    - key: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR # e.g. keep cache when re-building for 'master' branch, or the same commit
+      policy: pull # avoid re-uploading untouched cache
+      paths:
+        - '$CACHE_ROOT/.npm'      # custom directory for npm cache (not the usual '~/.npm')
+    - key: $CI_PROJECT_ID
+      policy: pull
+      paths:
+        - '$CACHE_ROOT/.npm-pack' # custom directory for npm i -g (local offline tarballs)
+  before_script:
+    - echo $CI_RUNNER_ID
+
+### JOBS ###
+
+update global cache:
+  stage: cache
+  rules:
+    - *job-rules-on-schedule-master-branch
+  cache:
+    key: $CI_PROJECT_ID
+    policy: pull-push
+    paths:
+      - '$CACHE_ROOT/.npm-pack'
+  before_script:
+    - echo $CI_RUNNER_ID
+    - echo $CI_BUILDS_DIR
+    - echo $PWD                                                           # '.' location
+    - echo $CI_API_V4_URL
+    - rm -rf $CACHE_ROOT/.npm-pack/*
+  script:
+    # - npm pack gatsby-cli                                     # also create "cache" for this dev dependency
+    - npm pack surge                                          # also create "cache" for this dev dependency
+    - mkdir -p $CACHE_ROOT/.npm-pack && mv *.tgz $CACHE_ROOT/.npm-pack && ls -la $CACHE_ROOT/.npm-pack
+    - sleep 30
+
+update cache:
+  stage: cache
+  rules:
+    - *job-rules-on-schedule
+    - *job-rules-always-pipeline-changes
+    - *job-rules-on-new-development-branch
+  cache:
+    key: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR
+    policy: pull-push
+    paths:
+      - '$CACHE_ROOT/.npm'
+  before_script:
+    - echo $CI_RUNNER_ID
+    - echo $CI_BUILDS_DIR
+    - echo $PWD                                                           # '.' location
+    - echo $CI_API_V4_URL
+    - $CI_KUBERNETES_ACTIVE && echo "true" || echo "false"
+    - $CI_COMMIT_REF_PROTECTED && echo "true" || echo "false"             # protected Secrets don't get loaded in detached mode (Merge Request pipelines)
+    - npm cache clean --force
+  script:
+    - npm ci --cache $CACHE_ROOT/.npm                                     # strict match to package-lock.json and use custom directory for npm cache
+    - npm outdated || true                                                # check current versions against renewed cache
+    - sleep 30
+
+# build website:
+#   stage: build
+#   rules:
+#     - *job-rules-never-schedule
+#     - *job-rules-always-pipeline-changes
+#     - *job-rules-on-development-push
+#     - *job-rules-on-merge-request
+#     - *job-rules-on-master-push
+#   before_script: *gatsby-cli_template_before_script
+#   script:
+#     - echo $CI_COMMIT_BEFORE_SHA                                        # value is '0000000000000000000000000000000000000000' if new branch or detached MR pipelines
+#     - echo $CI_COMMIT_SHORT_SHA
+#     - 'echo using cache: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR'
+#     - npm ci --cache $CACHE_ROOT/.npm --offline --no-audit              # cache already renewed daily as per defined schedule (via UI)
+#     - gatsby build
+#     - sed -i "s/%%VERSION%%/$CI_COMMIT_SHORT_SHA/" ./public/index.html  # override static page's marker
+#   artifacts:
+#     paths:
+#       - ./public
+
+author:
+  stage: post-build
+  rules:
+    - *job-rules-never-schedule
+    - *job-rules-always-pipeline-changes
+    - *job-rules-on-development-push
+    - *job-rules-on-merge-request
+    - *job-rules-on-master-push
+  image: 'alpine:latest'
+  cache: {} # global cache not needed
+  script:
+    - mkdir -p ./public/meta
+    - cd ./public/meta
+    - echo $GITLAB_USER_NAME >> index.html
+    - 'echo commit: $CI_COMMIT_SHORT_SHA >> index.html'
+  artifacts:
+    paths:
+      - ./public/meta # <TODO> currently not working, need some workaround for Gatsby to serve it
+
+# test artifact:
+#   stage: test
+#   rules:
+#     - *job-rules-never-schedule
+#     - *job-rules-always-pipeline-changes
+#     - *job-rules-on-development-push
+#     - *job-rules-on-merge-request
+#     - *job-rules-on-master-push
+#   image: 'alpine:latest'
+#   cache: {} # global cache not needed
+#   script:
+#     - grep -q "Gatsby" ./public/index.html
+#     - '! grep -q "++++++" ./public/index.html'
+
+# test website:
+#   stage: test
+#   rules:
+#     - *job-rules-never-schedule
+#     - *job-rules-always-pipeline-changes
+#     - *job-rules-on-development-push
+#     - *job-rules-on-merge-request
+#     - *job-rules-on-master-push
+#   before_script: *gatsby-cli_template_before_script
+#   script:
+#     - 'echo using cache: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR'
+#     - npm ci --cache $CACHE_ROOT/.npm --offline --no-audit
+#     - gatsby serve &
+#     - sleep 10 # not the smartest solution for making previous command run in background
+#     - curl "http://localhost:9000" | tac | tac | grep -q "Gatsby"
+
+# deploy for review:
+#   <<: *deploy_template
+#   stage: review
+#   variables:
+#     DOMAIN: 'instazone-$CI_ENVIRONMENT_SLUG.$RVW_BASE_DOMAIN'
+#   rules:
+#     - *job-rules-never-schedule
+#     - *job-rules-never-pipeline-changes
+#     - *job-rules-on-merge-request
+#   environment:
+#     name: review/$CI_COMMIT_REF_NAME
+#     on_stop: 'cleanup review'
+
+# cleanup review:
+#   stage: review
+#   variables:
+#     DOMAIN: 'instazone-$CI_ENVIRONMENT_SLUG.$RVW_BASE_DOMAIN'
+#     GIT_STRATEGY: none
+#   rules:
+#     - *job-rules-never-schedule
+#     - *job-rules-never-pipeline-changes
+#     - <<: *job-rules-on-merge-request # ! merging works for different properties but for arrays it will override the default parent property
+#       when: manual
+#   environment:
+#     name: review/$CI_COMMIT_REF_NAME
+#     action: stop
+#   before_script: *deploy_template_before_script
+#   script:
+#     - 'echo teardown URL: https://$DOMAIN'
+#     - surge teardown $DOMAIN
+
+# deploy to staging:
+#   <<: *deploy_template
+#   stage: stg deploy
+#   variables:
+#     DOMAIN: $STG_DOMAIN
+#   rules:
+#     - *job-rules-never-schedule
+#     - *job-rules-always-pipeline-changes
+#     - *job-rules-on-master-push
+#   environment:
+#     name: staging
+
+# deploy to production:
+#   <<: *deploy_template
+#   stage: prod deploy
+#   variables:
+#     DOMAIN: $PROD_DOMAIN
+#   rules:
+#     - *job-rules-never-schedule
+#     - <<: *job-rules-on-master-push
+#       when: manual
+#       allow_failure: false # required for the manual approval step
+#   environment:
+#     name: production
+
+# production test:
+#   stage: prod test
+#   rules:
+#     - *job-rules-never-schedule
+#     - *job-rules-on-master-push
+#   image: 'alpine:latest'
+#   cache: {} # global cache not needed
+#   before_script:
+#     - echo $CI_RUNNER_ID
+#     - apk update && apk add curl
+#   script:
+#     - curl "https://$PROD_DOMAIN" | tac | tac | grep -q "Gatsby"
+#     - curl "https://$PROD_DOMAIN" | tac | tac | grep -q "$CI_COMMIT_SHORT_SHA"
