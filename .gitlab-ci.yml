@@ -80,6 +80,7 @@ default:
   image: 'node:lts' # better lock into a specific version
   tags:
     - 'node'
+    - 'gitlab-org'
   cache:
     - key: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR # e.g. keep cache when re-building for 'master' branch, or the same commit
       policy: pull # avoid re-uploading untouched cache
