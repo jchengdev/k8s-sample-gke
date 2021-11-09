@@ -17,7 +17,7 @@
   ```bash
   git push --delete gitlab main
   git checkout -B structure/pipeline
-  git push -u structure/pipeline       (GitHub default remote, no CI/CD)
+  git push -u origin structure/pipeline (GitHub default remote, no CI/CD)
   git push gitlab structure/pipeline
   ```
 
