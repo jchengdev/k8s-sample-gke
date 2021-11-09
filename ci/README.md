@@ -12,7 +12,7 @@
   ```
 
   - change default branch to `master` and unprotect `main` branch from UI
-  - change CI/CD configuration file path to `./ci/.gitlab-ci.yml`
+  - change CI/CD configuration file path to `ci/.gitlab-ci.yml`
 
   ```bash
   git push --delete gitlab main
