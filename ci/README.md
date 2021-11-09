@@ -11,7 +11,7 @@
   git push gitlab master
   ```
 
-  - change default branch to 'master' and unprotect 'main' branch from UI
+  - change default branch to `master` and unprotect `main` branch from UI
   - change CI/CD configuration file path to `./ci/.gitlab-ci.yml`
 
   ```bash
