@@ -12,7 +12,7 @@
   ```
 
   - change default branch to `master` and unprotect `main` branch from UI
-  - change CI/CD configuration file path to `./ci/.gitlab-ci.yml`
+  - change CI/CD configuration file path to `ci/.gitlab-ci.yml`
 
   ```bash
   git push --delete gitlab main
@@ -21,4 +21,9 @@
   git push gitlab structure/pipeline
   ```
 
-- (TODO)
+- Update package-lock.json
+
+  ```bash
+  docker build -t npm-util -f ./npm-util/Dockerfile .
+  docker run --rm -it -v "$(pwd)/sample-app:/npm-context" npm-util install --package-lock-only
+  ```
