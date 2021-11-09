@@ -21,4 +21,9 @@
   git push gitlab structure/pipeline
   ```
 
-- (TODO)
+- Update package-lock.json
+
+  ```bash
+  docker build -t npm-util -f ./npm-util/Dockerfile .
+  docker run --rm -it -v "$(pwd)/sample-app:/npm-context" npm-util install --package-lock-only
+  ```

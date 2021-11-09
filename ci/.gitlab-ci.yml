@@ -62,8 +62,9 @@ stages:
 ### GLOBAL CONFIGS ###
 
 variables:
+  APP_ROOT: ./ci/sample-app
+  CACHE_ROOT: ./ci/sample-app
   CACHE_FALLBACK_KEY: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR
-  CACHE_ROOT: ./sample-app
   RVW_BASE_DOMAIN: surge.sh
   # STG_DOMAIN: abashed-suit.surge.sh
   # PROD_DOMAIN: unwritten-kite.surge.sh
@@ -107,13 +108,15 @@ update npm-g cache:
   before_script:
     - echo $CI_RUNNER_ID
     - echo $CI_BUILDS_DIR
-    - echo $PWD                                                           # '.' location
+    - echo $PWD                                                           # scripts starting location
     - echo $CI_API_V4_URL
     - rm -rf $CACHE_ROOT/.npm-pack/*
   script:
-    # - npm pack gatsby-cli                                     # also create "cache" for this dev dependency
-    - npm pack surge                                          # also create "cache" for this dev dependency
-    - mkdir -p $CACHE_ROOT/.npm-pack && mv *.tgz $CACHE_ROOT/.npm-pack && ls -la $CACHE_ROOT/.npm-pack
+    - cd $APP_ROOT
+    - echo $PWD
+    # - npm pack gatsby-cli                                               # also create "cache" for this dev dependency
+    - npm pack surge                                                      # also create "cache" for this dev dependency
+    - mkdir -p ./.npm-pack && mv *.tgz ./.npm-pack && ls -la ./.npm-pack
     - sleep 30
 
 update npm cache:
@@ -130,13 +133,15 @@ update npm cache:
   before_script:
     - echo $CI_RUNNER_ID
     - echo $CI_BUILDS_DIR
-    - echo $PWD                                                           # '.' location
+    - echo $PWD                                                           # scripts starting location
     - echo $CI_API_V4_URL
     - $CI_KUBERNETES_ACTIVE && echo "true" || echo "false"
     - $CI_COMMIT_REF_PROTECTED && echo "true" || echo "false"             # protected Secrets don't get loaded in detached mode (Merge Request pipelines)
     - npm cache clean --force
   script:
-    - npm ci --cache $CACHE_ROOT/.npm                                     # strict match to package-lock.json and use custom directory for npm cache
+    - cd $APP_ROOT
+    - echo $PWD
+    - npm ci --cache ./.npm                                               # strict match to package-lock.json and use custom directory for npm cache
     - npm outdated || true                                                # check current versions against renewed cache
     - sleep 30
 
