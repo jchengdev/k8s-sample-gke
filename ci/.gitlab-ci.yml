@@ -63,7 +63,7 @@ stages:
 
 variables:
   CACHE_FALLBACK_KEY: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR
-  CACHE_ROOT: . # /builds folder
+  CACHE_ROOT: ./ci/sample-app
   RVW_BASE_DOMAIN: surge.sh
   # STG_DOMAIN: abashed-suit.surge.sh
   # PROD_DOMAIN: unwritten-kite.surge.sh
@@ -79,7 +79,7 @@ workflow: # pipeline activation
 default:
   image: 'node:lts' # better lock into a specific version
   tags:
-    # - 'node'
+    # - 'node' # ! unavailable in gitlab.com
     - 'gitlab-org'
   cache:
     - key: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR # e.g. keep cache when re-building for 'master' branch, or the same commit
@@ -95,7 +95,7 @@ default:
 
 ### JOBS ###
 
-update global cache:
+update npm-g cache:
   stage: cache
   rules:
     - *job-rules-on-schedule-master-branch
@@ -116,7 +116,7 @@ update global cache:
     - mkdir -p $CACHE_ROOT/.npm-pack && mv *.tgz $CACHE_ROOT/.npm-pack && ls -la $CACHE_ROOT/.npm-pack
     - sleep 30
 
-update cache:
+update npm cache:
   stage: cache
   rules:
     - *job-rules-on-schedule
