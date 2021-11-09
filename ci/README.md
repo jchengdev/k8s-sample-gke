@@ -20,7 +20,7 @@
   git fetch gitlab
   git push gitlab master
   git checkout -B structure/pipeline
-  git push -u origin structure/pipeline       (GitHub default remote, no CI/CD)
+  git push -u origin structure/pipeline                              (GitHub default remote, no CI/CD)
   git push gitlab structure/pipeline
   git push --delete gitlab main
   ```
