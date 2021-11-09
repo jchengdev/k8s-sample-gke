@@ -26,6 +26,8 @@
 # .gatsby-cli_template:
 #   before_script: &gatsby-cli_template_before_script
 #     - echo $CI_RUNNER_ID
+#     - cd $APP_ROOT
+#     - echo $PWD
 #     - 'echo using cache: $CI_PROJECT_ID'
 #     - export GATSBYCLI_TGZ=$(ls $CACHE_ROOT/.npm-pack | grep -i gatsby-cli.*tgz$ | sort | tail -n 1) && echo $GATSBYCLI_TGZ
 #     - npm install -g --no-audit $CACHE_ROOT/.npm-pack/$GATSBYCLI_TGZ
@@ -35,6 +37,8 @@
 #     url: 'https://$DOMAIN'
 #   before_script: &deploy_template_before_script
 #     - echo $CI_RUNNER_ID
+#     - cd $APP_ROOT
+#     - echo $PWD
 #     - 'echo using cache: $CI_PROJECT_ID'
 #     - export SURGE_TGZ=$(ls $CACHE_ROOT/.npm-pack | grep -i surge.*tgz$ | sort | tail -n 1) && echo $SURGE_TGZ
 #     - npm install -g --no-audit $CACHE_ROOT/.npm-pack/$SURGE_TGZ
@@ -63,7 +67,7 @@ stages:
 
 variables:
   APP_ROOT: ./ci/sample-app
-  CACHE_ROOT: ./ci/sample-app
+  CACHE_ROOT: $CI_PROJECT_DIR/build-caches
   CACHE_FALLBACK_KEY: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR
   RVW_BASE_DOMAIN: surge.sh
   # STG_DOMAIN: abashed-suit.surge.sh
@@ -112,11 +116,9 @@ update npm-g cache:
     - echo $CI_API_V4_URL
     - rm -rf $CACHE_ROOT/.npm-pack/*
   script:
-    - cd $APP_ROOT
-    - echo $PWD
     # - npm pack gatsby-cli                                               # also create "cache" for this dev dependency
     - npm pack surge                                                      # also create "cache" for this dev dependency
-    - mkdir -p ./.npm-pack && mv *.tgz ./.npm-pack && ls -la ./.npm-pack
+    - mkdir -p $CACHE_ROOT/.npm-pack && mv *.tgz $CACHE_ROOT/.npm-pack && ls -la $CACHE_ROOT/.npm-pack
     - sleep 30
 
 update npm cache:
@@ -139,9 +141,9 @@ update npm cache:
     - $CI_COMMIT_REF_PROTECTED && echo "true" || echo "false"             # protected Secrets don't get loaded in detached mode (Merge Request pipelines)
     - npm cache clean --force
   script:
-    - cd $APP_ROOT
+    - cd $APP_ROOT                                                        # package.json location for 'npm ci' command
     - echo $PWD
-    - npm ci --cache ./.npm                                               # strict match to package-lock.json and use custom directory for npm cache
+    - npm ci --cache $CACHE_ROOT/.npm                                     # strict match to package-lock.json and use custom directory for npm cache
     - npm outdated || true                                                # check current versions against renewed cache
     - sleep 30
 
@@ -157,6 +159,8 @@ update npm cache:
 #   script:
 #     - echo $CI_COMMIT_BEFORE_SHA                                        # value is '0000000000000000000000000000000000000000' if new branch or detached MR pipelines
 #     - echo $CI_COMMIT_SHORT_SHA
+#     - cd $APP_ROOT
+#     - echo $PWD
 #     - 'echo using cache: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR'
 #     - npm ci --cache $CACHE_ROOT/.npm --offline --no-audit              # cache already renewed daily as per defined schedule (via UI)
 #     - gatsby build
@@ -208,6 +212,8 @@ author:
 #     - *job-rules-on-master-push
 #   before_script: *gatsby-cli_template_before_script
 #   script:
+#     - cd $APP_ROOT
+#     - echo $PWD
 #     - 'echo using cache: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR'
 #     - npm ci --cache $CACHE_ROOT/.npm --offline --no-audit
 #     - gatsby serve &
