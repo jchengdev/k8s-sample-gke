@@ -66,7 +66,7 @@ stages:
 ### GLOBAL CONFIGS ###
 
 variables:
-  APP_ROOT: ./ci/sample-app
+  APP_ROOT: $CI_PROJECT_DIR/ci/sample-app
   CACHE_ROOT: $CI_PROJECT_DIR/build-caches
   CACHE_FALLBACK_KEY: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR
   RVW_BASE_DOMAIN: surge.sh
