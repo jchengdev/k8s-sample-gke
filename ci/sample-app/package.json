@@ -1,0 +1,16 @@
+{
+  "name": "sample-app",
+  "version": "1.0.0",
+  "description": "Node app for k8s-sample-gke cluster",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gatsby": "^4.1.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
