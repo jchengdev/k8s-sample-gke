@@ -1,0 +1,19 @@
+version: '2.4'
+services: 
+  static-about: 
+    container_name: 'k8s-sample-ci-cd-app'
+    image: 'jchengdeveng/k8s-sample-gke-ci-cd-app:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # target: dev
+      args:
+        BUILD_DATE: '$BUILD_DATE'
+        SOURCE_COMMIT: '$COMMIT'
+    ports: 
+      - 80:80
+    # volumes: 
+    #   - .:/node/app
+    #   - /node/node_modules 
+    # env_file:
+    #   - ./.env
