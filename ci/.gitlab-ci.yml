@@ -172,7 +172,7 @@ build dev image:
     - echo $CI_COMMIT_SHORT_SHA
     - cd $APP_ROOT
     - echo $PWD
-    - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" -f ./ci/sample-app/Dockerfile ./ci/sample-app
+    - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT=$CI_COMMIT_SHORT_SHA -f ./ci/sample-app/Dockerfile ./ci/sample-app
     - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:dev
     - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:dev
 
@@ -198,11 +198,11 @@ build prod image:
     - echo $CI_COMMIT_SHORT_SHA
     - cd $APP_ROOT
     - echo $PWD
-    - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" -f ./ci/sample-app/Dockerfile ./ci/sample-app
+    - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT=$CI_COMMIT_SHORT_SHA -f ./ci/sample-app/Dockerfile ./ci/sample-app
     - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:latest
     - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:latest
-    - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:"$(git rev-parse HEAD)"
-    - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:"$(git rev-parse HEAD)"
+    - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHORT_SHA
+    - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHORT_SHA
 
 author:
   stage: post-build
