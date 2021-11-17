@@ -55,7 +55,7 @@
 
 stages:
   - cache # for optimization and correctness of shared cache (e.g. up-to-date packages)
-  # - build
+  - build
   - post-build
   # - test
   # - review
@@ -90,11 +90,11 @@ default:
     - key: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR # e.g. keep cache when re-building for 'master' branch, or the same commit
       policy: pull # avoid re-uploading untouched cache
       paths:
-        - '$CACHE_ROOT/.npm'      # custom directory for npm cache (not the usual '~/.npm')
+        - '$CACHE_ROOT/.npm'                                              # custom directory for npm cache (not the usual '~/.npm')
     - key: $CI_PROJECT_ID
       policy: pull
       paths:
-        - '$CACHE_ROOT/.npm-pack' # custom directory for npm i -g (local offline tarballs)
+        - '$CACHE_ROOT/.npm-pack'                                         # custom directory for npm i -g (local offline tarballs)
   before_script:
     - echo $CI_RUNNER_ID
 
@@ -147,27 +147,56 @@ update npm cache:
     - npm outdated || true                                                # check current versions against renewed cache
     - sleep 30
 
-# build website:
-#   stage: build
-#   rules:
-#     - *job-rules-never-schedule
-#     - *job-rules-always-pipeline-changes
-#     - *job-rules-on-development-push
-#     - *job-rules-on-merge-request
-#     - *job-rules-on-master-push
-#   before_script: *gatsby-cli_template_before_script
-#   script:
-#     - echo $CI_COMMIT_BEFORE_SHA                                        # value is '0000000000000000000000000000000000000000' if new branch or detached MR pipelines
-#     - echo $CI_COMMIT_SHORT_SHA
-#     - cd $APP_ROOT
-#     - echo $PWD
-#     - 'echo using cache: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR'
-#     - npm ci --cache $CACHE_ROOT/.npm --offline --no-audit              # cache already renewed daily as per defined schedule (via UI)
-#     - gatsby build
-#     - sed -i "s/%%VERSION%%/$CI_COMMIT_SHORT_SHA/" ./public/index.html  # override static page's marker
-#   artifacts:
-#     paths:
-#       - ./public
+build dev image:
+  stage: build
+  rules:
+    - *job-rules-never-schedule
+    - *job-rules-always-pipeline-changes
+    - *job-rules-on-development-push
+    - *job-rules-on-merge-request
+  before_script:
+    - docker info                                                         # check DinD
+    # - echo "$DOCKER_REGISTRY_PASS" | docker login $DOCKER_REGISTRY --username $DOCKER_REGISTRY_USER --password-stdin
+    - echo "$DOCKER_REGISTRY_PASS" | docker login --username $DOCKER_REGISTRY_USER --password-stdin
+  image: 'docker:20.10'
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  services:
+    - docker:20.10-dind
+  cache: {}
+  script:
+    - echo $CI_COMMIT_BEFORE_SHA                                          # value is '0000000000000000000000000000000000000000' if new branch or detached MR pipelines
+    - echo $CI_COMMIT_SHORT_SHA
+    - cd $APP_ROOT
+    - echo $PWD
+    - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" -f ./ci/sample-app/Dockerfile ./ci/sample-app
+    - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:dev
+    - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:dev
+
+build prod image:
+  stage: build
+  rules:
+    - *job-rules-never-schedule
+    - *job-rules-on-master-push
+  before_script:
+    - docker info
+    - echo "$DOCKER_REGISTRY_PASS" | docker login --username $DOCKER_REGISTRY_USER --password-stdin
+  image: 'docker:20.10'
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  services:
+    - docker:20.10-dind
+  cache: {}
+  script:
+    - echo $CI_COMMIT_BEFORE_SHA
+    - echo $CI_COMMIT_SHORT_SHA
+    - cd $APP_ROOT
+    - echo $PWD
+    - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" -f ./ci/sample-app/Dockerfile ./ci/sample-app
+    - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:latest
+    - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:latest
+    - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:"$(git rev-parse HEAD)"
+    - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:"$(git rev-parse HEAD)"
 
 author:
   stage: post-build
