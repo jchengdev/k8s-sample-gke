@@ -18,10 +18,10 @@
   git remote -v
   git remote add gitlab git@gitlab.com:jchengdev/k8s-sample-gke.git
   git fetch gitlab
-  git push gitlab master
+  git push gitlab master -o ci.skip
   git checkout -B structure/pipeline
   git push -u origin structure/pipeline                              (GitHub default remote, no CI/CD)
-  git push gitlab structure/pipeline
+  git push gitlab structure/pipeline -o ci.skip
   git push --delete gitlab main
   ```
 
@@ -31,3 +31,4 @@
   - (... global and per-project configurations)
 - Create and run scheduled pipelines (e.g. daily cache renewal)
 - Create merge request (& fix pipeline errors)
+- Build dummy `sample-app` and deploy initial version directly to cluster: `ci-cd-app.k8s-sample-gke.jchengdev.com`
