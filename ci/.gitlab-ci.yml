@@ -228,7 +228,7 @@ check dev image:
     - cd $APP_ROOT
     - echo $PWD
     - docker run --rm -d -p 65080:80 --name ci-cd-app jchengdeveng/k8s-sample-gke-ci-cd-app:dev
-    - '[[ $(docker inspect --format ''{{ index .Config.Labels "org.opencontainers.image.revision"}}'' ci-cd-app) == $CI_COMMIT_SHORT_SHA ]]'
+    - '[[ $(docker inspect --format ''{{ index .Config.Labels "org.opencontainers.image.revision"}}'' ci-cd-app) == $CI_COMMIT_SHORT_SHA ]] && echo "true"'
 
 check prod image:
   stage: post-build
@@ -252,7 +252,7 @@ check prod image:
     - cd $APP_ROOT
     - echo $PWD
     - docker run --rm -d -p 65080:80 --name ci-cd-app jchengdeveng/k8s-sample-gke-ci-cd-app:latest
-    - '[[ $(docker inspect --format ''{{ index .Config.Labels "org.opencontainers.image.revision"}}'' ci-cd-app) == $CI_COMMIT_SHORT_SHA ]]'
+    - '[[ $(docker inspect --format ''{{ index .Config.Labels "org.opencontainers.image.revision"}}'' ci-cd-app) == $CI_COMMIT_SHORT_SHA ]] && echo "true"'
 
 # test artifact:
 #   stage: test
