@@ -154,6 +154,8 @@ build dev image:
     - *job-rules-always-pipeline-changes
     - *job-rules-on-development-push
     - *job-rules-on-merge-request
+  tags:
+    - 'gitlab-org-docker'
   services:
     - docker:19.03.12-dind
   variables:
@@ -179,6 +181,8 @@ build prod image:
   rules:
     - *job-rules-never-schedule
     - *job-rules-on-master-push
+  tags:
+    - 'gitlab-org-docker'
   services:
     - docker:19.03.12-dind
   variables:
