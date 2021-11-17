@@ -204,24 +204,55 @@ build prod image:
     - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHORT_SHA
     - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHORT_SHA
 
-author:
+check dev image:
   stage: post-build
   rules:
     - *job-rules-never-schedule
     - *job-rules-always-pipeline-changes
     - *job-rules-on-development-push
     - *job-rules-on-merge-request
-    - *job-rules-on-master-push
-  image: 'alpine:latest'
-  cache: {} # global cache not needed
+  tags:
+    - 'gitlab-org-docker'
+  services:
+    - docker:19.03.12-dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  image: 'docker:19.03.12'
+  cache: {}
+  before_script:
+    - echo $CI_RUNNER_ID
+    - docker info
   script:
-    - mkdir -p ./public/meta
-    - cd ./public/meta
-    - echo $GITLAB_USER_NAME >> index.html
-    - 'echo commit: $CI_COMMIT_SHORT_SHA >> index.html'
-  artifacts:
-    paths:
-      - ./public/meta # <TODO> currently not working, need some workaround for Gatsby to serve it
+    - echo $CI_COMMIT_BEFORE_SHA
+    - echo $CI_COMMIT_SHORT_SHA
+    - cd $APP_ROOT
+    - echo $PWD
+    - docker run --rm -d -p 65080:80 --name ci-cd-app jchengdeveng/k8s-sample-gke-ci-cd-app:dev
+    - '[[ $(docker inspect --format ''{{ index .Config.Labels "org.opencontainers.image.revision"}}'' ci-cd-app) == $CI_COMMIT_SHORT_SHA ]] && echo "true"'
+
+check prod image:
+  stage: post-build
+  rules:
+    - *job-rules-never-schedule
+    - *job-rules-on-master-push
+  tags:
+    - 'gitlab-org-docker'
+  services:
+    - docker:19.03.12-dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  image: 'docker:19.03.12'
+  cache: {}
+  before_script:
+    - echo $CI_RUNNER_ID
+    - docker info
+  script:
+    - echo $CI_COMMIT_BEFORE_SHA
+    - echo $CI_COMMIT_SHORT_SHA
+    - cd $APP_ROOT
+    - echo $PWD
+    - docker run --rm -d -p 65080:80 --name ci-cd-app jchengdeveng/k8s-sample-gke-ci-cd-app:latest
+    - '[[ $(docker inspect --format ''{{ index .Config.Labels "org.opencontainers.image.revision"}}'' ci-cd-app) == $CI_COMMIT_SHORT_SHA ]] && echo "true"'
 
 # test artifact:
 #   stage: test
