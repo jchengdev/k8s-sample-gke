@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ci-cd-app-stg
+  name: ci-cd-app-stg
+spec:
+  selector:
+    app: ci-cd-app-stg
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  type: ClusterIP

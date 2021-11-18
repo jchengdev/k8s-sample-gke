@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ci-cd-app-stg
+spec:
+  rules:
+    - host: ci-cd-app-stg.k8s-sample-gke.jchengdev.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ci-cd-app-stg
+                port:
+                  number: 80

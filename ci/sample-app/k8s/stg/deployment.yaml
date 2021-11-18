@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ci-cd-app-stg
+  name: ci-cd-app-stg
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: ci-cd-app-stg
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ci-cd-app-stg
+    spec:
+      containers:
+        - image: jchengdeveng/k8s-sample-gke-ci-cd-app
+          name: ci-cd-app-stg
+          # resources:
+          #   limits:
+          #     memory: 100Mi
+          #   requests:
+          #     cpu: 5m
+          #     memory: 10Mi
