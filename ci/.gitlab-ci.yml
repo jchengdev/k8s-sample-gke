@@ -49,7 +49,7 @@ stages:
   - post-build
   - stg deploy
   - prod deploy
-  - prod test
+  - smoke test
 
 ### GLOBAL CONFIGS ###
 
@@ -287,8 +287,8 @@ deploy to production:
     - kubectl apply -k ./k8s/prod/.
     - echo $CI_COMMIT_SHA && kubectl set image deploy/ci-cd-app ci-cd-app=jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
 
-production test:
-  stage: prod test
+production check:
+  stage: smoke test
   rules:
     - *job-rules-never-schedule
     - *job-rules-on-master-push
@@ -298,6 +298,8 @@ production test:
     - echo $CI_RUNNER_ID
     - apk update && apk add curl
   script:
+    - sleep 10
     - curl "http://$PROD_DOMAIN" | tac | tac | grep -q "Github"
+    - echo $CI_COMMIT_SHORT_SHA
     - curl "http://$PROD_DOMAIN" | tac | tac | grep -q "$CI_COMMIT_SHORT_SHA"
 
