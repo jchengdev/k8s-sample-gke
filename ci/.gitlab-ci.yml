@@ -28,7 +28,7 @@
 #     url: 'https://$DOMAIN'
 #   before_script: &deploy_template_before_script
 #     - echo $CI_RUNNER_ID
-#     - cd $APP_ROOT & echo $PWD
+#     - cd $APP_ROOT && echo $PWD
 #     - 'echo using cache: $CI_PROJECT_ID'
 #     - export SURGE_TGZ=$(ls $CACHE_ROOT/.npm-pack | grep -i surge.*tgz$ | sort | tail -n 1) && echo $SURGE_TGZ
 #     - npm install -g --no-audit $CACHE_ROOT/.npm-pack/$SURGE_TGZ
@@ -127,7 +127,7 @@ update npm cache:
     - $CI_COMMIT_REF_PROTECTED && echo "true" || echo "false"             # protected Secrets don't get loaded in detached mode (Merge Request pipelines)
     - npm cache clean --force
   script:
-    - cd $APP_ROOT & echo $PWD                                            # package.json location for 'npm ci' command
+    - cd $APP_ROOT && echo $PWD                                           # package.json location for 'npm ci' command
     - npm ci --cache $CACHE_ROOT/.npm                                     # strict match to package-lock.json and use custom directory for npm cache
     - npm outdated || true                                                # check current versions against renewed cache
     - sleep 30
@@ -155,7 +155,7 @@ build dev image:
     - echo $CI_COMMIT_BEFORE_SHA                                          # value is '0000000000000000000000000000000000000000' if new branch or detached MR pipelines
     - echo $CI_COMMIT_SHORT_SHA
     - export IMG_TAG=${CI_REGISTRY_IMAGE}:dev
-    - cd $APP_ROOT & echo $PWD
+    - cd $APP_ROOT && echo $PWD
     - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT=$CI_COMMIT_SHORT_SHA -f ./Dockerfile .
     - docker tag ci-cd-app:latest $IMG_TAG
     - docker push $IMG_TAG
@@ -182,7 +182,7 @@ build prod image:
   script:
     - echo $CI_COMMIT_BEFORE_SHA
     - echo $CI_COMMIT_SHORT_SHA
-    - cd $APP_ROOT & echo $PWD
+    - cd $APP_ROOT && echo $PWD
     - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT=$CI_COMMIT_SHORT_SHA -f ./Dockerfile .
     - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:latest
     - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:latest
