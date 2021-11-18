@@ -298,6 +298,6 @@ production test:
     - echo $CI_RUNNER_ID
     - apk update && apk add curl
   script:
-    - curl "http://$PROD_DOMAIN" | tac | tac | grep -q "GitHub"
+    - curl "http://$PROD_DOMAIN" | tac | tac | grep -q "Github"
     - curl "http://$PROD_DOMAIN" | tac | tac | grep -q "$CI_COMMIT_SHORT_SHA"
 
