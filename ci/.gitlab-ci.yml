@@ -260,7 +260,7 @@ deploy to staging:
     - 'echo Deploy URL: http://$STG_DOMAIN'
     - cd $APP_ROOT && echo $PWD
     - kubectl apply -k ./k8s/stg/.
-    - kubectl set image deploy/ci-cd-app-stg ci-cd-app-stg=jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
+    - echo $CI_COMMIT_SHA && kubectl set image deploy/ci-cd-app-stg ci-cd-app-stg=jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
 
 deploy to production:
   stage: prod deploy
@@ -285,7 +285,7 @@ deploy to production:
     - 'echo Deploy URL: http://$PROD_DOMAIN'
     - cd $APP_ROOT && echo $PWD
     - kubectl apply -k ./k8s/prod/.
-    - kubectl set image deploy/ci-cd-app ci-cd-app=jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
+    - echo $CI_COMMIT_SHA && kubectl set image deploy/ci-cd-app ci-cd-app=jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
 
 production test:
   stage: prod test
