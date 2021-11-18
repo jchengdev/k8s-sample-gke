@@ -2,16 +2,16 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: kube-web-view
-  namespace: kwv-system
+  namespace: default # avoid creation of Load Balancer (GKE auto-provision)
 spec:
   rules:
-    - host: kube-web-view.k8s-sample-gke.jchengdev.com  # <TODO> use Kustomize to extract hardcoded DNS
+    - host: kube-web-view.k8s-sample-gke.jchengdev.com # <TODO> use Kustomize to extract hardcoded DNS
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: kube-web-view
+                name: kube-web-view-default # External Name for "cross-namespace ingress"
                 port:
                   number: 80
