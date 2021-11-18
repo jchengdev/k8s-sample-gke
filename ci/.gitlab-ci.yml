@@ -169,11 +169,13 @@ build dev image:
   script:
     - echo $CI_COMMIT_BEFORE_SHA                                          # value is '0000000000000000000000000000000000000000' if new branch or detached MR pipelines
     - echo $CI_COMMIT_SHORT_SHA
+    - export IMG_TAG=${CI_REGISTRY_IMAGE}:dev
     - cd $APP_ROOT
     - echo $PWD
     - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT=$CI_COMMIT_SHORT_SHA -f ./Dockerfile .
-    - docker tag ci-cd-app:latest registry.gitlab.com/jchengdev/k8s-sample-gke-ci-cd-app:latest
-    - docker push registry.gitlab.com/jchengdev/k8s-sample-gke-ci-cd-app:latest
+    - docker tag ci-cd-app:latest $IMG_TAG
+    - docker push $IMG_TAG
+    - docker logout $CI_REGISTRY
 
 build prod image:
   stage: build
@@ -226,10 +228,12 @@ check dev image:
   script:
     - echo $CI_COMMIT_BEFORE_SHA
     - echo $CI_COMMIT_SHORT_SHA
+    - export IMG_TAG=${CI_REGISTRY_IMAGE}:dev
     - cd $APP_ROOT
     - echo $PWD
-    - docker run --rm -d -p 65080:80 --name ci-cd-app registry.gitlab.com/jchengdev/k8s-sample-gke-ci-cd-app:latest
+    - docker run --rm -d -p 65080:80 --name ci-cd-app $IMG_TAG
     - '[[ $(docker inspect --format ''{{ index .Config.Labels "org.opencontainers.image.revision"}}'' ci-cd-app) == $CI_COMMIT_SHORT_SHA ]] && echo "true"'
+    - docker logout $CI_REGISTRY
 
 check prod image:
   stage: post-build
