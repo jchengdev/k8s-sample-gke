@@ -165,16 +165,15 @@ build dev image:
   before_script:
     - echo $CI_RUNNER_ID
     - docker info                                                         # check DinD
-    # - echo "$DOCKER_REGISTRY_PASS" | docker login $DOCKER_REGISTRY --username $DOCKER_REGISTRY_USER --password-stdin
-    - echo "$DOCKER_REGISTRY_PASS" | docker login --username $DOCKER_REGISTRY_USER --password-stdin
+    - echo "$GITLAB_REGISTRY_PASS" | docker login --username $GITLAB_REGISTRY_USER --password-stdin
   script:
     - echo $CI_COMMIT_BEFORE_SHA                                          # value is '0000000000000000000000000000000000000000' if new branch or detached MR pipelines
     - echo $CI_COMMIT_SHORT_SHA
     - cd $APP_ROOT
     - echo $PWD
     - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT=$CI_COMMIT_SHORT_SHA -f ./Dockerfile .
-    - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:dev
-    - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:dev
+    - docker tag ci-cd-app:latest registry.gitlab.com/jchengdev/k8s-sample-gke-ci-cd-app:dev
+    - docker push registry.gitlab.com/jchengdev/k8s-sample-gke-ci-cd-app:dev
 
 build prod image:
   stage: build
@@ -192,6 +191,7 @@ build prod image:
   before_script:
     - echo $CI_RUNNER_ID
     - docker info
+    # - echo "$DOCKER_REGISTRY_PASS" | docker login $DOCKER_REGISTRY --username $DOCKER_REGISTRY_USER --password-stdin
     - echo "$DOCKER_REGISTRY_PASS" | docker login --username $DOCKER_REGISTRY_USER --password-stdin
   script:
     - echo $CI_COMMIT_BEFORE_SHA
@@ -222,12 +222,13 @@ check dev image:
   before_script:
     - echo $CI_RUNNER_ID
     - docker info
+    - echo "$GITLAB_REGISTRY_PASS" | docker login --username $GITLAB_REGISTRY_USER --password-stdin
   script:
     - echo $CI_COMMIT_BEFORE_SHA
     - echo $CI_COMMIT_SHORT_SHA
     - cd $APP_ROOT
     - echo $PWD
-    - docker run --rm -d -p 65080:80 --name ci-cd-app jchengdeveng/k8s-sample-gke-ci-cd-app:dev
+    - docker run --rm -d -p 65080:80 --name ci-cd-app registry.gitlab.com/jchengdev/k8s-sample-gke-ci-cd-app:dev
     - '[[ $(docker inspect --format ''{{ index .Config.Labels "org.opencontainers.image.revision"}}'' ci-cd-app) == $CI_COMMIT_SHORT_SHA ]] && echo "true"'
 
 check prod image:
