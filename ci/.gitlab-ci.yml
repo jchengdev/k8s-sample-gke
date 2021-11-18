@@ -252,12 +252,13 @@ deploy to staging:
   before_script:
     - echo $CI_RUNNER_ID
     - gcloud components update kubectl
+    - mkdir -p ~/.kube && echo $KUBE_CONFIG_BASE64 | base64 -d > ~/.kube/config
+    - kubectl cluster-info
   script:
     - 'echo Deploy URL: http://$STG_DOMAIN'
-    - mkdir -p ~/.kube && echo $KUBE_CONFIG_BASE64 | base64 -d > ~/.kube/config
-    - cat ~/.kube/config
-    - kubectl cluster-info
-    # - kubectl set image
+    - cd $APP_ROOT && echo $PWD
+    - kubectl apply -k ./k8s/stg/.
+    - kubectl set image deploy/ci-cd-app-stg ci-cd-app-stg=jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
 
 deploy to production:
   stage: prod deploy
@@ -271,13 +272,18 @@ deploy to production:
   environment:
     name: production
     url: 'http://$PROD_DOMAIN'
-  image: 'alpine:latest'
+  image: 'google/cloud-sdk:alpine'
   cache: {}
   before_script:
     - echo $CI_RUNNER_ID
+    - gcloud components update kubectl
+    - mkdir -p ~/.kube && echo $KUBE_CONFIG_BASE64 | base64 -d > ~/.kube/config
+    - kubectl cluster-info
   script:
     - 'echo Deploy URL: http://$PROD_DOMAIN'
-    # TODO
+    - cd $APP_ROOT && echo $PWD
+    - kubectl apply -k ./k8s/prod/.
+    - kubectl set image deploy/ci-cd-app ci-cd-app=jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
 
 production test:
   stage: prod test
