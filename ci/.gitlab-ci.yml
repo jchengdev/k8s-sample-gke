@@ -165,7 +165,7 @@ build dev image:
   before_script:
     - echo $CI_RUNNER_ID
     - docker info                                                         # check DinD
-    - echo "$GITLAB_REGISTRY_PASS" | docker login --username $GITLAB_REGISTRY_USER --password-stdin
+    - echo "$GITLAB_REGISTRY_PASS" | docker login registry.gitlab.com --username $GITLAB_REGISTRY_USER --password-stdin
   script:
     - echo $CI_COMMIT_BEFORE_SHA                                          # value is '0000000000000000000000000000000000000000' if new branch or detached MR pipelines
     - echo $CI_COMMIT_SHORT_SHA
@@ -222,7 +222,7 @@ check dev image:
   before_script:
     - echo $CI_RUNNER_ID
     - docker info
-    - echo "$GITLAB_REGISTRY_PASS" | docker login --username $GITLAB_REGISTRY_USER --password-stdin
+    - echo "$GITLAB_REGISTRY_PASS" | docker login registry.gitlab.com --username $GITLAB_REGISTRY_USER --password-stdin
   script:
     - echo $CI_COMMIT_BEFORE_SHA
     - echo $CI_COMMIT_SHORT_SHA
