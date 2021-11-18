@@ -255,12 +255,20 @@ deploy to staging:
   environment:
     name: staging
     url: 'http://$STG_DOMAIN'
-  image: 'alpine:latest'
+  image: 'google/cloud-sdk:alpine'
   cache: {}
   before_script:
     - echo $CI_RUNNER_ID
+    - gcloud components update kubectl
   script:
     - 'echo Deploy URL: http://$STG_DOMAIN'
+    - echo $PWD
+    - cd ~ # ! delete debug line
+    - echo $PWD # ! delete debug line
+    - cat ~/.kube/config
+    - echo $KUBE_CONFIG > ~/.kube/config
+    - cat ~/.kube/config
+    - kubectl cluster-info
     # - kubectl set image
 
 deploy to production:
