@@ -262,10 +262,7 @@ deploy to staging:
     - gcloud components update kubectl
   script:
     - 'echo Deploy URL: http://$STG_DOMAIN'
-    - echo $PWD
-    - cd ~ # ! delete debug line
-    - echo $PWD # ! delete debug line
-    - cat ~/.kube/config
+    - mkdir -p ~/.kube
     - echo $KUBE_CONFIG > ~/.kube/config
     - cat ~/.kube/config
     - kubectl cluster-info
