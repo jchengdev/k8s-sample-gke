@@ -23,22 +23,12 @@
   - &job-rules-on-master-push
     if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
-# .gatsby-cli_template:
-#   before_script: &gatsby-cli_template_before_script
-#     - echo $CI_RUNNER_ID
-#     - cd $APP_ROOT
-#     - echo $PWD
-#     - 'echo using cache: $CI_PROJECT_ID'
-#     - export GATSBYCLI_TGZ=$(ls $CACHE_ROOT/.npm-pack | grep -i gatsby-cli.*tgz$ | sort | tail -n 1) && echo $GATSBYCLI_TGZ
-#     - npm install -g --no-audit $CACHE_ROOT/.npm-pack/$GATSBYCLI_TGZ
-
 # .deploy_template: &deploy_template
 #   environment:
 #     url: 'https://$DOMAIN'
 #   before_script: &deploy_template_before_script
 #     - echo $CI_RUNNER_ID
-#     - cd $APP_ROOT
-#     - echo $PWD
+#     - cd $APP_ROOT && echo $PWD
 #     - 'echo using cache: $CI_PROJECT_ID'
 #     - export SURGE_TGZ=$(ls $CACHE_ROOT/.npm-pack | grep -i surge.*tgz$ | sort | tail -n 1) && echo $SURGE_TGZ
 #     - npm install -g --no-audit $CACHE_ROOT/.npm-pack/$SURGE_TGZ
@@ -57,11 +47,9 @@ stages:
   - cache # for optimization and correctness of shared cache (e.g. up-to-date packages)
   - build
   - post-build
-  # - test
-  # - review
-  # - stg deploy
-  # - prod deploy
-  # - prod test
+  - stg deploy
+  - prod deploy
+  - prod test
 
 ### GLOBAL CONFIGS ###
 
@@ -69,9 +57,8 @@ variables:
   APP_ROOT: $CI_PROJECT_DIR/ci/sample-app
   CACHE_ROOT: $CI_PROJECT_DIR/build-caches
   CACHE_FALLBACK_KEY: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR
-  RVW_BASE_DOMAIN: surge.sh
-  # STG_DOMAIN: abashed-suit.surge.sh
-  # PROD_DOMAIN: unwritten-kite.surge.sh
+  STG_DOMAIN: ci-cd-app-stg.k8s-sample-gke.jchengdev.com
+  PROD_DOMAIN: ci-cd-app.k8s-sample-gke.jchengdev.com
 
 workflow: # pipeline activation
   rules:
@@ -82,7 +69,7 @@ workflow: # pipeline activation
     # these rules avoid pipeline duplication when working with merge requests
 
 default:
-  image: 'node:lts' # better lock into a specific version
+  image: 'node:lts'
   tags:
     # - 'node' # ! unavailable in gitlab.com
     - 'gitlab-org'
@@ -116,7 +103,6 @@ update npm-g cache:
     - echo $CI_API_V4_URL
     - rm -rf $CACHE_ROOT/.npm-pack/*
   script:
-    # - npm pack gatsby-cli                                               # also create "cache" for this dev dependency
     - npm pack surge                                                      # also create "cache" for this dev dependency
     - mkdir -p $CACHE_ROOT/.npm-pack && mv *.tgz $CACHE_ROOT/.npm-pack && ls -la $CACHE_ROOT/.npm-pack
     - sleep 30
@@ -141,8 +127,7 @@ update npm cache:
     - $CI_COMMIT_REF_PROTECTED && echo "true" || echo "false"             # protected Secrets don't get loaded in detached mode (Merge Request pipelines)
     - npm cache clean --force
   script:
-    - cd $APP_ROOT                                                        # package.json location for 'npm ci' command
-    - echo $PWD
+    - cd $APP_ROOT && echo $PWD                                           # package.json location for 'npm ci' command
     - npm ci --cache $CACHE_ROOT/.npm                                     # strict match to package-lock.json and use custom directory for npm cache
     - npm outdated || true                                                # check current versions against renewed cache
     - sleep 30
@@ -170,41 +155,11 @@ build dev image:
     - echo $CI_COMMIT_BEFORE_SHA                                          # value is '0000000000000000000000000000000000000000' if new branch or detached MR pipelines
     - echo $CI_COMMIT_SHORT_SHA
     - export IMG_TAG=${CI_REGISTRY_IMAGE}:dev
-    - cd $APP_ROOT
-    - echo $PWD
+    - cd $APP_ROOT && echo $PWD
     - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT=$CI_COMMIT_SHORT_SHA -f ./Dockerfile .
     - docker tag ci-cd-app:latest $IMG_TAG
     - docker push $IMG_TAG
     - docker logout $CI_REGISTRY
-
-build prod image:
-  stage: build
-  rules:
-    - *job-rules-never-schedule
-    - *job-rules-on-master-push
-  tags:
-    - 'gitlab-org-docker'
-  services:
-    - docker:19.03.12-dind
-  variables:
-    DOCKER_TLS_CERTDIR: "/certs"
-  image: 'docker:19.03.12'
-  cache: {}
-  before_script:
-    - echo $CI_RUNNER_ID
-    - docker info
-    # - echo "$DOCKER_REGISTRY_PASS" | docker login $DOCKER_REGISTRY --username $DOCKER_REGISTRY_USER --password-stdin
-    - echo "$DOCKER_REGISTRY_PASS" | docker login --username $DOCKER_REGISTRY_USER --password-stdin
-  script:
-    - echo $CI_COMMIT_BEFORE_SHA
-    - echo $CI_COMMIT_SHORT_SHA
-    - cd $APP_ROOT
-    - echo $PWD
-    - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT=$CI_COMMIT_SHORT_SHA -f ./Dockerfile .
-    - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:latest
-    - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:latest
-    - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
-    - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
 
 check dev image:
   stage: post-build
@@ -229,16 +184,44 @@ check dev image:
     - echo $CI_COMMIT_BEFORE_SHA
     - echo $CI_COMMIT_SHORT_SHA
     - export IMG_TAG=${CI_REGISTRY_IMAGE}:dev
-    - cd $APP_ROOT
-    - echo $PWD
     - docker run --rm -d -p 65080:80 --name ci-cd-app $IMG_TAG
     - '[[ $(docker inspect --format ''{{ index .Config.Labels "org.opencontainers.image.revision"}}'' ci-cd-app) == $CI_COMMIT_SHORT_SHA ]] && echo "true"'
     - docker logout $CI_REGISTRY
+
+build prod image:
+  stage: build
+  rules:
+    - *job-rules-never-schedule
+    - *job-rules-always-pipeline-changes
+    - *job-rules-on-master-push
+  tags:
+    - 'gitlab-org-docker'
+  services:
+    - docker:19.03.12-dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  image: 'docker:19.03.12'
+  cache: {}
+  before_script:
+    - echo $CI_RUNNER_ID
+    - docker info
+    # - echo "$DOCKER_REGISTRY_PASS" | docker login $DOCKER_REGISTRY --username $DOCKER_REGISTRY_USER --password-stdin
+    - echo "$DOCKER_REGISTRY_PASS" | docker login --username $DOCKER_REGISTRY_USER --password-stdin
+  script:
+    - echo $CI_COMMIT_BEFORE_SHA
+    - echo $CI_COMMIT_SHORT_SHA
+    - cd $APP_ROOT && echo $PWD
+    - docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT=$CI_COMMIT_SHORT_SHA -f ./Dockerfile .
+    - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:latest
+    - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:latest
+    - docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
+    - docker push jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
 
 check prod image:
   stage: post-build
   rules:
     - *job-rules-never-schedule
+    - *job-rules-always-pipeline-changes
     - *job-rules-on-master-push
   tags:
     - 'gitlab-org-docker'
@@ -254,109 +237,67 @@ check prod image:
   script:
     - echo $CI_COMMIT_BEFORE_SHA
     - echo $CI_COMMIT_SHORT_SHA
-    - cd $APP_ROOT
-    - echo $PWD
     - docker run --rm -d -p 65080:80 --name ci-cd-app jchengdeveng/k8s-sample-gke-ci-cd-app:latest
     - '[[ $(docker inspect --format ''{{ index .Config.Labels "org.opencontainers.image.revision"}}'' ci-cd-app) == $CI_COMMIT_SHORT_SHA ]] && echo "true"'
 
-# test artifact:
-#   stage: test
-#   rules:
-#     - *job-rules-never-schedule
-#     - *job-rules-always-pipeline-changes
-#     - *job-rules-on-development-push
-#     - *job-rules-on-merge-request
-#     - *job-rules-on-master-push
-#   image: 'alpine:latest'
-#   cache: {} # global cache not needed
-#   script:
-#     - grep -q "Gatsby" ./public/index.html
-#     - '! grep -q "++++++" ./public/index.html'
+deploy to staging:
+  stage: stg deploy
+  rules:
+    - *job-rules-never-schedule
+    - *job-rules-always-pipeline-changes
+    - *job-rules-on-master-push
+  environment:
+    name: staging
+    url: 'http://$STG_DOMAIN'
+  image: 'google/cloud-sdk:alpine'
+  cache: {}
+  before_script:
+    - echo $CI_RUNNER_ID
+    - gcloud components update kubectl
+    - mkdir -p ~/.kube && echo $KUBE_CONFIG_BASE64 | base64 -d > ~/.kube/config
+    - kubectl cluster-info
+  script:
+    - 'echo Deploy URL: http://$STG_DOMAIN'
+    - cd $APP_ROOT && echo $PWD
+    - kubectl apply -k ./k8s/stg/.
+    - echo $CI_COMMIT_SHA && kubectl set image deploy/ci-cd-app-stg ci-cd-app-stg=jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
 
-# test website:
-#   stage: test
-#   rules:
-#     - *job-rules-never-schedule
-#     - *job-rules-always-pipeline-changes
-#     - *job-rules-on-development-push
-#     - *job-rules-on-merge-request
-#     - *job-rules-on-master-push
-#   before_script: *gatsby-cli_template_before_script
-#   script:
-#     - cd $APP_ROOT
-#     - echo $PWD
-#     - 'echo using cache: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR'
-#     - npm ci --cache $CACHE_ROOT/.npm --offline --no-audit
-#     - gatsby serve &
-#     - sleep 10 # not the smartest solution for making previous command run in background
-#     - curl "http://localhost:9000" | tac | tac | grep -q "Gatsby"
+deploy to production:
+  stage: prod deploy
+  variables:
+    DOMAIN: $PROD_DOMAIN
+  rules:
+    - *job-rules-never-schedule
+    - <<: *job-rules-on-master-push
+      when: manual
+      allow_failure: false # required for the manual approval step
+  environment:
+    name: production
+    url: 'http://$PROD_DOMAIN'
+  image: 'google/cloud-sdk:alpine'
+  cache: {}
+  before_script:
+    - echo $CI_RUNNER_ID
+    - gcloud components update kubectl
+    - mkdir -p ~/.kube && echo $KUBE_CONFIG_BASE64 | base64 -d > ~/.kube/config
+    - kubectl cluster-info
+  script:
+    - 'echo Deploy URL: http://$PROD_DOMAIN'
+    - cd $APP_ROOT && echo $PWD
+    - kubectl apply -k ./k8s/prod/.
+    - echo $CI_COMMIT_SHA && kubectl set image deploy/ci-cd-app ci-cd-app=jchengdeveng/k8s-sample-gke-ci-cd-app:$CI_COMMIT_SHA
 
-# deploy for review:
-#   <<: *deploy_template
-#   stage: review
-#   variables:
-#     DOMAIN: 'instazone-$CI_ENVIRONMENT_SLUG.$RVW_BASE_DOMAIN'
-#   rules:
-#     - *job-rules-never-schedule
-#     - *job-rules-never-pipeline-changes
-#     - *job-rules-on-merge-request
-#   environment:
-#     name: review/$CI_COMMIT_REF_NAME
-#     on_stop: 'cleanup review'
+production test:
+  stage: prod test
+  rules:
+    - *job-rules-never-schedule
+    - *job-rules-on-master-push
+  image: 'alpine:latest'
+  cache: {}
+  before_script:
+    - echo $CI_RUNNER_ID
+    - apk update && apk add curl
+  script:
+    - curl "http://$PROD_DOMAIN" | tac | tac | grep -q "GitHub"
+    - curl "http://$PROD_DOMAIN" | tac | tac | grep -q "$CI_COMMIT_SHORT_SHA"
 
-# cleanup review:
-#   stage: review
-#   variables:
-#     DOMAIN: 'instazone-$CI_ENVIRONMENT_SLUG.$RVW_BASE_DOMAIN'
-#     GIT_STRATEGY: none
-#   rules:
-#     - *job-rules-never-schedule
-#     - *job-rules-never-pipeline-changes
-#     - <<: *job-rules-on-merge-request # ! merging works for different properties but for arrays it will override the default parent property
-#       when: manual
-#   environment:
-#     name: review/$CI_COMMIT_REF_NAME
-#     action: stop
-#   before_script: *deploy_template_before_script
-#   script:
-#     - 'echo teardown URL: https://$DOMAIN'
-#     - surge teardown $DOMAIN
-
-# deploy to staging:
-#   <<: *deploy_template
-#   stage: stg deploy
-#   variables:
-#     DOMAIN: $STG_DOMAIN
-#   rules:
-#     - *job-rules-never-schedule
-#     - *job-rules-always-pipeline-changes
-#     - *job-rules-on-master-push
-#   environment:
-#     name: staging
-
-# deploy to production:
-#   <<: *deploy_template
-#   stage: prod deploy
-#   variables:
-#     DOMAIN: $PROD_DOMAIN
-#   rules:
-#     - *job-rules-never-schedule
-#     - <<: *job-rules-on-master-push
-#       when: manual
-#       allow_failure: false # required for the manual approval step
-#   environment:
-#     name: production
-
-# production test:
-#   stage: prod test
-#   rules:
-#     - *job-rules-never-schedule
-#     - *job-rules-on-master-push
-#   image: 'alpine:latest'
-#   cache: {} # global cache not needed
-#   before_script:
-#     - echo $CI_RUNNER_ID
-#     - apk update && apk add curl
-#   script:
-#     - curl "https://$PROD_DOMAIN" | tac | tac | grep -q "Gatsby"
-#     - curl "https://$PROD_DOMAIN" | tac | tac | grep -q "$CI_COMMIT_SHORT_SHA"
