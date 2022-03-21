@@ -2,6 +2,9 @@
 
 ## DEV
 
+- `docker run --rm -it -v $(pwd):/app npx-util create-next-app@latest --ts`
+- `cd sample-app`
+
 - `BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") COMMIT=$(git rev-parse --short HEAD) docker compose up -d --build`
 
 ## PROD (DockerHub -> K8s cluster)
