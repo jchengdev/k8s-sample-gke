@@ -1,5 +1,5 @@
 # defaults
-ARG node_v=16.14.2-alpine
+ARG node_v=16.14.2
 ARG node_image=node:${node_v}-alpine
 ARG BUILD_DATE=not-set 
 ARG SOURCE_COMMIT=not-set
