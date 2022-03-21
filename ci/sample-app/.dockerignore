@@ -130,6 +130,9 @@ dist
 
 Dockerfile
 docker-compose.*
+.old/
+k8s/
+tsbuild/
 
 **/COMMANDS.md
 **/COMMENTS.md

@@ -19,8 +19,6 @@
 ## PROD (DockerHub -> K8s cluster)
 
 - `BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") COMMIT=$(git rev-parse --short HEAD) docker run --rm -v $(pwd):/app npm-util run build`
-
-<!-- TODO: adjust below commands for production deployment -->
 - `docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" -f ./Dockerfile .`
 - `docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:latest`
 - `docker push jchengdeveng/k8s-sample-gke-ci-cd-app:latest`
