@@ -28,7 +28,7 @@ RUN npm config list \
   && npm ci \ 
   && npm cache clean --force
 
-FROM node-base as dev
+FROM $node_image as dev
 ARG BUILD_DATE
 ARG SOURCE_COMMIT
 ARG NEXT_PORT
@@ -38,10 +38,14 @@ EXPOSE $PORT
 # cache busting
 RUN echo "BUILD_DATE: $BUILD_DATE"
 RUN echo "SHA: $SOURCE_COMMIT"
+RUN mkdir /node && chown -R node:node /node
+USER node
+WORKDIR /node
 COPY . .
+COPY --from=node-base /node/node_modules ./node_modules
 CMD [ "npm", "run", "dev"]
 
-FROM node-base as builder
+FROM $node_image as builder
 ARG BUILD_DATE
 ARG SOURCE_COMMIT
 ENV NODE_ENV=production
@@ -49,7 +53,11 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # cache busting
 RUN echo "BUILD_DATE: $BUILD_DATE"
 RUN echo "SHA: $SOURCE_COMMIT"
+RUN mkdir /node && chown -R node:node /node
+USER node
+WORKDIR /node
 COPY . .
+COPY --from=node-base /node/node_modules ./node_modules
 # next build
 RUN npm run analyze-bundle
 
@@ -74,9 +82,9 @@ RUN echo "SHA: $SOURCE_COMMIT"
 RUN mkdir /node && chown -R node:node /node
 USER node
 WORKDIR /node
-COPY --from=builder ./.next ./.next
-COPY --from=builder ./node_modules ./node_modules
-COPY --from=builder ./public ./public
-COPY --from=builder ./server ./server
-COPY --from=builder ./package.json ./package.json
+COPY --from=builder /node/.next ./.next
+COPY --from=builder /node/node_modules ./node_modules
+COPY --from=builder /node/public ./public
+COPY --from=builder /node/server ./server
+COPY --from=builder /node/package.json ./package.json
 CMD [ "npm", "run", "start"]
