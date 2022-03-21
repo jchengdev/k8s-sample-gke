@@ -1,4 +1,4 @@
-version: '2.4'
+version: '3.8'
 services: 
   static-about: 
     container_name: 'k8s-sample-ci-cd-app'
@@ -6,14 +6,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      # target: dev
+      target: dev
       args:
-        BUILD_DATE: '$BUILD_DATE'
-        SOURCE_COMMIT: '$COMMIT'
-    ports: 
-      - 80:80
-    # volumes: 
-    #   - .:/node/app
-    #   - /node/node_modules 
+        BUILD_DATE: '$BUILD_DATE'      # SSR-only
+        SOURCE_COMMIT: '$COMMIT'       # SSR-only
+        NEXT_PORT: '${INT_PORT:-3000}' # SSR-only
+        NEXT_PUBLIC_SOMEENVVAR: 'an_environment_variable_exposed_to_client_browser'
+        # NEXT_PUBLIC_SOMEBACKEND_URI: '$SOMEBACKEND_URI'
+    volumes:
+      - .:/node
     # env_file:
     #   - ./.env
+    ports:
+      - '${EXT_PORT:-3000}:${INT_PORT:-3000}/tcp'
+    stdin_open: true
+    tty: true
