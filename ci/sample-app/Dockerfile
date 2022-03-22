@@ -36,12 +36,9 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN echo "BUILD_DATE: $BUILD_DATE"
 RUN echo "SHA: $SOURCE_COMMIT"
-RUN mkdir /node && chown -R node:node /node
-USER node
-WORKDIR /node
 COPY . .
-COPY --from=dependencies ./node_modules ./node_modules
 RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./src/pages/index.tsx
+COPY --from=dependencies ./node_modules ./node_modules
 RUN npm run build
 
 FROM $node_image as prod
@@ -64,11 +61,11 @@ RUN echo "SHA: $SOURCE_COMMIT"
 RUN mkdir /node && chown -R node:node /node
 USER node
 WORKDIR /node
-COPY --from=builder /node/.next ./.next
-COPY --from=builder /node/node_modules ./node_modules
-COPY --from=builder /node/public ./public
-COPY --from=builder /node/server ./server
-COPY --from=builder /node/.env ./.env
-COPY --from=builder /node/next.config.js ./next.config.js
-COPY --from=builder /node/package.json ./package.json
+COPY --from=builder --chown=node:node ./.next ./.next
+COPY --from=builder --chown=node:node ./node_modules ./node_modules
+COPY --from=builder --chown=node:node ./public ./public
+COPY --from=builder --chown=node:node ./server ./server
+COPY --from=builder --chown=node:node ./.env ./.env
+COPY --from=builder --chown=node:node ./next.config.js ./next.config.js
+COPY --from=builder --chown=node:node ./package.json ./package.json
 CMD [ "npm", "run", "start"]
