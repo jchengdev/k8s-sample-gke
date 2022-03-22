@@ -8,6 +8,9 @@ module.exports = {
     // '@react-theming/storybook-addon',
   ],
   framework: '@storybook/react',
+  core: {
+    builder: 'webpack5',
+  },
   webpackFinal: async (config, { configType }) => {
     config.resolve.modules = [path.resolve(__dirname, '..'), 'node_modules'];
     config.resolve.alias = {
