@@ -42,7 +42,7 @@ COPY . .
 RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./src/pages/index.tsx
 COPY --from=dependencies ./node_modules ./node_modules
 RUN rm -rf ./.next \
-  && next build
+  && ./node_modules/.bin/next build
 
 FROM $node_image as prod
 ARG node_v
