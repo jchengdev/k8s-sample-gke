@@ -10,8 +10,8 @@
     "type-check": "tsc --build",
     "lint": "next lint",
     "analyze-bundle": "ANALYZE=true next build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "start-storybook -p 6006 -s ./public",
+    "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",

@@ -1,8 +1,8 @@
 import * as React from 'react';
+import classnames from 'classnames';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Link } from 'react-router-dom';
 import { withStyles, WithStyles } from '@mui/styles';
-import classnames from 'classnames';
 import styles from './ColorBox.styles';
 
 export interface ColorBoxProps {

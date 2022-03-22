@@ -8,6 +8,7 @@
 - `BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") COMMIT=$(git rev-parse --short HEAD) docker compose build --progress plain`
 - `INT_PORT=3000 EXT_PORT=3000 docker compose up -d nextjs-app`
 - `docker run --rm -v $(pwd):/app npm-util install -D @next/bundle-analyzer @typescript-eslint/eslint-plugin prettier eslint-config-prettier`
+- `docker run --rm -v $(pwd):/app npx-util sb init --builder webpack5`
 - `docker run --rm -v $(pwd):/app npm-util install express @emotion/react @emotion/styled @mui/material @mui/styles @mui/icons-material chroma-js react-copy-to-clipboard`
 - `docker run --rm -v $(pwd):/app npm-util install -D @types/chroma-js @types/react-copy-to-clipboard`
 - `INT_PORT=6006 EXT_PORT=6006 docker compose up -d storybook`
