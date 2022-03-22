@@ -41,6 +41,7 @@ USER node
 WORKDIR /node
 COPY . .
 COPY --from=dependencies ./node_modules ./node_modules
+RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./src/pages/index.tsx
 RUN npm run build
 
 FROM $node_image as prod
