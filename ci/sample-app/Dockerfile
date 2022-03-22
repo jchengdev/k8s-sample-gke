@@ -8,6 +8,8 @@ ARG NEXT_PUBLIC_SOMEBACKEND_URI=http://localhost:80
 # redeclare ARGs defined outside FROM scope for its default value (https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact)
 
 FROM $node_image as dependencies
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
 COPY package*.json ./ 
 RUN npm config list \ 
   && npm ci \ 
@@ -27,7 +29,7 @@ USER node
 WORKDIR /node
 COPY . .
 COPY --from=dependencies ./node_modules ./node_modules
-CMD [ "npm", "run", "dev"]
+CMD [ "node", "./server/index.js" ]
 
 FROM $node_image as builder
 ARG BUILD_DATE
@@ -39,7 +41,8 @@ RUN echo "SHA: $SOURCE_COMMIT"
 COPY . .
 RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./src/pages/index.tsx
 COPY --from=dependencies ./node_modules ./node_modules
-RUN npm run build
+RUN rm -rf ./.next \
+  && ./node_modules/.bin/next build
 
 FROM $node_image as prod
 ARG node_v
@@ -62,10 +65,11 @@ RUN mkdir /node && chown -R node:node /node
 USER node
 WORKDIR /node
 COPY --from=builder --chown=node:node ./.next ./.next
+# TODO: revisit with-docker example after `outputStandalone: true` being promoted from experimental
 COPY --from=builder --chown=node:node ./node_modules ./node_modules
 COPY --from=builder --chown=node:node ./public ./public
 COPY --from=builder --chown=node:node ./server ./server
 COPY --from=builder --chown=node:node ./.env ./.env
 COPY --from=builder --chown=node:node ./next.config.js ./next.config.js
 COPY --from=builder --chown=node:node ./package.json ./package.json
-CMD [ "npm", "run", "start"]
+CMD [ "node", "./server/index.js" ]

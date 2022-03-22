@@ -130,6 +130,8 @@ dist
 
 Dockerfile
 docker-compose.*
+.prettierignore
+.prettierrc.json
 .old/
 k8s/
 tsbuild/
