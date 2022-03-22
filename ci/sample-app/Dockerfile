@@ -64,9 +64,12 @@ RUN echo "SHA: $SOURCE_COMMIT"
 RUN mkdir /node && chown -R node:node /node
 USER node
 WORKDIR /node
+COPY package*.json ./ 
+RUN npm config list \ 
+  && npm ci \ 
+  && npm cache clean --force
 COPY --from=builder --chown=node:node ./.next ./.next
 # TODO: revisit with-docker example after `outputStandalone: true` being promoted from experimental
-COPY --from=builder --chown=node:node ./node_modules ./node_modules
 COPY --from=builder --chown=node:node ./public ./public
 COPY --from=builder --chown=node:node ./server ./server
 COPY --from=builder --chown=node:node ./.env ./.env
