@@ -66,7 +66,7 @@ USER node
 WORKDIR /node
 COPY package*.json ./ 
 RUN npm config list \ 
-  && npm ci \ 
+  && npm ci --production \ 
   && npm cache clean --force
 COPY --from=builder --chown=node:node ./.next ./.next
 # TODO: revisit with-docker example after `outputStandalone: true` being promoted from experimental
