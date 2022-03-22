@@ -18,6 +18,6 @@
 
 ## PROD (Gitlab repo -> K8s cluster)
 
-- `docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" -f ./Dockerfile .`
+- `docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" --progress=plain -f ./Dockerfile .`
 - `docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:latest`
-- `docker run --rm -v $(pwd):/node -p 3000:3000 jchengdeveng/k8s-sample-gke-ci-cd-app:latest`
+- `docker run --rm -p 3000:3000 jchengdeveng/k8s-sample-gke-ci-cd-app:latest`
