@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  static-about:
+  nextjs-app:
     container_name: 'ci-cd-app-dev'
     image: 'ci-cd-app:dev'
     build:
@@ -21,3 +21,15 @@ services:
       - '${EXT_PORT:-3000}:${INT_PORT:-3000}/tcp'
     stdin_open: true
     tty: true
+  storybook:
+    container_name: 'ci-cd-app-storybook'
+    image: 'npm-util'
+    volumes:
+      - .:/app
+    # env_file:
+    #   - ./.env
+    ports:
+      - '${EXT_PORT:-6006}:${INT_PORT:-6006}/tcp'
+    stdin_open: true
+    tty: true
+    command: run storybook

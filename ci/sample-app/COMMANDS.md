@@ -6,9 +6,11 @@
 - `cd sample-app`
 - `BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") COMMIT=$(git rev-parse --short HEAD) INT_PORT=3456 EXT_PORT=80 docker compose convert`
 - `BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") COMMIT=$(git rev-parse --short HEAD) docker compose build --progress plain`
-- `INT_PORT=3000 EXT_PORT=3000 docker compose up -d`
+- `INT_PORT=3000 EXT_PORT=3000 docker compose up -d nextjs-app`
 - `docker run --rm -v $(pwd):/app npm-util install -D @next/bundle-analyzer @typescript-eslint/eslint-plugin prettier eslint-config-prettier`
 - `docker run --rm -v $(pwd):/app npm-util install express @emotion/react @emotion/styled @mui/material @mui/styles @mui/icons-material`
+
+- `INT_PORT=6006 EXT_PORT=6006 docker compose up -d storybook`
 
 ## PRE-COMMIT
 
