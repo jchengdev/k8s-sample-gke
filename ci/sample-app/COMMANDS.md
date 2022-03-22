@@ -17,7 +17,7 @@
 - `docker run --rm -v $(pwd):/app npm-util run lint`
 - `rm -rf .next && docker run --rm -v $(pwd):/app npm-util run analyze-bundle`
 
-## PROD (Gitlab repo -> K8s cluster)
+## PROD (local test before CI/CD)
 
 - `docker build -t ci-cd-app:latest --target=prod --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" --progress=plain -f ./Dockerfile .`
 - `docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:latest`
