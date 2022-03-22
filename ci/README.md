@@ -4,7 +4,7 @@
 
   ```bash
   docker build -t npm-util -f ./npm-util/Dockerfile .
-  docker run --rm -it -v "$(pwd)/sample-app:/npm-context" npm-util install --package-lock-only
+  docker run --rm -it -v "$(pwd)/sample-app:/app" npm-util install --package-lock-only
   ```
 
 - Create project from UI: `https://gitlab.com/jchengdev/k8s-sample-gke`
@@ -31,4 +31,4 @@
   - (... global and per-project configurations)
 - Create and run scheduled pipelines (e.g. daily cache renewal)
 - Create merge request (& fix pipeline errors)
-- Build dummy `sample-app` and deploy initial version directly to cluster: `ci-cd-app.k8s-sample-gke.jchengdev.com`
+- Build dummy `sample-app` and deploy initial version directly to cluster: `ci-cd-app-stg.k8s-sample-gke.jchengdev.com`
