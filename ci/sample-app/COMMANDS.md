@@ -7,14 +7,15 @@
 - `BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") COMMIT=$(git rev-parse --short HEAD) INT_PORT=3456 EXT_PORT=80 docker compose convert`
 - `BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") COMMIT=$(git rev-parse --short HEAD) docker compose build --progress plain`
 - `INT_PORT=3000 EXT_PORT=3000 docker compose up -d`
-- `docker run --rm -v $(pwd):/app npm-util install -D @next/bundle-analyzer`
+- `docker run --rm -v $(pwd):/app npm-util install -D @next/bundle-analyzer @typescript-eslint/eslint-plugin prettier eslint-config-prettier`
 - `docker run --rm -v $(pwd):/app npm-util install express @emotion/react @emotion/styled @mui/material @mui/styles @mui/icons-material`
 
 ## PRE-COMMIT
 
+- `docker run --rm -v $(pwd):/app npx-util prettier --check .`
 - `docker run --rm -v $(pwd):/app npm-util run type-check`
 - `docker run --rm -v $(pwd):/app npm-util run lint`
-- `docker run --rm -v $(pwd):/app npm-util run analyze-bundle`
+- `rm -rf .next && docker run --rm -v $(pwd):/app npm-util run analyze-bundle`
 
 ## PROD (Gitlab repo -> K8s cluster)
 
