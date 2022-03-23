@@ -1,8 +1,9 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Link } from 'react-router-dom';
 import { withStyles, WithStyles } from '@mui/styles';
+import Link from 'next/link';
+
 import styles from './ColorBox.styles';
 
 export interface ColorBoxProps {
@@ -32,7 +33,7 @@ class ColorBox extends React.Component<ComposedProps, ColorBoxState> {
     });
   }
 
-  render() {
+  override render() {
     const {
       classes: styleClasses,
       name,
@@ -48,6 +49,13 @@ class ColorBox extends React.Component<ComposedProps, ColorBoxState> {
           style={{ backgroundColor: background }}
           className={styleClasses.root}
         >
+          {/*
+           // ! DELETE 
+           */}
+          {/* <p>name: {name}</p>
+          <p>background: {background}</p>
+          <p>moreUrl: {moreUrl}</p>
+          <p>showingFullPalette: {showingFullPalette ? 'true' : 'false'}</p> */}
           <div
             style={{ backgroundColor: background }}
             className={classnames(styleClasses.copyOverlay, {
@@ -70,12 +78,7 @@ class ColorBox extends React.Component<ComposedProps, ColorBoxState> {
             <button className={styleClasses.copyButton}>Copy</button>
           </div>
           {showingFullPalette && (
-            <Link
-              to={moreUrl}
-              onClick={e => {
-                e.stopPropagation();
-              }}
-            >
+            <Link href={moreUrl} passHref>
               <span className={styleClasses.seeMore}>MORE</span>
             </Link>
           )}

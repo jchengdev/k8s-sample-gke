@@ -3,7 +3,7 @@ import chroma from 'chroma-js';
 
 import sizes from '@/common/utils/sizes';
 
-import { ColorBoxProps } from '../ColorBox';
+import type { ColorBoxProps } from '.';
 
 const styles = {
   root: {

@@ -1,3 +1,8 @@
+/**
+ * ? NO COMPONENTS USING THIS, JUST FOR REFERENCE IN CASE NEEDED
+ * (check ColorBox.stories.tsx)
+ */
+
 import { red } from '@mui/material/colors';
 
 const theme = {
