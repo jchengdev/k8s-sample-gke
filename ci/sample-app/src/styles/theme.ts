@@ -3,9 +3,10 @@
  * (check ColorBox.stories.tsx)
  */
 
+import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 
-const theme = {
+const theme = createTheme({
   palette: {
     primary: {
       main: '#556cd6',
@@ -16,10 +17,10 @@ const theme = {
     error: {
       main: red.A400,
     },
-    background: {
-      default: '#fff',
-    },
+    // background: {
+    //   default: '#fff',
+    // },
   },
-};
+});
 
 export default theme;

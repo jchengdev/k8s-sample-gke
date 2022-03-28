@@ -1,8 +1,9 @@
 import { Component } from 'react';
 import classnames from 'classnames';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { withStyles, WithStyles } from '@mui/styles';
 import Link from 'next/link';
+import { withStyles } from '@mui/styles';
+import type { WithStyles } from '@mui/styles';
 
 import styles from './ColorBox.styles';
 
@@ -49,13 +50,6 @@ class ColorBox extends Component<ComposedProps, ColorBoxState> {
           style={{ backgroundColor: background }}
           className={styleClasses.root}
         >
-          {/*
-           // ! DELETE 
-           */}
-          {/* <p>name: {name}</p>
-          <p>background: {background}</p>
-          <p>moreUrl: {moreUrl}</p>
-          <p>showingFullPalette: {showingFullPalette ? 'true' : 'false'}</p> */}
           <div
             style={{ backgroundColor: background }}
             className={classnames(styleClasses.copyOverlay, {
