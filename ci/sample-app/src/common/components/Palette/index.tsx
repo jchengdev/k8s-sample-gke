@@ -1,4 +1,4 @@
-import { Component, Fragment as ReactFrag } from 'react';
+import { Component } from 'react';
 import { withStyles, WithStyles } from '@mui/styles';
 import {
   levels,
@@ -7,7 +7,7 @@ import {
   PaletteMapProps,
 } from '../../utils/colorHelpers';
 // import Navbar from './Navbar';
-// import ColorBox from './ColorBox';
+import ColorBox from '@/common/components/ColorBox';
 // import PaletteFooter from './PaletteFooter';
 import styles from './Palette.styles';
 
@@ -42,22 +42,23 @@ class Palette extends Component<ComposedProps, PaletteState> {
   override render() {
     const {
       classes: styleClasses,
-      // paletteName,
-      // id: paletteId,
-      // emoji,
+      paletteName,
+      id: paletteId,
+      emoji,
       colors,
     } = this.props;
-    const { level /*, format*/ } = this.state;
+    const { level, format } = this.state;
 
     const colorBoxes = colors[level].map(c => (
-      // <ColorBox
-      //   key={c.id}
-      //   name={c.name}
-      //   background={c[format]}
-      //   moreUrl={`/palette/${paletteId}/${c.id}`}
-      //   showingFullPalette
-      // />
-      <ReactFrag key={c.id}>This is a ColorBox with id {c.id}</ReactFrag>
+      <ColorBox
+        key={c.id}
+        name={c.name}
+        background={c[format]}
+        moreUrl={`/palette/${paletteId}/${c.id}`}
+        showingFullPalette
+      />
+      // !
+      // TODO: fix moreURL
     ));
 
     return (
