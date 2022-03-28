@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component, Fragment as ReactFrag } from 'react';
 import { withStyles, WithStyles } from '@mui/styles';
 import {
   levels,
@@ -19,7 +19,7 @@ interface PaletteState {
   format: FormatT;
 }
 
-class Palette extends React.Component<ComposedProps, PaletteState> {
+class Palette extends Component<ComposedProps, PaletteState> {
   constructor(props: ComposedProps) {
     super(props);
     this.state = {
@@ -39,7 +39,7 @@ class Palette extends React.Component<ComposedProps, PaletteState> {
     this.setState({ format: newFormat as FormatT });
   }
 
-  render() {
+  override render() {
     const {
       classes: styleClasses,
       // paletteName,
@@ -57,9 +57,7 @@ class Palette extends React.Component<ComposedProps, PaletteState> {
       //   moreUrl={`/palette/${paletteId}/${c.id}`}
       //   showingFullPalette
       // />
-      <React.Fragment key={c.id}>
-        This is a ColorBox with id {c.id}
-      </React.Fragment>
+      <ReactFrag key={c.id}>This is a ColorBox with id {c.id}</ReactFrag>
     ));
 
     return (

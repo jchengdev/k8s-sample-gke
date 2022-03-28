@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Component } from 'react';
 import classnames from 'classnames';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { withStyles, WithStyles } from '@mui/styles';
@@ -18,7 +18,7 @@ interface ColorBoxState {
   copied: boolean;
 }
 
-class ColorBox extends React.Component<ComposedProps, ColorBoxState> {
+class ColorBox extends Component<ComposedProps, ColorBoxState> {
   constructor(props: ComposedProps) {
     super(props);
     this.state = { copied: false };

@@ -1,4 +1,3 @@
-import * as React from 'react';
 // import { withThemes } from '@react-theming/storybook-addon';
 // import { ThemeProvider } from '@mui/material';
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
