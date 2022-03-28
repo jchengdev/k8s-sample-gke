@@ -6,7 +6,7 @@ import {
   FormatT,
   PaletteMapProps,
 } from '../../utils/colorHelpers';
-// import Navbar from './Navbar';
+import Navbar from '@/common/components/Navbar';
 import ColorBox from '@/common/components/ColorBox';
 // import PaletteFooter from './PaletteFooter';
 import styles from './Palette.styles';
@@ -30,7 +30,7 @@ class Palette extends Component<ComposedProps, PaletteState> {
     this._changeFormat = this._changeFormat.bind(this);
   }
 
-  _changeLevel(newLevel: number) {
+  _changeLevel(newLevel: number | number[]) {
     if (levels.includes(newLevel as LevelT))
       this.setState({ level: newLevel as LevelT });
   }
@@ -63,16 +63,16 @@ class Palette extends Component<ComposedProps, PaletteState> {
 
     return (
       <>
-        {/* <Navbar
+        <Navbar
           level={level}
           minLevel={levels[1]}
-          maxLevel={levels[levels.length - 1]}
+          maxLevel={levels[levels.length - 1] as number}
           sliderStep={levels[2] - levels[1]}
           onChangeLevel={this._changeLevel}
           showingAllColors
           format={format}
           onChangeFormat={this._changeFormat}
-        /> */}
+        />
         <div className={styleClasses.root}>
           <div className={styleClasses.colors}>{colorBoxes}</div>
           {/* <PaletteFooter paletteName={paletteName} emoji={emoji} /> */}
