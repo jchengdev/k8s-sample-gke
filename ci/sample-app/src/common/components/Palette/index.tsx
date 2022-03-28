@@ -8,7 +8,7 @@ import {
 } from '../../utils/colorHelpers';
 import Navbar from '@/common/components/Navbar';
 import ColorBox from '@/common/components/ColorBox';
-// import PaletteFooter from './PaletteFooter';
+import PaletteFooter from '@/common/components/PaletteFooter';
 import styles from './Palette.styles';
 
 interface PaletteProps extends PaletteMapProps {}
@@ -75,7 +75,7 @@ class Palette extends Component<ComposedProps, PaletteState> {
         />
         <div className={styleClasses.root}>
           <div className={styleClasses.colors}>{colorBoxes}</div>
-          {/* <PaletteFooter paletteName={paletteName} emoji={emoji} /> */}
+          <PaletteFooter paletteName={paletteName} emoji={emoji} />
         </div>
       </>
     );

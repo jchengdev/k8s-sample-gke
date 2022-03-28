@@ -17,7 +17,9 @@ export default {
 } as ComponentMeta<typeof ColorBox>;
 
 const Template: ComponentStory<typeof ColorBox> = args => (
-  <ColorBox {...args} />
+  <div style={{ height: '90vh' }}>
+    <ColorBox {...args} />
+  </div>
 );
 
 export const Primary = Template.bind({});
