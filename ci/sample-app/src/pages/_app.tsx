@@ -1,8 +1,18 @@
-import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
-}
+// import Navbar from '@/common/components/Navbar';
+
+// import '../styles/globals.css';
+import { globalStyles } from '@/styles/globals';
+
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  return (
+    <>
+      {globalStyles}
+      {/* <Navbar /> */}
+      <Component {...pageProps} />
+    </>
+  );
+};
 
 export default MyApp;
