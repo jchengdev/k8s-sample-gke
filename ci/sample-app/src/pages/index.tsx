@@ -8,6 +8,7 @@ import {
 } from '@/common/contexts/PaletteListContext';
 
 import PaletteList from '@/common/layouts/PaletteList';
+
 const HomePage: NextPage = () => {
   const router = useRouter();
   const { palettes } = usePalettesCtxST();
@@ -17,6 +18,7 @@ const HomePage: NextPage = () => {
     dispatch({ type: 'DELETE', payload: { id } });
   };
 
+  console.log(`ROUTER READY: `, router.isReady); // * client-side only
   console.log(`PAGE: /`);
   return (
     <>
