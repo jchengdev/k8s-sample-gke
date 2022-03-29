@@ -2,8 +2,8 @@ import type { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import Palette from '.';
 
-import { generatePalette } from '@/common/utils/colorHelpers';
-import seeds from '@/common/utils/seeds/seedColors';
+import { generatePalette } from '@/common/utils/color-helpers';
+import seeds from '@/common/_seeds';
 const paletteSample = generatePalette(seeds[0]!);
 
 export default {

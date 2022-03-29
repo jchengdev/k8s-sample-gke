@@ -3,7 +3,7 @@ import * as React from 'react';
 import type { State, Dispatch } from './usePalettesReducer';
 import usePalettesReducer from './usePalettesReducer';
 
-import seeds from '../../_seeds';
+import seeds from '@/common/_seeds';
 
 const PalettesCtxST = React.createContext({} as State);
 PalettesCtxST.displayName = 'PalettesContextState';

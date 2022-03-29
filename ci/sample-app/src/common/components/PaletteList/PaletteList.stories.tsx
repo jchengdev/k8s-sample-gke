@@ -1,7 +1,7 @@
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import PaletteList from '.';
-import seeds from '@/common/utils/seeds/seedColors';
+import seeds from '@/common/_seeds';
 
 export default {
   title: 'Components/PaletteList',

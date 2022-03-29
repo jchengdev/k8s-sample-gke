@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 import Link from '@/common/components/Link';
-import { FormatT } from '@/common/utils/colorHelpers';
+import { FormatT } from '@/common/utils/color-helpers';
 
 import 'rc-slider/assets/index.css';
 import styles from './Navbar.styles';

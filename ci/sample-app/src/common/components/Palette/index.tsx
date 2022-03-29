@@ -10,7 +10,7 @@ import {
   LevelT,
   FormatT,
   PaletteMapProps,
-} from '@/common/utils/colorHelpers';
+} from '@/common/utils/color-helpers';
 
 import styles from './Palette.styles';
 

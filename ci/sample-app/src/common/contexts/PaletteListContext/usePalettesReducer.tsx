@@ -1,8 +1,8 @@
 // import { v4 as uuidv4 } from 'uuid';
 
-import { LOCALSTORAGE_KEY } from '../../_constants';
+import { LOCALSTORAGE_KEY } from '@/common/_constants';
 
-import { useLocalStorageReducer } from '../../hooks/useLocalStorage';
+import { useLocalStorageReducer } from '@/common/hooks/useLocalStorage';
 
 export interface State {
   palettes: Array<PaletteI>;
