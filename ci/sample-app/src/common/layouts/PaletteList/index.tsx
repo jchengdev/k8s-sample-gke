@@ -20,10 +20,10 @@ import styles from './PaletteList.styles';
 
 interface PaletteListProps {
   palettes: Array<PaletteI>;
+  goToPalette: (paletteUrl: string) => void;
   deletePalette: (id: string) => void;
 }
-interface ComposedProps extends PaletteListProps, WithStyles<typeof styles> /*,
-    RouteComponentProps*/ {}
+interface ComposedProps extends PaletteListProps, WithStyles<typeof styles> {}
 
 interface PaletteListState {
   openDeleteDialog: boolean;
@@ -45,8 +45,7 @@ class PaletteList extends Component<ComposedProps, PaletteListState> {
 
   _goToPalette(id: string) {
     // this.props.history.push(`/palette/${id}`);
-    // !
-    // TODO FIX
+    this.props.goToPalette(`/palette/${id}`);
   }
   _openDialog(id: string) {
     this.setState({ openDeleteDialog: true, deletingId: id });
@@ -68,10 +67,6 @@ class PaletteList extends Component<ComposedProps, PaletteListState> {
           <nav className={styleClasses.nav}>
             <h1 className={styleClasses.heading}>React Colors</h1>
             <Link href="/palette/new">Create Palette</Link>
-            {
-              // !
-              // TODO: fix Link
-            }
           </nav>
           <TransitionGroup className={styleClasses.palettes}>
             {palettes.map(p => (

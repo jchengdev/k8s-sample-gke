@@ -1,16 +1,26 @@
 import type { AppProps } from 'next/app';
+import { useState } from 'react';
 
-// import Navbar from '@/common/components/Navbar';
+const COMMIT_SHA = 'COMMIT_SHA: %%COMMIT_SHA%%';
 
-// import '../styles/globals.css';
+import Disclaimer from '@/common/components/Disclaimer';
+
 import { globalStyles } from '@/common/styles/globals';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  const [disclaimerClosed, setCloseDisclaimer] = useState(false as boolean);
+
   return (
     <>
       {globalStyles}
-      {/* <Navbar /> */}
       <Component {...pageProps} />
+      {!disclaimerClosed && (
+        <Disclaimer
+          message={`COMMIT_SHA: ${COMMIT_SHA}`}
+          extLink={'https://www.udemy.com/course/modern-react-bootcamp'}
+          onClose={() => setCloseDisclaimer(true)}
+        />
+      )}
     </>
   );
 };
