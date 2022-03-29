@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { FunctionComponent as ReactFC, useState as ReactUseState } from 'react';
 // import { RouteComponentProps } from 'react-router-dom';
 // import { SortEndHandler } from 'react-sortable-hoc';
 // import { arrayMoveImmutable } from 'array-move';
@@ -30,12 +30,10 @@ interface NewPaletteFormProps {
 }
 interface ComposedProps extends NewPaletteFormProps /*, RouteComponentProps*/ {}
 
-const NewPaletteForm: React.FunctionComponent<ComposedProps> = (
-  props: ComposedProps
-) => {
+const NewPaletteForm: ReactFC<ComposedProps> = (props: ComposedProps) => {
   const { palettes, savePalette, maxColors = 20 } = props;
-  const [open, setOpen] = React.useState(false as boolean);
-  const [colors, setColors] = React.useState(
+  const [open, setOpen] = ReactUseState(false as boolean);
+  const [colors, setColors] = ReactUseState(
     (seedColors[0] || { colors: [] }).colors as Array<{
       color: string;
       name: string;

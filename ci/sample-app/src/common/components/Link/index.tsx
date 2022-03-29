@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent as ReactFC } from 'react';
 import Link from 'next/link';
 import type { LinkProps } from 'next/link';
 
@@ -6,7 +6,7 @@ interface WrappedLinkProps extends LinkProps {}
 
 const storybookIsOn = process.env.STORYBOOK_MODE;
 
-const WrappedLink: FunctionComponent<WrappedLinkProps> = props => {
+const WrappedLink: ReactFC<WrappedLinkProps> = props => {
   return !storybookIsOn ? (
     <Link {...props}>{props.children}</Link>
   ) : (

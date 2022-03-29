@@ -1,8 +1,7 @@
-import Head from 'next/head';
-import { useRouter } from 'next/router';
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
 
-// import { useLocalStorageState } from '@/common/hooks/useLocalStorage';
 import Link from '@/common/components/Link';
 
 // import Palette from '@/common/layouts/Palette';
@@ -12,10 +11,6 @@ import Link from '@/common/components/Link';
 
 const NewPalettePage: NextPage = () => {
   const router = useRouter();
-  // const [palettes, setPalettes] = useLocalStorageState(
-  //   'palettes',
-  //   seedColors as PaletteI[]
-  // );
 
   // const _findPalette = (id: string) => {
   //   return palettes.find(p => p.id === id) || palettes[palettes.length - 1];
@@ -40,11 +35,13 @@ const NewPalettePage: NextPage = () => {
 
 export default NewPalettePage;
 
-{/* <NewPaletteForm
+{
+  /* <NewPaletteForm
   {...routeProps}
   palettes={palettes}
   savePalette={_savePalette}
-/>; */}
+/>; */
+}
 // const _savePalette = (newPalette: PaletteI) => {
 //   setPalettes([...palettes, newPalette]);
 // };

@@ -1,8 +1,6 @@
-import Head from 'next/head';
-import { useRouter } from 'next/router';
 import type { NextPage } from 'next';
-
-// import { useLocalStorageState } from '@/common/hooks/useLocalStorage';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 import { usePalettesCtxST } from '@/common/contexts/PaletteListContext';
 
@@ -10,15 +8,10 @@ import Palette from '@/common/layouts/Palette';
 
 import Link from '@/common/components/Link';
 
-// import seedColors from '@/common/_seeds';
 import { generatePalette } from '@/common/utils/color-helpers';
 
 const PalettePage: NextPage = () => {
   const router = useRouter();
-  // const [palettes, setPalettes] = useLocalStorageState(
-  //   'palettes',
-  //   seedColors as PaletteI[]
-  // );
   const { palettes } = usePalettesCtxST();
 
   const _findPalette = (id: string) => {
