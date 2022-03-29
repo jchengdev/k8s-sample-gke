@@ -2,23 +2,30 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import type { NextPage } from 'next';
 
-import { useLocalStorageState } from '@/common/hooks/useLocalStorage';
+// import { useLocalStorageState } from '@/common/hooks/useLocalStorage';
+
+import { usePalettesCtxST } from '@/common/contexts/PaletteListContext';
 
 import Palette from '@/common/layouts/Palette';
 
-import seedColors from '@/common/_seeds';
+import Link from '@/common/components/Link';
+
+// import seedColors from '@/common/_seeds';
 import { generatePalette } from '@/common/utils/color-helpers';
 
 const PalettePage: NextPage = () => {
   const router = useRouter();
-  const [palettes, setPalettes] = useLocalStorageState(
-    'palettes',
-    seedColors as PaletteI[]
-  );
+  // const [palettes, setPalettes] = useLocalStorageState(
+  //   'palettes',
+  //   seedColors as PaletteI[]
+  // );
+  const { palettes } = usePalettesCtxST();
 
   const _findPalette = (id: string) => {
-    return palettes.find(p => p.id === id) || palettes[palettes.length - 1];
+    return palettes.find(p => p.id === id);
   };
+
+  const currentPalette = _findPalette(router.query.id as string);
 
   console.log(`PAGE: /palette/${router.query.id}`);
   return (
@@ -27,7 +34,17 @@ const PalettePage: NextPage = () => {
         <title>CI CD Sample - NextJS</title>
       </Head>
 
-      <Palette {...generatePalette(_findPalette(router.query.id as string)!)} />
+      {
+        currentPalette ? (
+          <Palette {...generatePalette(currentPalette)} />
+        ) : (
+          <>
+            <span>INVALID route</span>
+            <Link href={'/'}>GO TO MAIN PAGE</Link>
+          </>
+        )
+        // TODO: improve existing route check (maybe with global error boundary, or imperative routing, or...)
+      }
     </>
   );
 };
