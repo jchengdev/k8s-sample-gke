@@ -1,9 +1,4 @@
-// import { withThemes } from '@react-theming/storybook-addon';
-// import { ThemeProvider } from '@mui/material';
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
-
-// import theme from '@/styles/theme';
-// ? comments left for reference, in case themes become a requirement in the project
 
 import ColorBox from '.';
 
@@ -13,7 +8,6 @@ export default {
   argTypes: {
     background: { control: 'color' },
   },
-  // decorators: [withThemes(ThemeProvider, [theme])],
 } as ComponentMeta<typeof ColorBox>;
 
 const Template: ComponentStory<typeof ColorBox> = args => (
@@ -25,7 +19,7 @@ const Template: ComponentStory<typeof ColorBox> = args => (
 export const Primary = Template.bind({});
 Primary.args = {
   name: 'Primary',
-  background: '#f3f3f3',
+  background: '#3e3e3e',
   moreUrl: '/some-monocolor-palette',
   showingFullPalette: false,
 };
