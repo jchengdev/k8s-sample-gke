@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 
-import Link from '@/common/components/Link';
+import { StyledRoot } from './Disclaimer.styles';
 
 interface DisclaimerProps {
   message: string;
@@ -14,15 +14,8 @@ const Disclaimer: FunctionComponent<DisclaimerProps> = ({
   onClose,
 }) => {
   return (
-    <div
-      style={{
-        padding: '1rem',
-        height: 'auto',
-        width: 'auto',
-        border: '1px dashed black',
-        borderRadius: '5px',
-      }}
-    >
+    <StyledRoot>
+      <h1 style={{ color: 'red' }}> THIS IS CURRENTLY BEING EDITED </h1>
       {message}
       <br />{' '}
       {extLink && (
@@ -35,7 +28,7 @@ const Disclaimer: FunctionComponent<DisclaimerProps> = ({
       }
       <br />
       <button onClick={() => onClose()}>X</button>
-    </div>
+    </StyledRoot>
   );
 };
 
