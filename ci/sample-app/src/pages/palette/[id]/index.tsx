@@ -20,9 +20,7 @@ const PalettePage: NextPage = () => {
     return palettes.find(p => p.id === id) || palettes[palettes.length - 1];
   };
 
-  console.log(
-    `PAGE: /palette/${router.query.id ? router.query.id : 'undefined'}`
-  );
+  console.log(`PAGE: /palette/${router.query.id}`);
   return (
     <>
       <Head>

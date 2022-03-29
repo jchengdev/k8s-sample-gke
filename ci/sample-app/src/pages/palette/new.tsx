@@ -39,3 +39,12 @@ const NewPalettePage: NextPage = () => {
 };
 
 export default NewPalettePage;
+
+{/* <NewPaletteForm
+  {...routeProps}
+  palettes={palettes}
+  savePalette={_savePalette}
+/>; */}
+// const _savePalette = (newPalette: PaletteI) => {
+//   setPalettes([...palettes, newPalette]);
+// };
