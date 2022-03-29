@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 
 export function useAsyncEffect(
   asyncFn: () => Promise<void>,
   deps?: React.DependencyList | undefined
 ): void {
-  React.useEffect(() => {
+  useEffect(() => {
     asyncFn();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);

@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import { withStyles } from '@mui/styles';
 import type { WithStyles } from '@mui/styles';
+import { withStyles } from '@mui/styles';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import Dialog from '@mui/material/Dialog';
@@ -16,6 +16,7 @@ import { blue, red } from '@mui/material/colors';
 
 import Link from '@/common/components/Link';
 import MiniPalette from '@/common/components/MiniPalette';
+
 import styles from './PaletteList.styles';
 
 interface PaletteListProps {

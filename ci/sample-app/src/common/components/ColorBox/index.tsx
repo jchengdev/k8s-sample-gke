@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import classnames from 'classnames';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { withStyles } from '@mui/styles';
 import type { WithStyles } from '@mui/styles';
+import { withStyles } from '@mui/styles';
 
 import Link from '@/common/components/Link';
 

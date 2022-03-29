@@ -1,8 +1,8 @@
 import { Component, createRef } from 'react';
-import { withStyles } from '@mui/styles';
 import type { WithStyles } from '@mui/styles';
-import Slider from 'rc-slider';
+import { withStyles } from '@mui/styles';
 import type { SliderProps } from 'rc-slider';
+import Slider from 'rc-slider';
 
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';

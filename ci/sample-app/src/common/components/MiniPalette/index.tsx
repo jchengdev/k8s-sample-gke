@@ -1,9 +1,10 @@
-import { memo as ReactMemo } from 'react';
 import type { MouseEvent } from 'react';
+import { memo as ReactMemo } from 'react';
 import { makeStyles } from '@mui/styles';
-import styles from './MiniPalette.styles';
 
 import DeleteIcon from '@mui/icons-material/Delete';
+
+import styles from './MiniPalette.styles';
 
 const useStyles = makeStyles(styles);
 
