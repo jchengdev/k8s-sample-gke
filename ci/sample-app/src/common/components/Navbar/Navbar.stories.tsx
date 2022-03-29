@@ -5,7 +5,10 @@ import NavBar from '.';
 export default {
   title: 'Components/NavBar',
   component: NavBar,
-  argTypes: {},
+  argTypes: {
+    onChangeLevel: { action: 'CHANGE LEVEL' },
+    onChangeFormat: { action: 'CHANGE FORMAT' },
+  },
 } as ComponentMeta<typeof NavBar>;
 
 const Template: ComponentStory<typeof NavBar> = args => <NavBar {...args} />;
@@ -16,12 +19,12 @@ Primary.args = {
   minLevel: 100,
   maxLevel: 900,
   sliderStep: 100,
-  onChangeLevel: (newLevel: number | number[]) => {
-    alert(`NEW LEVEL: ${newLevel}`);
-  },
+  // onChangeLevel: (newLevel: number | number[]) => {
+  //   alert(`NEW LEVEL: ${newLevel}`);
+  // },
   showingAllColors: true,
   format: 'hex',
-  onChangeFormat: (newFormat: string) => {
-    alert(`NEW FORMAT: ${newFormat}`);
-  },
+  // onChangeFormat: (newFormat: string) => {
+  //   alert(`NEW FORMAT: ${newFormat}`);
+  // },
 };

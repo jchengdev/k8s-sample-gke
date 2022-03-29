@@ -68,6 +68,10 @@ class PaletteList extends Component<ComposedProps, PaletteListState> {
           <nav className={styleClasses.nav}>
             <h1 className={styleClasses.heading}>React Colors</h1>
             <Link href="/palette/new">Create Palette</Link>
+            {
+              // !
+              // TODO: fix Link
+            }
           </nav>
           <TransitionGroup className={styleClasses.palettes}>
             {palettes.map(p => (
@@ -77,7 +81,6 @@ class PaletteList extends Component<ComposedProps, PaletteListState> {
                   goToPalette={this._goToPalette}
                   openDialog={this._openDialog}
                 />
-                <p>A MINIPALETTE</p>
               </CSSTransition>
             ))}
           </TransitionGroup>

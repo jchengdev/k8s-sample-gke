@@ -7,7 +7,7 @@ import seeds from '@/common/_seeds';
 const paletteSample = generatePalette(seeds[0]!);
 
 export default {
-  title: 'Components/Palette',
+  title: 'Layouts/Palette',
   component: Palette,
   argTypes: {},
 } as ComponentMeta<typeof Palette>;

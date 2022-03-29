@@ -4,9 +4,11 @@ import PaletteList from '.';
 import seeds from '@/common/_seeds';
 
 export default {
-  title: 'Components/PaletteList',
+  title: 'Layouts/PaletteList',
   component: PaletteList,
-  argTypes: {},
+  argTypes: {
+    deletePalette: { action: 'DELETE PALETTE' },
+  },
 } as ComponentMeta<typeof PaletteList>;
 
 const Template: ComponentStory<typeof PaletteList> = args => (
@@ -16,7 +18,7 @@ const Template: ComponentStory<typeof PaletteList> = args => (
 export const Primary = Template.bind({});
 Primary.args = {
   palettes: seeds,
-  deletePalette: (id: string) => {
-    alert(`DELETE PALETTE ID: ${id}`);
-  },
+  // deletePalette: (id: string) => {
+  //   alert(`DELETE PALETTE ID: ${id}`);
+  // },
 };

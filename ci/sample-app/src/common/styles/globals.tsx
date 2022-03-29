@@ -5,14 +5,24 @@ export const globalStyles = (
   <Global
     styles={css({
       'html,body': {
-        padding: 5,
-        margin: 5,
+        padding: 0,
+        margin: 0,
         fontFamily:
           '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+        WebkitFontSmoothing: 'antialiased',
+        MozOsxFontSmoothing: 'grayscale',
+      },
+      code: {
+        fontFamily:
+          'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
       },
     })}
   ></Global>
 );
+
+/**
+ * * https://github.com/vercel/next.js/blob/canary/examples/with-emotion/shared/styles.js
+ */
 
 export const basicStyles = css({
   backgroundColor: 'white',

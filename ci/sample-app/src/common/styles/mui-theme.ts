@@ -1,6 +1,5 @@
 /**
  * ? NO COMPONENTS USING THIS, JUST FOR REFERENCE IN CASE NEEDED
- * (check ColorBox.stories.tsx)
  */
 
 import { createTheme } from '@mui/material/styles';
