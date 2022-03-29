@@ -54,10 +54,12 @@ export const bounce = keyframes({
   },
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const Basic = styled('div')(({ theme }) => ({
   ...basicStyles,
 }));
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const Combined = styled('div')(({ theme }) => ({
   ...basicStyles,
   ...hoverStyles,
@@ -66,6 +68,7 @@ export const Combined = styled('div')(({ theme }) => ({
   },
 }));
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const Animated = styled('div')(({ theme }) => ({
   ...basicStyles,
   ...hoverStyles,
