@@ -26,6 +26,6 @@ export const Primary = Template.bind({});
 Primary.args = {
   name: 'Primary',
   background: '#f3f3f3',
-  moreUrl: '',
+  moreUrl: '/some-monocolor-palette',
   showingFullPalette: false,
 };

@@ -11,7 +11,12 @@ const WrappedLink: FunctionComponent<WrappedLinkProps> = props => {
     <Link {...props}>{props.children}</Link>
   ) : (
     <Link {...props} href={props.href}>
-      <a onClick={() => alert(`<a> link to: ${props.href}`)}>
+      <a
+        onClick={e => {
+          e.stopPropagation();
+          alert(`<a> link to: ${props.href}`);
+        }}
+      >
         {props.children}
       </a>
     </Link>
