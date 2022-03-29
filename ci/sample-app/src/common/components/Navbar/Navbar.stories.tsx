@@ -11,20 +11,30 @@ export default {
   },
 } as ComponentMeta<typeof NavBar>;
 
-const Template: ComponentStory<typeof NavBar> = args => <NavBar {...args} />;
+const Template: ComponentStory<typeof NavBar> = args => (
+  <NavBar
+    {...args}
+    level={500}
+    minLevel={100}
+    maxLevel={900}
+    sliderStep={100}
+  />
+);
 
-export const Primary = Template.bind({});
-Primary.args = {
-  level: 500,
-  minLevel: 100,
-  maxLevel: 900,
-  sliderStep: 100,
-  // onChangeLevel: (newLevel: number | number[]) => {
-  //   alert(`NEW LEVEL: ${newLevel}`);
-  // },
+export const HEX = Template.bind({});
+HEX.args = {
   showingAllColors: true,
   format: 'hex',
-  // onChangeFormat: (newFormat: string) => {
-  //   alert(`NEW FORMAT: ${newFormat}`);
-  // },
+};
+
+export const RGB = Template.bind({});
+RGB.args = {
+  showingAllColors: true,
+  format: 'rgb',
+};
+
+export const RGBA = Template.bind({});
+RGBA.args = {
+  showingAllColors: true,
+  format: 'rgba',
 };
