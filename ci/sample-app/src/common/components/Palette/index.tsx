@@ -1,14 +1,17 @@
 import { Component } from 'react';
-import { withStyles, WithStyles } from '@mui/styles';
+import { withStyles } from '@mui/styles';
+import type { WithStyles } from '@mui/styles';
+
+import Navbar from '@/common/components/Navbar';
+import ColorBox from '@/common/components/ColorBox';
+import PaletteFooter from '@/common/components/PaletteFooter';
 import {
   levels,
   LevelT,
   FormatT,
   PaletteMapProps,
-} from '../../utils/colorHelpers';
-import Navbar from '@/common/components/Navbar';
-import ColorBox from '@/common/components/ColorBox';
-import PaletteFooter from '@/common/components/PaletteFooter';
+} from '@/common/utils/colorHelpers';
+
 import styles from './Palette.styles';
 
 interface PaletteProps extends PaletteMapProps {}

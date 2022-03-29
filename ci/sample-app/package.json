@@ -10,7 +10,7 @@
     "type-check": "tsc --build",
     "lint": "next lint",
     "analyze-bundle": "ANALYZE=true next build",
-    "storybook": "start-storybook -p 6006 -s ./public",
+    "storybook": "STORYBOOK_MODE=true start-storybook -p 6006 -s ./public",
     "build-storybook": "build-storybook -s public"
   },
   "dependencies": {

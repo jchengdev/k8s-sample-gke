@@ -1,9 +1,10 @@
 import { Component } from 'react';
 import classnames from 'classnames';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Link from 'next/link';
 import { withStyles } from '@mui/styles';
 import type { WithStyles } from '@mui/styles';
+
+import Link from '@/common/components/Link';
 
 import styles from './ColorBox.styles';
 

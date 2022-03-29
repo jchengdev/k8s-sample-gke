@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import Link from 'next/link';
 import { withStyles } from '@mui/styles';
 import type { WithStyles } from '@mui/styles';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
@@ -15,7 +14,8 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { blue, red } from '@mui/material/colors';
 
-// import MiniPalette from './MiniPalette';
+import Link from '@/common/components/Link';
+import MiniPalette from '@/common/components/MiniPalette';
 import styles from './PaletteList.styles';
 
 interface PaletteListProps {
@@ -72,11 +72,11 @@ class PaletteList extends Component<ComposedProps, PaletteListState> {
           <TransitionGroup className={styleClasses.palettes}>
             {palettes.map(p => (
               <CSSTransition key={p.id} classNames="fade" timeout={500}>
-                {/* <MiniPalette
+                <MiniPalette
                   {...p}
                   goToPalette={this._goToPalette}
                   openDialog={this._openDialog}
-                /> */}
+                />
                 <p>A MINIPALETTE</p>
               </CSSTransition>
             ))}

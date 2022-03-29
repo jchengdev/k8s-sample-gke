@@ -1,10 +1,9 @@
 import { Component, createRef } from 'react';
-import Link from 'next/link';
 import { withStyles } from '@mui/styles';
 import type { WithStyles } from '@mui/styles';
 import Slider from 'rc-slider';
 import type { SliderProps } from 'rc-slider';
-import { FormatT } from '@/common/utils/colorHelpers';
+
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -12,6 +11,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+
+import Link from '@/common/components/Link';
+import { FormatT } from '@/common/utils/colorHelpers';
 
 import 'rc-slider/assets/index.css';
 import styles from './Navbar.styles';
@@ -66,9 +68,7 @@ class Navbar extends Component<ComposedProps, NavbarState> {
     return (
       <header className={styleClasses.Navbar}>
         <div className={styleClasses.logo}>
-          <Link href="/" passHref>
-            reactcolorpicker
-          </Link>
+          <Link href="/">reactcolorpicker</Link>
         </div>
         {!!showingAllColors && (
           <div className="slider-container">
