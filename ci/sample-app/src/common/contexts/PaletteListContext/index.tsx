@@ -1,8 +1,4 @@
-import {
-  FunctionComponent as ReactFC,
-  createContext as ReactCCtx,
-  useContext as ReactUCtx,
-} from 'react';
+import { createContext as ReactCCtx, useContext as ReactUCtx } from 'react';
 
 import type { State, Dispatch } from './usePalettesReducer';
 import usePalettesReducer from './usePalettesReducer';
@@ -15,7 +11,7 @@ const PalettesCtxDP = ReactCCtx((() => null) as Dispatch);
 PalettesCtxDP.displayName = 'PalettesContextDispatch';
 
 interface PalettesCtxProviderProps {}
-const PalettesCtxProvider: ReactFC<PalettesCtxProviderProps> = ({
+const PalettesCtxProvider: React.FC<PalettesCtxProviderProps> = ({
   children,
 }) => {
   const [state, dispatch] = usePalettesReducer({ palettes: seeds });

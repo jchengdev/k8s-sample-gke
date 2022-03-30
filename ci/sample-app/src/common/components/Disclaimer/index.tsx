@@ -1,5 +1,3 @@
-import { FunctionComponent as ReactFC } from 'react';
-
 import { StyledRoot } from './Disclaimer.styles';
 
 interface DisclaimerProps {
@@ -8,7 +6,7 @@ interface DisclaimerProps {
   onClose: () => void;
 }
 
-const Disclaimer: ReactFC<DisclaimerProps> = ({
+const Disclaimer: React.FC<DisclaimerProps> = ({
   message,
   extLink,
   onClose,

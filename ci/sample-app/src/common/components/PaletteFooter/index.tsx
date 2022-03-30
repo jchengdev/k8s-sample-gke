@@ -1,4 +1,3 @@
-import { FunctionComponent as ReactFC } from 'react';
 import { makeStyles } from '@mui/styles';
 import styles from './PaletteFooter.styles';
 
@@ -9,7 +8,7 @@ interface PaletteFooterProps {
   emoji: string;
 }
 
-const PaletteFooter: ReactFC<PaletteFooterProps> = props => {
+const PaletteFooter: React.FC<PaletteFooterProps> = props => {
   const { paletteName, emoji } = props;
   const styleClasses = useStyles();
 

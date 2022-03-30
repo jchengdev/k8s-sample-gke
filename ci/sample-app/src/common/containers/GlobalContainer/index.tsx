@@ -1,4 +1,4 @@
-import { FunctionComponent as ReactFC, useState as ReactUStt } from 'react';
+import { useState as ReactUStt } from 'react';
 
 // import useGoogleAnalytics from '~/domain/hooks/useGoogleAnalytics';
 
@@ -18,7 +18,7 @@ interface GlobalContainerProps {
   // initialI18N?: I18NConfig;
 }
 
-export const GlobalContainer: ReactFC<GlobalContainerProps> = ({
+export const GlobalContainer: React.FC<GlobalContainerProps> = ({
   // initialAuth,
   // initialI18N,
   children,
