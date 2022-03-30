@@ -1,6 +1,7 @@
-import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import type { InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
+
+import { STATICProps, STATICPaths } from '@/props';
 
 import { usePalettesCtxST } from '@/common/contexts/PaletteListContext';
 
@@ -10,17 +11,18 @@ import Link from '@/common/components/Link';
 
 import { generatePalette } from '@/common/utils/color-helpers';
 
-const PalettePage: NextPage = () => {
-  const router = useRouter();
+const PalettePage = ({
+  paletteId,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { palettes } = usePalettesCtxST();
 
   const _findPalette = (id: string) => {
     return palettes.find(p => p.id === id);
   };
 
-  const currentPalette = _findPalette(router.query.id as string);
+  const currentPalette = _findPalette(paletteId);
 
-  console.log(`PAGE: /palette/${router.query.id}`);
+  console.log(`PAGE: /palette/${paletteId}`);
   return (
     <>
       <Head>
@@ -42,4 +44,6 @@ const PalettePage: NextPage = () => {
   );
 };
 
+export const getStaticProps = STATICProps.PALETTEPAGE;
+export const getStaticPaths = STATICPaths.PALETTEPAGE;
 export default PalettePage;

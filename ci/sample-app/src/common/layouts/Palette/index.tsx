@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import { withStyles } from '@mui/styles';
 import type { WithStyles } from '@mui/styles';
+import { withStyles } from '@mui/styles';
 
 import Navbar from '@/common/components/Navbar';
 import ColorBox from '@/common/components/ColorBox';

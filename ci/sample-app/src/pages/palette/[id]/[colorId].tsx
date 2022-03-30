@@ -1,6 +1,7 @@
-import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import type { InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
+
+import { STATICProps, STATICPaths } from '@/props';
 
 import { usePalettesCtxST } from '@/common/contexts/PaletteListContext';
 
@@ -10,23 +11,22 @@ import Link from '@/common/components/Link';
 
 import { generatePalette } from '@/common/utils/color-helpers';
 
-const SingleColorPalettePage: NextPage = () => {
-  const router = useRouter();
+const SingleColorPalettePage = ({
+  paletteId,
+  colorId,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { palettes } = usePalettesCtxST();
 
   const _findPalette = (id: string) => {
     return palettes.find(p => p.id === id) || palettes[palettes.length - 1];
   };
 
-  const currentPalette = _findPalette(router.query.id as string);
+  const currentPalette = _findPalette(paletteId);
   const isValidColor =
-    currentPalette?.colors.findIndex(
-      c =>
-        c.name.toLowerCase() === (router.query.colorId as string)?.toLowerCase()
-    ) !== -1;
-  console.log((router.query.colorId as string)?.toLowerCase());
+    currentPalette?.colors.findIndex(c => c.name.toLowerCase() === colorId.toLowerCase()) !==
+    -1;
 
-  console.log(`PAGE: /palette/${router.query.id}/${router.query.colorId}`);
+  console.log(`PAGE: /palette/${paletteId}/${colorId}`);
   return (
     <>
       <Head>
@@ -37,7 +37,7 @@ const SingleColorPalettePage: NextPage = () => {
         currentPalette && isValidColor ? (
           <SingleColorPalette
             palette={generatePalette(currentPalette)}
-            selectedColorId={router.query.colorId as string}
+            selectedColorId={colorId}
           />
         ) : (
           <>
@@ -51,4 +51,6 @@ const SingleColorPalettePage: NextPage = () => {
   );
 };
 
+export const getStaticProps = STATICProps.SINGLECOLORPALETTEPAGE;
+export const getStaticPaths = STATICPaths.SINGLECOLORPALETTEPAGE;
 export default SingleColorPalettePage;

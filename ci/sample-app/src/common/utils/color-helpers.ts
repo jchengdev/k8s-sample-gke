@@ -49,7 +49,7 @@ const generatePalette = (starterPalette: PaletteI): PaletteMapProps => {
     for (const i in scale) {
       newPalette.colors[levels[i] as unknown as LevelT].push({
         name: `${c.name} ${levels[i]}`,
-        id: c.name.toLocaleLowerCase().replace(/ /g, '-'),
+        id: c.name.replace(/ /g, '-'),
         hex: scale[i] as string,
         rgb: chroma(scale[i] as string).css(),
         rgba: chroma(scale[i] as string)

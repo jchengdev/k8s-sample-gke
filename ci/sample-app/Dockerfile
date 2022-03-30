@@ -39,7 +39,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN echo "BUILD_DATE: $BUILD_DATE"
 RUN echo "SHA: $SOURCE_COMMIT"
 COPY . .
-RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./src/pages/index.tsx
+RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./src/common/containers/GlobalContainer/index.tsx
 COPY --from=dependencies ./node_modules ./node_modules
 RUN rm -rf ./.next \
   && ./node_modules/.bin/next build
