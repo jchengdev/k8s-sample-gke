@@ -1,4 +1,4 @@
-import { FunctionComponent as ReactFC, useState as ReactUseState } from 'react';
+import { FunctionComponent as ReactFC, useState as ReactUStt } from 'react';
 
 // import useGoogleAnalytics from '~/domain/hooks/useGoogleAnalytics';
 
@@ -23,7 +23,7 @@ export const GlobalContainer: ReactFC<GlobalContainerProps> = ({
   // initialI18N,
   children,
 }) => {
-  const [show, setShowDisclaimer] = ReactUseState(true as boolean);
+  const [show, setShowDisclaimer] = ReactUStt(true as boolean);
 
   // useGoogleAnalytics(); // TODO: there is something to be optimized yet
   // // ? other context-less hooks
