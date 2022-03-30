@@ -1,17 +1,21 @@
-import * as React from 'react';
+import {
+  FunctionComponent as ReactFC,
+  createContext as ReactCCtx,
+  useContext as ReactUCtx,
+} from 'react';
 
 import type { State, Dispatch } from './usePalettesReducer';
 import usePalettesReducer from './usePalettesReducer';
 
 import seeds from '@/common/_seeds';
 
-const PalettesCtxST = React.createContext({} as State);
+const PalettesCtxST = ReactCCtx({} as State);
 PalettesCtxST.displayName = 'PalettesContextState';
-const PalettesCtxDP = React.createContext((() => null) as Dispatch);
+const PalettesCtxDP = ReactCCtx((() => null) as Dispatch);
 PalettesCtxDP.displayName = 'PalettesContextDispatch';
 
 interface PalettesCtxProviderProps {}
-const PalettesCtxProvider: React.FC<PalettesCtxProviderProps> = ({
+const PalettesCtxProvider: ReactFC<PalettesCtxProviderProps> = ({
   children,
 }) => {
   const [state, dispatch] = usePalettesReducer({ palettes: seeds });
@@ -25,7 +29,7 @@ const PalettesCtxProvider: React.FC<PalettesCtxProviderProps> = ({
   );
 };
 
-const usePalettesCtxST = () => React.useContext(PalettesCtxST);
-const usePalettesCtxDP = () => React.useContext(PalettesCtxDP);
+const usePalettesCtxST = () => ReactUCtx(PalettesCtxST);
+const usePalettesCtxDP = () => ReactUCtx(PalettesCtxDP);
 
 export { PalettesCtxProvider, usePalettesCtxST, usePalettesCtxDP };

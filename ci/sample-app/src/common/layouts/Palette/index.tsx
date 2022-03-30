@@ -60,8 +60,6 @@ class Palette extends Component<ComposedProps, PaletteState> {
         moreUrl={`/palette/${paletteId}/${c.id}`}
         showingFullPalette
       />
-      // !
-      // TODO: fix moreURL
     ));
 
     return (
