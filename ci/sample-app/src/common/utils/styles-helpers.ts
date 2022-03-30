@@ -13,4 +13,4 @@ const sizes = {
   },
 };
 
-export default sizes;
+export { sizes };

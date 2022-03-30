@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/prefer-as-const */
 import chroma from 'chroma-js';
 
-import sizes from '@/common/utils/styles-helpers';
+import { sizes } from '@/common/utils/styles-helpers';
 
 import type { ColorBoxProps } from '.';
 

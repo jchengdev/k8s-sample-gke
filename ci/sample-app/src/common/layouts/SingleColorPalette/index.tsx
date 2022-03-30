@@ -26,13 +26,13 @@ class SingleColorPalette extends Component<
   ComposedProps,
   SingleColorPaletteState
 > {
-  private _shades: Array<{
+  private _shades: {
     name: string;
     id: string;
     hex: string;
     rgb: string;
     rgba: string;
-  }>;
+  }[];
   constructor(props: ComposedProps) {
     super(props);
     this._shades = this._gatherShades(
@@ -44,13 +44,13 @@ class SingleColorPalette extends Component<
   }
 
   _gatherShades(paletteMap: PaletteMapProps, colorToFilterBy: string) {
-    let shades: Array<{
+    let shades: {
       name: string;
       id: string;
       hex: string;
       rgb: string;
       rgba: string;
-    }> = [];
+    }[] = [];
     const allColors = paletteMap.colors;
 
     for (const key in allColors) {

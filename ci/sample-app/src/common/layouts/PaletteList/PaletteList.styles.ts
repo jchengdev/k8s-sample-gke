@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/prefer-as-const */
-import sizes from '@/common/utils/styles-helpers';
+import { sizes } from '@/common/utils/styles-helpers';
 import bg from './bg.svg';
 
 const styles = {

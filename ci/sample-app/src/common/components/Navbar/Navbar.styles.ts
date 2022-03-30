@@ -1,4 +1,4 @@
-import sizes from '@/common/utils/styles-helpers';
+import { sizes } from '@/common/utils/styles-helpers';
 
 const styles = {
   Navbar: {

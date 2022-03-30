@@ -13,10 +13,10 @@ import {
 
 interface ColorPickerFormProps {
   paletteIsFull: boolean;
-  colors: Array<{
+  colors: {
     color: string;
     name: string;
-  }>;
+  }[];
   addNewColor: (newColor: { color: string; name: string }) => void;
 }
 

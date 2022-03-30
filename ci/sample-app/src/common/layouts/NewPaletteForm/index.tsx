@@ -24,7 +24,7 @@ import // StyledButton,
 './NewPaletteForm.styles';
 
 interface NewPaletteFormProps {
-  palettes: Array<PaletteI>;
+  palettes: PaletteI[];
   savePalette: (newPalette: PaletteI) => void;
   maxColors?: number;
 }
@@ -34,10 +34,10 @@ const NewPaletteForm: React.FC<ComposedProps> = (props: ComposedProps) => {
   const { palettes, savePalette, maxColors = 20 } = props;
   const [open, setOpen] = ReactUStt(false as boolean);
   const [colors, setColors] = ReactUStt(
-    (seedColors[0] || { colors: [] }).colors as Array<{
+    (seedColors[0] || { colors: [] }).colors as {
       color: string;
       name: string;
-    }>
+    }[]
   );
   const paletteIsFull = colors.length >= maxColors;
 
