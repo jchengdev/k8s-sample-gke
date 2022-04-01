@@ -15,7 +15,7 @@ import 'emoji-mart/css/emoji-mart.css';
 
 interface PaletteMetaFormProps {
   hideForm: () => void;
-  palettes: Array<PaletteI>;
+  palettes: PaletteI[];
   handleSubmit: (partialNewPalette: {
     paletteName: string;
     emoji: string;
