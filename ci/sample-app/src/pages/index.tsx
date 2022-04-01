@@ -1,5 +1,8 @@
-import type { NextPage } from 'next';
+import type { InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
+
+import { STATICProps } from '@/props';
+
 import { useRouter } from 'next/router';
 
 import {
@@ -9,7 +12,7 @@ import {
 
 import PaletteList from '@/common/layouts/PaletteList';
 
-const HomePage: NextPage = () => {
+const HomePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
   const { palettes } = usePalettesCtxST();
   const dispatch = usePalettesCtxDP();
@@ -37,4 +40,5 @@ const HomePage: NextPage = () => {
   );
 };
 
+export const getStaticProps = STATICProps.HOMEPAGE;
 export default HomePage;
