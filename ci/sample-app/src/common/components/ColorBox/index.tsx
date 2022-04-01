@@ -74,7 +74,9 @@ class ColorBox extends Component<ComposedProps, ColorBoxState> {
           </div>
           {showingFullPalette && (
             <Link href={moreUrl} passHref>
-              <span className={styleClasses.seeMore}>MORE</span>
+              <a onClick={e => e.stopPropagation()}>
+                <span className={styleClasses.seeMore}>MORE</span>
+              </a>
             </Link>
           )}
         </div>
