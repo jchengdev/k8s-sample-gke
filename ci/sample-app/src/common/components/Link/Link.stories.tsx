@@ -1,4 +1,4 @@
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStoryFn, ComponentMeta } from '@storybook/react';
 
 import Link from '.';
 
@@ -11,7 +11,7 @@ export default {
   },
 } as ComponentMeta<typeof Link>;
 
-const Template: ComponentStory<typeof Link> = args => (
+const Template: ComponentStoryFn<typeof Link> = args => (
   <div
     style={{
       padding: '1rem',

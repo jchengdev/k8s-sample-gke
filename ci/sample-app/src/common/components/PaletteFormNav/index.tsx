@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState as ReactUStt } from 'react';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { Global } from '@emotion/react';
@@ -31,7 +31,7 @@ interface PaletteFormNavProps {
 const PaletteFormNav: React.FC<PaletteFormNavProps> = props => {
   const { open, handleDrawerOpen, palettes, handleSubmit } = props;
 
-  const [formShowing, setFormShowing] = React.useState(false as boolean);
+  const [formShowing, setFormShowing] = ReactUStt(false as boolean);
 
   const _showForm = () => {
     setFormShowing(true);

@@ -1,4 +1,4 @@
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStoryFn, ComponentMeta } from '@storybook/react';
 
 import SingleColorPalette from '.';
 
@@ -25,7 +25,7 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof SingleColorPalette>;
 
-const Template: ComponentStory<typeof SingleColorPalette> = args => (
+const Template: ComponentStoryFn<typeof SingleColorPalette> = args => (
   <SingleColorPalette {...args} />
 );
 

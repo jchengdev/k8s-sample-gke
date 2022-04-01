@@ -1,4 +1,4 @@
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStoryFn, ComponentMeta } from '@storybook/react';
 
 import Disclaimer from '.';
 
@@ -13,7 +13,7 @@ export default {
   },
 } as ComponentMeta<typeof Disclaimer>;
 
-const Template: ComponentStory<typeof Disclaimer> = args => (
+const Template: ComponentStoryFn<typeof Disclaimer> = args => (
   <Disclaimer {...args} />
 );
 

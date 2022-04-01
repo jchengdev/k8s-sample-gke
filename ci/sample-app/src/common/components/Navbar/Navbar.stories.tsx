@@ -1,4 +1,4 @@
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStoryFn, ComponentMeta } from '@storybook/react';
 
 import NavBar from '.';
 
@@ -11,7 +11,7 @@ export default {
   },
 } as ComponentMeta<typeof NavBar>;
 
-const Template: ComponentStory<typeof NavBar> = args => (
+const Template: ComponentStoryFn<typeof NavBar> = args => (
   <NavBar
     {...args}
     level={500}

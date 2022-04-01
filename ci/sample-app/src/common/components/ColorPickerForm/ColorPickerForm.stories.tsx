@@ -1,4 +1,4 @@
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStoryFn, ComponentMeta } from '@storybook/react';
 
 import ColorPickerForm from '.';
 
@@ -12,7 +12,7 @@ export default {
   },
 } as ComponentMeta<typeof ColorPickerForm>;
 
-const Template: ComponentStory<typeof ColorPickerForm> = args => (
+const Template: ComponentStoryFn<typeof ColorPickerForm> = args => (
   <div
     style={{ top: '10px', marginLeft: '10px', height: '20vh', width: '30vw' }}
   >

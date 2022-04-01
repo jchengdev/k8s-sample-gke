@@ -1,4 +1,4 @@
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStoryFn, ComponentMeta } from '@storybook/react';
 
 import MiniPalette from '.';
 
@@ -16,7 +16,7 @@ export default {
   },
 } as ComponentMeta<typeof MiniPalette>;
 
-const Template: ComponentStory<typeof MiniPalette> = args => (
+const Template: ComponentStoryFn<typeof MiniPalette> = args => (
   <div style={{ height: '100px', width: '300px' }}>
     <MiniPalette {...args} />
   </div>
