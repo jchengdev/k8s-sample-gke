@@ -6,7 +6,7 @@ interface IParams extends ParsedUrlQuery {}
 interface NewPalettePageProps {}
 
 const asyncFn: GetStaticProps<NewPalettePageProps> = async ctx => {
-  const {} = ctx.params as IParams;
+  // const {} = ctx.params as IParams;
 
   return { props: {} };
 };

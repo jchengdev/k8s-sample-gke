@@ -1,20 +1,22 @@
-import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import type { InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
-import Link from '@/common/components/Link';
+import { STATICProps } from '@/props';
 
-// import Palette from '@/common/layouts/Palette';
+import {
+  usePalettesCtxDP,
+  usePalettesCtxST,
+} from '@/common/contexts/PaletteListContext';
 
-// import seedColors from '@/common/_seeds';
-// import { generatePalette } from '@/common/utils/color-helpers';
+import NewPaletteForm from '@/common/layouts/NewPaletteForm';
 
-const NewPalettePage: NextPage = () => {
-  const router = useRouter();
+const NewPalettePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { palettes } = usePalettesCtxST();
+  const dispatch = usePalettesCtxDP();
 
-  // const _findPalette = (id: string) => {
-  //   return palettes.find(p => p.id === id) || palettes[palettes.length - 1];
-  // };
+  const _savePalette = (newPalette: PaletteI) => {
+    dispatch({ type: 'SAVE', payload: { newPalette } });
+  };
 
   console.log(`PAGE: /palette/new`);
   return (
@@ -22,26 +24,11 @@ const NewPalettePage: NextPage = () => {
       <Head>
         <title>CI CD Sample - NextJS</title>
       </Head>
-      TODO: NEW PALETTE
-      {
-        // !
-        // TODO: add components
-        `${JSON.stringify(router)}`
-      }
-      <Link href={'/'}>GO BACK</Link>
+
+      <NewPaletteForm palettes={palettes} savePalette={_savePalette} />
     </>
   );
 };
 
+export const getStaticProps = STATICProps.NEWPALETTEPAGE;
 export default NewPalettePage;
-
-{
-  /* <NewPaletteForm
-  {...routeProps}
-  palettes={palettes}
-  savePalette={_savePalette}
-/>; */
-}
-// const _savePalette = (newPalette: PaletteI) => {
-//   setPalettes([...palettes, newPalette]);
-// };
