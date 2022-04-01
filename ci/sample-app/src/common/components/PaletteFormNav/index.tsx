@@ -21,15 +21,17 @@ import {
 interface PaletteFormNavProps {
   open: boolean;
   handleDrawerOpen: () => void;
-  palettes: PaletteI[];
-  handleSubmit: (partialNewPalette: {
-    paletteName: string;
-    emoji: string;
-  }) => void;
+  // palettes: PaletteI[];
+  // handleSubmit: (partialNewPalette: {
+  //   paletteName: string;
+  //   emoji: string;
+  // }) => void;
+  renderMetaForm: () => JSX.Element;
 }
 
 const PaletteFormNav: React.FC<PaletteFormNavProps> = props => {
-  const { open, handleDrawerOpen, palettes, handleSubmit } = props;
+  const { open, handleDrawerOpen /*palettes, handleSubmit*/, renderMetaForm } =
+    props;
 
   const [formShowing, setFormShowing] = ReactUStt(false as boolean);
 
@@ -76,14 +78,13 @@ const PaletteFormNav: React.FC<PaletteFormNavProps> = props => {
           </StyledButton>
         </StyledNavBtns>
       </StyledAppBar>
-      {formShowing && (
+      {formShowing &&
         // <PaletteMetaForm
         //   hideForm={_hideForm}
         //   palettes={palettes}
         //   handleSubmit={handleSubmit}
         // />
-        <></>
-      )}
+        renderMetaForm()}
     </StyledRoot>
   );
 };
