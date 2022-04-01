@@ -38,13 +38,16 @@ const styles = {
     position: 'absolute' as 'absolute',
     width: '100%',
     left: '0px',
-    bottom: '0px',
+    bottom: '10px',
     padding: '10px',
     color: 'black',
     letterSpacing: '1px',
     textTransform: 'uppercase' as 'uppercase',
     fontSize: '12px',
     alignItems: 'center',
+    [sizes.down('xs')]: {
+      bottom: '0px',
+    },
   },
   copyButton: {
     color: (props: ColorBoxProps) =>
