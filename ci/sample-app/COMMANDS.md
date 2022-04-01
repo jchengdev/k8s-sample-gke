@@ -17,7 +17,7 @@
 - `docker compose down`
 - `docker run --rm -v $(pwd):/app npm-util install -D @next/bundle-analyzer @typescript-eslint/eslint-plugin prettier eslint-config-prettier`
 - `docker run --rm -v $(pwd):/app npm-util install express @emotion/react @emotion/styled @mui/material @mui/styles @mui/icons-material chroma-js react-copy-to-clipboard rc-slider react-color react-material-ui-form-validator react-sortable-hoc array-move emoji-mart react-transition-group`
-- `docker run --rm -v $(pwd):/app npm-util install -D @types/chroma-js @types/react-copy-to-clipboard @types/react-color @types/react-material-ui-form-validator @types/emoji-mart @types/react-transition-group`
+- `docker run --rm -v $(pwd):/app npm-util install -D @types/uuid @types/chroma-js @types/react-copy-to-clipboard @types/react-color @types/react-material-ui-form-validator @types/emoji-mart @types/react-transition-group`
 - `docker build -t ci-cd-app:dependencies --target=dependencies --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" --progress=plain -f ./Dockerfile .` <!-- override image tag -->
 - `docker run --rm ci-cd-app:dependencies list --depth=0`
 - `BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") COMMIT=$(git rev-parse --short HEAD) docker compose build --progress plain nextjs-app` <!-- override image tag -->
