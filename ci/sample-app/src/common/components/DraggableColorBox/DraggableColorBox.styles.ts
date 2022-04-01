@@ -34,9 +34,9 @@ const styles = {
   boxContent: {
     position: 'absolute' as 'absolute',
     width: '100%',
-    left: '0px',
-    bottom: '0px',
-    padding: '10px',
+    // left: '0px',
+    // bottom: '0px',
+    // padding: '10px',
     color: (props: DraggableColorBoxProps) =>
       chroma(props.color).luminance() <= 0.08
         ? 'rgba(255,255,255,0.8)'
@@ -47,6 +47,17 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    [sizes.only('xss')]: {
+      padding: '3px',
+    },
+    [sizes.only('xs')]: {
+      padding: '5px',
+    },
+    [sizes.up('sm')]: {
+      left: '0px',
+      bottom: '0px',
+      padding: '10px',
+    },
   },
   deleteIcon: { transition: 'all 0.3s ease-in-out' },
 };

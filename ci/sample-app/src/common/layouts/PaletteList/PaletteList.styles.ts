@@ -57,15 +57,16 @@ const styles = {
     boxSizing: 'border-box' as 'border-box',
     width: '100%',
     display: 'grid',
-    gridTemplateColumns: 'repeat(3,30%)',
+    gridTemplateColumns: 'repeat(3,30.35%)',
     gridGap: '2.5rem',
     [sizes.down('md')]: {
-      gridTemplateColumns: 'repeat(2,50%)',
+      gridTemplateColumns: 'repeat(2,46.17%)',
     },
     [sizes.down('xs')]: {
       gridTemplateColumns: 'repeat(1,100%)',
       gridGap: '1.4rem',
     },
+    marginBottom: '2.5rem',
   },
 };
 

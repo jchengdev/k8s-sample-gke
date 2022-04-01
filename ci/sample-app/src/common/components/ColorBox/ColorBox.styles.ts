@@ -14,7 +14,7 @@ const styles = {
     display: 'inline-block' as 'inline-block', // https://github.com/cssinjs/jss/issues/1344
     position: 'relative' as 'relative',
     cursor: 'pointer',
-    marginBottom: '-3.8px', // -3.5px for Colt Steele
+    // marginBottom: '-3.8px', // -3.5px for Colt Steele
     '&:hover button': {
       opacity: '1',
     },
@@ -44,6 +44,7 @@ const styles = {
     letterSpacing: '1px',
     textTransform: 'uppercase' as 'uppercase',
     fontSize: '12px',
+    alignItems: 'center',
   },
   copyButton: {
     color: (props: ColorBoxProps) =>

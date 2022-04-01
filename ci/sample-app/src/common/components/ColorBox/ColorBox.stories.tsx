@@ -11,7 +11,7 @@ export default {
 } as ComponentMeta<typeof ColorBox>;
 
 const Template: ComponentStoryFn<typeof ColorBox> = args => (
-  <div style={{ height: '90vh' }}>
+  <div style={{ height: '100vh' }}>
     <ColorBox {...args} />
   </div>
 );
