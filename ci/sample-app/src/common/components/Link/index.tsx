@@ -9,7 +9,7 @@ const WrappedLink: React.FC<WrappedLinkProps> = props => {
   return !storybookIsOn ? (
     <Link {...props}>{props.children}</Link>
   ) : (
-    <Link {...props} href={'javascript:void(0)'}>
+    <Link {...props} href={'javascript:void(0)'} passHref>
       <a
         onClick={e => {
           e.stopPropagation();
