@@ -20,4 +20,5 @@ export const Primary = Template.bind({});
 Primary.args = {
   palettes: seeds,
   maxColors: 20,
+  goToRoot: () => alert(`router.push('/')`),
 };

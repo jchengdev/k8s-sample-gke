@@ -13,6 +13,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import PaletteFormNav from '@/common/components/PaletteFormNav';
 import ColorPickerForm from '@/common/components/ColorPickerForm';
 import DraggableColorList from '@/common/components/DraggableColorList';
+import PaletteMetaForm from '@/common/components/PaletteMetaForm';
 
 import seedColors from '@/common/_seeds';
 
@@ -30,11 +31,12 @@ interface NewPaletteFormProps {
   palettes: PaletteI[];
   savePalette: (newPalette: PaletteI) => void;
   maxColors?: number;
+  goToRoot: () => void;
 }
 interface ComposedProps extends NewPaletteFormProps /*, RouteComponentProps*/ {}
 
 const NewPaletteForm: React.FC<ComposedProps> = (props: ComposedProps) => {
-  const { palettes, savePalette, maxColors = 20 } = props;
+  const { palettes, savePalette, maxColors = 20, goToRoot } = props;
   const [open, setOpen] = ReactUStt(false as boolean);
   const [colors, setColors] = ReactUStt(
     (seedColors[0] || { colors: [] }).colors as {
@@ -43,6 +45,7 @@ const NewPaletteForm: React.FC<ComposedProps> = (props: ComposedProps) => {
     }[]
   );
   const paletteIsFull = colors.length >= maxColors;
+  const [metaFormShowing, setMetaFormShowing] = ReactUStt(false as boolean);
 
   const _handleDrawerOpen = () => {
     setOpen(true);
@@ -78,6 +81,12 @@ const NewPaletteForm: React.FC<ComposedProps> = (props: ComposedProps) => {
   const _clearColors = () => {
     setColors([]);
   };
+  const _showMetaForm = () => {
+    setMetaFormShowing(true);
+  };
+  const _hideMetaForm = () => {
+    setMetaFormShowing(false);
+  };
   const _handleSubmit = (partialNewPalette: {
     paletteName: string;
     emoji: string;
@@ -87,7 +96,9 @@ const NewPaletteForm: React.FC<ComposedProps> = (props: ComposedProps) => {
       id: partialNewPalette.paletteName.toLowerCase().replace(/ /g, '-'),
       colors,
     });
-    // props.history.push('/'); // TODO
+    // props.history.push('/');
+    _hideMetaForm();
+    goToRoot();
   };
 
   return (
@@ -106,7 +117,15 @@ const NewPaletteForm: React.FC<ComposedProps> = (props: ComposedProps) => {
           handleDrawerOpen={_handleDrawerOpen}
           // palettes={palettes}
           // handleSubmit={_handleSubmit}
-          renderMetaForm={() => <></>} // TODO
+          metaFormShowing={metaFormShowing}
+          showMetaForm={_showMetaForm}
+          renderMetaForm={() => (
+            <PaletteMetaForm
+              hideForm={_hideMetaForm}
+              palettes={palettes}
+              handleSubmit={_handleSubmit}
+            />
+          )}
         />
         <StyledDrawer variant="persistent" anchor="left" open={open}>
           <StyledDrawerHeader>

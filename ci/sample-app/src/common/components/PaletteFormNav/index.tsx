@@ -1,4 +1,4 @@
-import { useState as ReactUStt } from 'react';
+// import { useState as ReactUStt } from 'react';
 
 // import CssBaseline from '@mui/material/CssBaseline';
 // import { Global } from '@emotion/react';
@@ -26,21 +26,28 @@ interface PaletteFormNavProps {
   //   paletteName: string;
   //   emoji: string;
   // }) => void;
+  metaFormShowing: boolean;
+  showMetaForm: () => void;
   renderMetaForm: () => JSX.Element;
 }
 
 const PaletteFormNav: React.FC<PaletteFormNavProps> = props => {
-  const { open, handleDrawerOpen /*palettes, handleSubmit*/, renderMetaForm } =
-    props;
+  const {
+    open,
+    handleDrawerOpen /*palettes, handleSubmit,*/,
+    metaFormShowing,
+    showMetaForm,
+    renderMetaForm,
+  } = props;
 
-  const [formShowing, setFormShowing] = ReactUStt(false as boolean);
+  // const [formShowing, setFormShowing] = ReactUStt(false as boolean);
 
-  const _showForm = () => {
-    setFormShowing(true);
-  };
-  const _hideForm = () => {
-    setFormShowing(false);
-  };
+  // const _showForm = () => {
+  //   setFormShowing(true);
+  // };
+  // const _hideForm = () => {
+  //   setFormShowing(false);
+  // };
 
   return (
     <StyledRoot>
@@ -73,12 +80,12 @@ const PaletteFormNav: React.FC<PaletteFormNavProps> = props => {
               Go Back
             </StyledButton>
           </Link>
-          <StyledButton variant="contained" onClick={_showForm}>
+          <StyledButton variant="contained" onClick={showMetaForm}>
             Save
           </StyledButton>
         </StyledNavBtns>
       </StyledAppBar>
-      {formShowing &&
+      {metaFormShowing &&
         // <PaletteMetaForm
         //   hideForm={_hideForm}
         //   palettes={palettes}

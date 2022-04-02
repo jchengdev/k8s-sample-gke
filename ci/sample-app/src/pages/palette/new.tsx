@@ -3,6 +3,8 @@ import Head from 'next/head';
 
 import { STATICProps } from '@/props';
 
+import { useRouter } from 'next/router';
+
 import {
   usePalettesCtxDP,
   usePalettesCtxST,
@@ -11,6 +13,7 @@ import {
 import NewPaletteForm from '@/common/layouts/NewPaletteForm';
 
 const NewPalettePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const router = useRouter();
   const { palettes } = usePalettesCtxST();
   const dispatch = usePalettesCtxDP();
 
@@ -25,7 +28,11 @@ const NewPalettePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
         <title>CI CD Sample - NextJS</title>
       </Head>
 
-      <NewPaletteForm palettes={palettes} savePalette={_savePalette} />
+      <NewPaletteForm
+        palettes={palettes}
+        savePalette={_savePalette}
+        goToRoot={() => router.push('/')}
+      />
     </>
   );
 };
