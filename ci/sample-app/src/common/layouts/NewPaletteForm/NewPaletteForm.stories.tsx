@@ -1,4 +1,4 @@
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStoryFn, ComponentMeta } from '@storybook/react';
 
 import NewPaletteForm from '.';
 
@@ -12,7 +12,7 @@ export default {
   },
 } as ComponentMeta<typeof NewPaletteForm>;
 
-const Template: ComponentStory<typeof NewPaletteForm> = args => (
+const Template: ComponentStoryFn<typeof NewPaletteForm> = args => (
   <NewPaletteForm {...args} />
 );
 
@@ -20,4 +20,5 @@ export const Primary = Template.bind({});
 Primary.args = {
   palettes: seeds,
   maxColors: 20,
+  goToRoot: () => alert(`router.push('/')`),
 };

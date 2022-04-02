@@ -5,5 +5,5 @@ interface PaletteI {
   paletteName: string;
   id: string;
   emoji: string;
-  colors: Array<{ name: string; color: string }>;
+  colors: { name: string; color: string }[];
 }

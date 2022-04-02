@@ -1,4 +1,4 @@
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStoryFn, ComponentMeta } from '@storybook/react';
 
 import Palette from '.';
 
@@ -25,7 +25,9 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof Palette>;
 
-const Template: ComponentStory<typeof Palette> = args => <Palette {...args} />;
+const Template: ComponentStoryFn<typeof Palette> = args => (
+  <Palette {...args} />
+);
 
 export const Primary = Template.bind({});
 Primary.args = {

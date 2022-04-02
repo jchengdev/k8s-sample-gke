@@ -1,23 +1,33 @@
 import { css, Global, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+// import { CssBaseline } from '@mui/material';
 
 export const globalStyles = (
-  <Global
-    styles={css({
-      'html,body': {
-        padding: 0,
-        margin: 0,
-        fontFamily:
-          '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
-        WebkitFontSmoothing: 'antialiased',
-        MozOsxFontSmoothing: 'grayscale',
-      },
-      code: {
-        fontFamily:
-          'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
-      },
-    })}
-  ></Global>
+  <>
+    {/* <CssBaseline /> */}
+    {
+      // ! global baseline (before rendering any <Component {...pageProps} />) should
+      // ! be handled here instead of per-page or per-component (e.g. Palette)
+      // TODO: switch CssBaseline for ScopedCssBaseline on those cases
+      // * left that way because this is a ported app (with adjustments)
+    }
+    <Global
+      styles={css({
+        'html,body': {
+          padding: 0,
+          margin: 0,
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+          WebkitFontSmoothing: 'antialiased',
+          MozOsxFontSmoothing: 'grayscale',
+        },
+        code: {
+          fontFamily:
+            'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
+        },
+      })}
+    />
+  </>
 );
 
 /**

@@ -73,8 +73,13 @@ class ColorBox extends Component<ComposedProps, ColorBoxState> {
             <button className={styleClasses.copyButton}>Copy</button>
           </div>
           {showingFullPalette && (
-            <Link href={moreUrl} passHref>
-              <span className={styleClasses.seeMore}>MORE</span>
+            <Link href={moreUrl}>
+              <span
+                className={styleClasses.seeMore}
+                onClick={e => e.stopPropagation()}
+              >
+                MORE
+              </span>
             </Link>
           )}
         </div>

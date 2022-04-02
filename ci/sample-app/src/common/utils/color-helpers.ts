@@ -11,13 +11,13 @@ export interface PaletteMapProps {
   id: string;
   emoji: string;
   colors: {
-    [key in LevelT]: Array<{
+    [key in LevelT]: {
       name: string;
       id: string;
       hex: string;
       rgb: string;
       rgba: string;
-    }>;
+    }[];
   };
 }
 

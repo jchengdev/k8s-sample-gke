@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/prefer-as-const */
 import chroma from 'chroma-js';
 
-import sizes from '@/common/utils/styles-helpers';
+import { sizes } from '@/common/utils/styles-helpers';
 
 import type { ColorBoxProps } from '.';
 
@@ -14,7 +14,7 @@ const styles = {
     display: 'inline-block' as 'inline-block', // https://github.com/cssinjs/jss/issues/1344
     position: 'relative' as 'relative',
     cursor: 'pointer',
-    marginBottom: '-3.8px', // -3.5px for Colt Steele
+    // marginBottom: '-3.8px', // -3.5px for Colt Steele
     '&:hover button': {
       opacity: '1',
     },
@@ -38,12 +38,16 @@ const styles = {
     position: 'absolute' as 'absolute',
     width: '100%',
     left: '0px',
-    bottom: '0px',
+    bottom: '10px',
     padding: '10px',
     color: 'black',
     letterSpacing: '1px',
     textTransform: 'uppercase' as 'uppercase',
     fontSize: '12px',
+    alignItems: 'center',
+    [sizes.down('xs')]: {
+      bottom: '0px',
+    },
   },
   copyButton: {
     color: (props: ColorBoxProps) =>

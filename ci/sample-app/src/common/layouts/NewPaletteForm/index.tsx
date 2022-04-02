@@ -1,45 +1,51 @@
-import { FunctionComponent as ReactFC, useState as ReactUseState } from 'react';
-// import { RouteComponentProps } from 'react-router-dom';
-// import { SortEndHandler } from 'react-sortable-hoc';
-// import { arrayMoveImmutable } from 'array-move';
+import { useState as ReactUStt } from 'react';
+import { SortEndHandler } from 'react-sortable-hoc';
+import { arrayMoveImmutable } from 'array-move';
+
+import CssBaseline from '@mui/material/CssBaseline';
+import { Global } from '@emotion/react';
 
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
-// import PaletteFormNav from './PaletteFormNav';
-// import ColorPickerForm from './ColorPickerForm';
-// import DraggableColorList from './DraggableColorList';
+import PaletteFormNav from '@/common/components/PaletteFormNav';
+import ColorPickerForm from '@/common/components/ColorPickerForm';
+import DraggableColorList from '@/common/components/DraggableColorList';
+import PaletteMetaForm from '@/common/components/PaletteMetaForm';
 
 import seedColors from '@/common/_seeds';
 
-import // StyledButton,
-// StyledButtons,
-// StyledContainer,
-// StyledDrawer,
-// StyledDrawerHeader,
-// StyledMain,
-// StyledRoot,
-'./NewPaletteForm.styles';
+import {
+  StyledButton,
+  StyledButtons,
+  StyledContainer,
+  StyledDrawer,
+  StyledDrawerHeader,
+  StyledMain,
+  StyledRoot,
+} from './NewPaletteForm.styles';
 
 interface NewPaletteFormProps {
-  palettes: Array<PaletteI>;
+  palettes: PaletteI[];
   savePalette: (newPalette: PaletteI) => void;
   maxColors?: number;
+  goToRoot: () => void;
 }
 interface ComposedProps extends NewPaletteFormProps /*, RouteComponentProps*/ {}
 
-const NewPaletteForm: ReactFC<ComposedProps> = (props: ComposedProps) => {
-  const { palettes, savePalette, maxColors = 20 } = props;
-  const [open, setOpen] = ReactUseState(false as boolean);
-  const [colors, setColors] = ReactUseState(
-    (seedColors[0] || { colors: [] }).colors as Array<{
+const NewPaletteForm: React.FC<ComposedProps> = (props: ComposedProps) => {
+  const { palettes, savePalette, maxColors = 20, goToRoot } = props;
+  const [open, setOpen] = ReactUStt(false as boolean);
+  const [colors, setColors] = ReactUStt(
+    (seedColors[0] || { colors: [] }).colors as {
       color: string;
       name: string;
-    }>
+    }[]
   );
   const paletteIsFull = colors.length >= maxColors;
+  const [metaFormShowing, setMetaFormShowing] = ReactUStt(false as boolean);
 
   const _handleDrawerOpen = () => {
     setOpen(true);
@@ -69,11 +75,17 @@ const NewPaletteForm: ReactFC<ComposedProps> = (props: ComposedProps) => {
   const _removeColor = (colorName: string) => {
     setColors(colors.filter(c => c.name !== colorName));
   };
-  // const _onSortEnd: SortEndHandler = ({ oldIndex, newIndex }) => {
-  //   setColors(arrayMoveImmutable(colors, oldIndex, newIndex));
-  // };
+  const _onSortEnd: SortEndHandler = ({ oldIndex, newIndex }) => {
+    setColors(arrayMoveImmutable(colors, oldIndex, newIndex));
+  };
   const _clearColors = () => {
     setColors([]);
+  };
+  const _showMetaForm = () => {
+    setMetaFormShowing(true);
+  };
+  const _hideMetaForm = () => {
+    setMetaFormShowing(false);
   };
   const _handleSubmit = (partialNewPalette: {
     paletteName: string;
@@ -85,63 +97,83 @@ const NewPaletteForm: ReactFC<ComposedProps> = (props: ComposedProps) => {
       colors,
     });
     // props.history.push('/');
+    _hideMetaForm();
+    goToRoot();
   };
 
   return (
-    // <StyledRoot>
-    //   <PaletteFormNav
-    //     open={open}
-    //     handleDrawerOpen={_handleDrawerOpen}
-    //     palettes={palettes}
-    //     handleSubmit={_handleSubmit}
-    //   />
-    //   <StyledDrawer variant="persistent" anchor="left" open={open}>
-    //     <StyledDrawerHeader>
-    //       <IconButton onClick={_handleDrawerClose}>
-    //         <ChevronLeftIcon />
-    //       </IconButton>
-    //     </StyledDrawerHeader>
-    //     <Divider />
-    //     <StyledContainer>
-    //       <Typography variant="h4" gutterBottom>
-    //         Design Your Palette
-    //       </Typography>
-    //       <StyledButtons>
-    //         <StyledButton
-    //           variant="contained"
-    //           color="secondary"
-    //           onClick={_clearColors}
-    //         >
-    //           Clear Palette
-    //         </StyledButton>
-    //         <StyledButton
-    //           variant="contained"
-    //           color="primary"
-    //           disabled={paletteIsFull}
-    //           onClick={_addRandomColor}
-    //         >
-    //           Random Color
-    //         </StyledButton>
-    //       </StyledButtons>
-    //       <ColorPickerForm
-    //         paletteIsFull={paletteIsFull}
-    //         colors={colors}
-    //         addNewColor={_addNewColor}
-    //       />
-    //     </StyledContainer>
-    //   </StyledDrawer>
-    //   <StyledMain sxProps={{ open }}>
-    //     <StyledDrawerHeader />
-    //     <DraggableColorList
-    //       colors={colors}
-    //       onRemoveColor={_removeColor}
-    //       axis="xy"
-    //       onSortEnd={_onSortEnd}
-    //       distance={20} // workaround for DeleteIcon issue
-    //     />
-    //   </StyledMain>
-    // </StyledRoot>
-    <>NEW PALETTE FORM</>
+    <>
+      <CssBaseline />
+      <Global
+        styles={{
+          'body div': {
+            lineHeight: '0', // overrides default line-height: 1.5 generated by <CssBaseline />
+          },
+        }}
+      />
+      <StyledRoot>
+        <PaletteFormNav
+          open={open}
+          handleDrawerOpen={_handleDrawerOpen}
+          // palettes={palettes}
+          // handleSubmit={_handleSubmit}
+          metaFormShowing={metaFormShowing}
+          showMetaForm={_showMetaForm}
+          renderMetaForm={() => (
+            <PaletteMetaForm
+              hideForm={_hideMetaForm}
+              palettes={palettes}
+              handleSubmit={_handleSubmit}
+            />
+          )}
+        />
+        <StyledDrawer variant="persistent" anchor="left" open={open}>
+          <StyledDrawerHeader>
+            <IconButton onClick={_handleDrawerClose}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </StyledDrawerHeader>
+          <Divider />
+          <StyledContainer>
+            <Typography variant="h4" gutterBottom>
+              Design Your Palette
+            </Typography>
+            <StyledButtons>
+              <StyledButton
+                variant="contained"
+                color="secondary"
+                onClick={_clearColors}
+              >
+                Clear Palette
+              </StyledButton>
+              <StyledButton
+                variant="contained"
+                color="primary"
+                disabled={paletteIsFull}
+                onClick={_addRandomColor}
+              >
+                Random Color
+              </StyledButton>
+            </StyledButtons>
+            <ColorPickerForm
+              paletteIsFull={paletteIsFull}
+              colors={colors}
+              addNewColor={_addNewColor}
+            />
+          </StyledContainer>
+        </StyledDrawer>
+        <StyledMain sxProps={{ open }}>
+          <StyledDrawerHeader />
+          <DraggableColorList
+            colors={colors}
+            onRemoveColor={_removeColor}
+            axis="xy"
+            onSortEnd={_onSortEnd}
+            distance={20} // workaround for DeleteIcon issue
+          />
+        </StyledMain>
+      </StyledRoot>
+    </>
   );
 };
 

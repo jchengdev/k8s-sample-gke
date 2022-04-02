@@ -1,5 +1,4 @@
 import type { Dispatch as ReactDispatch } from 'react';
-// import { v4 as uuidv4 } from 'uuid';
 
 import { LOCALSTORAGE_KEY_PALETTES } from '@/common/_constants';
 
@@ -16,13 +15,10 @@ type Action =
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    // case 'SAVE':
-    //   return {
-    //     palettes: [
-    //       ...state.palettes,
-    //       // { id: uuidv4(), task: action.payload.newTask, completed: false },
-    //     ],
-    //   };
+    case 'SAVE':
+      return {
+        palettes: [...state.palettes, action.payload.newPalette],
+      };
     case 'DELETE':
       return {
         palettes: state.palettes.filter(p => p.id !== action.payload.id),

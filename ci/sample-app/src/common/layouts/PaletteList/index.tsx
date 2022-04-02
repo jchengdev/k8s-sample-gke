@@ -20,7 +20,7 @@ import MiniPalette from '@/common/components/MiniPalette';
 import styles from './PaletteList.styles';
 
 interface PaletteListProps {
-  palettes: Array<PaletteI>;
+  palettes: PaletteI[];
   goToPalette: (paletteUrl: string) => void;
   deletePalette: (id: string) => void;
 }

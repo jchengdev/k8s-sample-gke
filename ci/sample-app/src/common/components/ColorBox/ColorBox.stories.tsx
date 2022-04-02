@@ -1,4 +1,4 @@
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStoryFn, ComponentMeta } from '@storybook/react';
 
 import ColorBox from '.';
 
@@ -10,8 +10,8 @@ export default {
   },
 } as ComponentMeta<typeof ColorBox>;
 
-const Template: ComponentStory<typeof ColorBox> = args => (
-  <div style={{ height: '90vh' }}>
+const Template: ComponentStoryFn<typeof ColorBox> = args => (
+  <div style={{ height: '100vh' }}>
     <ColorBox {...args} />
   </div>
 );

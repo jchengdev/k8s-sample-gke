@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/prefer-as-const */
-import sizes from '@/common/utils/styles-helpers';
+import { sizes } from '@/common/utils/styles-helpers';
 
 const styles = {
   root: {
-    height: '100vh',
+    height: '94vh',
     display: 'flex',
     flexDirection: 'column' as 'column', // https://github.com/cssinjs/jss/issues/1344
   },
   colors: {
-    height: '90%',
+    height: '100%',
   },
   goBack: {
     width: '20%',
@@ -17,7 +17,7 @@ const styles = {
     display: 'inline-block' as 'inline-block',
     position: 'relative' as 'relative',
     cursor: 'pointer',
-    marginBottom: '-3.5px',
+    // marginBottom: '-3.5px',
     opacity: '1',
     backgroundColor: 'black',
     '& a': {
