@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import AddToPhotos from '@mui/icons-material/AddToPhotos';
 
 import Link from '@/common/components/Link';
+import { ROOT } from '@/routes/helpers';
 
 import {
   StyledAppBar,
@@ -47,7 +48,7 @@ const PaletteFormNav: React.FC<PaletteFormNavProps> = props => {
           </Typography>
         </Toolbar>
         <StyledNavBtns>
-          <Link href={'/'}>
+          <Link href={ROOT.HOME}>
             <StyledButton variant="contained" color="secondary">
               Go Back
             </StyledButton>

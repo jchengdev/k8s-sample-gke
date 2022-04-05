@@ -12,6 +12,7 @@ import PaletteFooter from '@/common/components/PaletteFooter';
 import { LevelT, FormatT, PaletteMapProps } from '@/common/utils/color-helpers';
 
 import styles from '@/common/layouts/Palette/Palette.styles';
+import { ROOT } from '@/routes/helpers';
 
 interface SingleColorPaletteProps {
   palette: PaletteMapProps;
@@ -109,7 +110,7 @@ class SingleColorPalette extends Component<
           <div className={styleClasses.colors}>
             {colorBoxes}
             <div className={styleClasses.goBack}>
-              <Link href={`/palette/${id}`}>GO BACK</Link>
+              <Link href={ROOT.PALETTE(id)}>GO BACK</Link>
             </div>
           </div>
           <PaletteFooter paletteName={paletteName} emoji={emoji} />

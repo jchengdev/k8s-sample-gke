@@ -30,7 +30,10 @@ export const ROOT = {
   // REGISTERSUCCESS: '/registrationsuccess',
   // CONFIRMEMAIL: '/confirmEmail',
   // COMPLETEPROFILE: '/completeprofile',
-  PALETTE: (id: string) => '/palette/' + id,
+  PALETTE: (slug: string) => `/palette/${slug}`,
+  SINGLECOLORPALETTE: (paletteSlug: string, colorSlug: string) =>
+    `/palette/${paletteSlug}/${colorSlug}`,
+  NEWPALETTE: '/palette/new',
 } as const;
 
 /**
@@ -41,12 +44,13 @@ export const goTo = {
 
   HOME: (router: NextRouter) => router.push(ROOT.HOME),
   // ERROR: (router: NextRouter) => router.push(ROOT.ERROR),
-  PALETTE: (router: NextRouter, id: string) => router.push(ROOT.PALETTE(id)),
+  PALETTE: (router: NextRouter, slug: string) =>
+    router.push(ROOT.PALETTE(slug)),
 } as const;
 
 /**
  * - Helper function to check `/basePath`s that require Authentication (without `_BeforeLogin` view)
- * - Defaults to true (and should trigger `goTo.LOGIN()`)
+ * - Defaults to `true` (and should trigger `goTo.LOGIN()`)
  */
 export const isAuthRequired = (basePath: string, idNslug?: string): boolean => {
   switch (basePath) {
@@ -85,10 +89,11 @@ export const isAuthRequired = (basePath: string, idNslug?: string): boolean => {
 
 /**
  * Converts a value into :slug for URL routes
+ * ! (not everything is id->string or number->string)
+ * * incomplete function just for reference
+ * TODO: needs more discussion on what to pass as arguments
  */
 export const toSlug = (val: any /*whateverElseNeeded?: any*/): string => {
   val.replace(/\s+/g, '-').toLowerCase();
-  // TODO: not working version, needs more discussion on what to pass as argument
-  // ! (not everything is id->string or number->string)
   return ROOT.HOME;
 };

@@ -18,6 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { blue, red } from '@mui/material/colors';
 
 import Link from '@/common/components/Link';
+import { ROOT } from '@/routes/helpers';
 import MiniPalette from '@/common/components/MiniPalette';
 
 import styles from './PaletteList.styles';
@@ -78,7 +79,7 @@ class PaletteList extends Component<ComposedProps, PaletteListState> {
           <div className={styleClasses.container}>
             <nav className={styleClasses.nav}>
               <h1 className={styleClasses.heading}>React Colors</h1>
-              <Link href="/palette/new">Create Palette</Link>
+              <Link href={ROOT.NEWPALETTE}>Create Palette</Link>
             </nav>
             <TransitionGroup className={styleClasses.palettes}>
               {palettes.map(p => (

@@ -5,6 +5,8 @@ import { withStyles } from '@mui/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Global } from '@emotion/react';
 
+import { ROOT } from '@/routes/helpers';
+
 import Navbar from '@/common/components/Navbar';
 import ColorBox from '@/common/components/ColorBox';
 import PaletteFooter from '@/common/components/PaletteFooter';
@@ -60,7 +62,7 @@ class Palette extends Component<ComposedProps, PaletteState> {
         key={c.id}
         name={c.name}
         background={c[format]}
-        moreUrl={`/palette/${paletteId}/${c.id}`}
+        moreUrl={ROOT.SINGLECOLORPALETTE(paletteId, c.id)}
         showingFullPalette
       />
     ));

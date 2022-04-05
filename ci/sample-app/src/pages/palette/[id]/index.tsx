@@ -8,6 +8,7 @@ import { usePalettesCtxST } from '@/common/contexts/PaletteListContext';
 import Palette from '@/common/layouts/Palette';
 
 import Link from '@/common/components/Link';
+import { ROOT } from '@/routes/helpers';
 
 import { generatePalette } from '@/common/utils/color-helpers';
 
@@ -35,7 +36,7 @@ const PalettePage = ({
         ) : (
           <>
             <span>INVALID route</span>
-            <Link href={'/'}>GO TO MAIN PAGE</Link>
+            <Link href={ROOT.HOME}>GO TO MAIN PAGE</Link>
           </>
         )
         // TODO: improve existing route check (maybe with global error boundary, or imperative routing, or...)

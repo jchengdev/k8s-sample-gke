@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 import Link from '@/common/components/Link';
+import { ROOT } from '@/routes/helpers';
 import { FormatT } from '@/common/utils/color-helpers';
 
 import 'rc-slider/assets/index.css';
@@ -68,7 +69,7 @@ class Navbar extends Component<ComposedProps, NavbarState> {
     return (
       <header className={styleClasses.Navbar}>
         <div className={styleClasses.logo}>
-          <Link href="/">reactcolorpicker</Link>
+          <Link href={ROOT.HOME}>reactcolorpicker</Link>
         </div>
         {!!showingAllColors && (
           <div className="slider-container">

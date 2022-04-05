@@ -8,6 +8,7 @@ import { usePalettesCtxST } from '@/common/contexts/PaletteListContext';
 import SingleColorPalette from '@/common/layouts/SingleColorPalette';
 
 import Link from '@/common/components/Link';
+import { ROOT } from '@/routes/helpers';
 
 import { generatePalette } from '@/common/utils/color-helpers';
 
@@ -23,8 +24,9 @@ const SingleColorPalettePage = ({
 
   const currentPalette = _findPalette(paletteId);
   const isValidColor =
-    currentPalette?.colors.findIndex(c => c.name.toLowerCase() === colorId.toLowerCase()) !==
-    -1;
+    currentPalette?.colors.findIndex(
+      c => c.name.toLowerCase() === colorId.toLowerCase()
+    ) !== -1;
 
   console.log(`PAGE: /palette/${paletteId}/${colorId}`);
   return (
@@ -42,7 +44,7 @@ const SingleColorPalettePage = ({
         ) : (
           <>
             <span>INVALID route</span>
-            <Link href={'/'}>GO TO MAIN PAGE</Link>
+            <Link href={ROOT.HOME}>GO TO MAIN PAGE</Link>
           </>
         )
         // TODO: improve existing route check (maybe with global error boundary, or imperative routing, or...)
