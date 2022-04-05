@@ -36,6 +36,7 @@ export const Red = Template.bind({});
 Red.args = {
   palette: paletteSample,
   selectedColorId: seeds[0]?.colors[0]?.name || 'red',
+  format: 'hex',
 };
 
 export const Indigo = Template.bind({});
