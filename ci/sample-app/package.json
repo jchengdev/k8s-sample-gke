@@ -11,7 +11,9 @@
     "lint": "next lint",
     "analyze-bundle": "ANALYZE=true next build",
     "storybook": "STORYBOOK_MODE=true start-storybook -p 6006",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "debug-hang-container": "top",
+    "debug-it-bash": "sh"
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",
