@@ -42,4 +42,5 @@ export const Indigo = Template.bind({});
 Indigo.args = {
   palette: paletteSample,
   selectedColorId: seeds[0]?.colors[4]?.name || 'indigo',
+  format: 'hex',
 };

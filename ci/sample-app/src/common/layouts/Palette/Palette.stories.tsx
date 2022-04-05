@@ -38,4 +38,5 @@ Primary.args = {
   id: 'palette-name',
   emoji: ':)',
   colors: paletteSample.colors,
+  format: 'hex',
 };
