@@ -16,7 +16,10 @@ interface SingleColorPalettePageProps {
 const asyncFn: GetStaticProps<SingleColorPalettePageProps> = async ctx => {
   const { id, colorId } = ctx.params as IParams;
 
-  return { props: { paletteId: id, colorId } };
+  return {
+    props: { paletteId: id, colorId },
+    revalidate: 5, // * adding Incremental Static Regeneration just because user may create new palettes (localStorage updates)
+  };
 };
 
 export default asyncFn;
@@ -30,7 +33,10 @@ const PALETTEIDANDCOLORID: GetStaticPaths<IParams> = async () => {
     });
   }
 
-  return { paths, fallback: false };
+  return {
+    paths,
+    fallback: 'blocking', // * `blocking` because of new paths created in NewPalettePage
+  };
 };
 
 export { PALETTEIDANDCOLORID };

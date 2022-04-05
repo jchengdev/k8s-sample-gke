@@ -17,7 +17,10 @@ const asyncFn: GetStaticProps<PalettePageProps> = async ctx => {
   // * needs to be verified in client-side after page hydration (and Context
   // * loaded)
 
-  return { props: { paletteId: id } };
+  return {
+    props: { paletteId: id },
+    revalidate: 5, // * adding Incremental Static Regeneration just because user may create new palettes (localStorage updates)
+  };
 };
 
 export default asyncFn;
@@ -27,7 +30,10 @@ const PALETTEID: GetStaticPaths<IParams> = async () => {
     params: { id: palette.id },
   }));
 
-  return { paths, fallback: false };
+  return {
+    paths,
+    fallback: 'blocking', // * `blocking` because of new paths created in NewPalettePage
+  };
 };
 
 export { PALETTEID };
