@@ -1,5 +1,5 @@
 import type { InferGetStaticPropsType } from 'next';
-import Image from 'next/image';
+// import Image from 'next/image';
 import Head from 'next/head';
 
 import { STATICProps } from '@/props';
@@ -14,7 +14,7 @@ import {
 
 import PaletteList from '@/common/layouts/PaletteList';
 
-import bg from '@/assets/images/bg.jpg';
+// import bg from '@/assets/images/bg.jpg';
 
 const HomePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
@@ -41,13 +41,17 @@ const HomePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               height: '100vh',
               width: '100vw',
               zIndex: 0,
+              backgroundColor: 'lightgray',
             }}
           >
-            <Image
+            {
+              /* <Image
               src={bg}
               alt="Photo by @claybanks on Unsplash"
               layout="fill"
-            />
+            /> */
+              // ! DISABLED due to high memory consumption
+            }
           </div>
         )}
         palettes={palettes}
