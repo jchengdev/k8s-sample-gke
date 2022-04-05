@@ -9,7 +9,7 @@ const Custom500: NextPage<Custom500Props> = () => {
 export async function getStaticProps(context: NextPageContext) {
   // TODO: fetch something at build time
   return {
-    props: {}, // will be passed to the page component as props
+    props: {},
   };
 }
 

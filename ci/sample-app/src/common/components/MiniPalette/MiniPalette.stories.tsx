@@ -34,12 +34,6 @@ const Template: ComponentStoryFn<typeof MiniPalette> = args => (
 
 export const Primary = Template.bind({});
 Primary.args = {
-  // goToPalette: (id: string) => {
-  //   action(`GO TO PALETTE: ${id}`);
-  // },
-  // openDialog: (id: string) => {
-  //   action(`OPEN DIALOG: ${id}`);
-  // },
   paletteName: 'Palette Name',
   id: 'palette-name',
   emoji: ':)',

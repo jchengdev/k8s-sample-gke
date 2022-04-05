@@ -17,7 +17,6 @@ const styles = {
     display: 'inline-block' as 'inline-block',
     position: 'relative' as 'relative',
     cursor: 'pointer',
-    // marginBottom: '-3.5px',
     opacity: '1',
     backgroundColor: 'black',
     '& a': {
