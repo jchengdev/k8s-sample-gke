@@ -25,8 +25,8 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     margin: '0',
-    // marginTop: '1em',    // ? some style issue when preserving tutorial's values
-    // marginBottom: '1em', // ? some style issue when preserving tutorial's values
+    marginTop: '1em', // ? some style issue when preserving tutorial's values
+    marginBottom: '1em', // ? some style issue when preserving tutorial's values
     color: 'black',
     paddingTop: '0.5rem',
     fontSize: '1rem',
@@ -42,9 +42,10 @@ const styles = {
     display: 'inline-block',
     margin: '0 auto',
     position: 'relative' as 'relative',
-    marginBottom: '-3.5px',
+    // marginBottom: '-3.5px',
   },
   deleteIcon: {
+    boxSizing: 'content-box',
     color: 'white',
     backgroundColor: '#eb3d30',
     width: '20px',
