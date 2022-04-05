@@ -22,7 +22,10 @@ const paletteSample = generatePalette(
 export default {
   title: 'Layouts/SingleColorPalette',
   component: SingleColorPalette,
-  argTypes: {},
+  argTypes: {
+    format: { options: ['hex', 'rgb', 'rgba'], control: { type: 'radio' } },
+    changeFormat: { action: 'CHANGE FORMAT' },
+  },
 } as ComponentMeta<typeof SingleColorPalette>;
 
 const Template: ComponentStoryFn<typeof SingleColorPalette> = args => (

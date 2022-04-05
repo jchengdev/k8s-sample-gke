@@ -4,6 +4,10 @@ import Head from 'next/head';
 import { STATICProps, STATICPaths } from '@/props';
 
 import { usePalettesCtxST } from '@/common/contexts/PaletteListContext';
+import {
+  useColorFormatCtxDP,
+  useColorFormatCtxST,
+} from '@/common/contexts/ColorFormatContext';
 
 import Palette from '@/common/layouts/Palette';
 
@@ -11,11 +15,12 @@ import Link from '@/common/components/Link';
 import { ROOT } from '@/routes/helpers';
 
 import { generatePalette } from '@/common/utils/color-helpers';
-
 const PalettePage = ({
   paletteId,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { palettes } = usePalettesCtxST();
+  const { format } = useColorFormatCtxST();
+  const dispatch_color = useColorFormatCtxDP();
 
   const _findPalette = (id: string) => {
     return palettes.find(p => p.id === id);
@@ -32,7 +37,13 @@ const PalettePage = ({
 
       {
         currentPalette ? (
-          <Palette {...generatePalette(currentPalette)} />
+          <Palette
+            {...generatePalette(currentPalette)}
+            format={format}
+            changeFormat={newFormat =>
+              dispatch_color({ type: 'CHANGE', payload: { newFormat } })
+            }
+          />
         ) : (
           <>
             <span>INVALID route</span>

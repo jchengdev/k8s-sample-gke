@@ -19,12 +19,14 @@ import {
 
 import styles from './Palette.styles';
 
-interface PaletteProps extends PaletteMapProps {}
+interface PaletteProps extends PaletteMapProps {
+  format: FormatT;
+  changeFormat: (newFormat: FormatT) => void;
+}
 interface ComposedProps extends PaletteProps, WithStyles<typeof styles> {}
 
 interface PaletteState {
   level: LevelT;
-  format: FormatT;
 }
 
 class Palette extends Component<ComposedProps, PaletteState> {
@@ -32,19 +34,13 @@ class Palette extends Component<ComposedProps, PaletteState> {
     super(props);
     this.state = {
       level: 500,
-      format: 'hex',
     };
     this._changeLevel = this._changeLevel.bind(this);
-    this._changeFormat = this._changeFormat.bind(this);
   }
 
   _changeLevel(newLevel: number | number[]) {
     if (levels.includes(newLevel as LevelT))
       this.setState({ level: newLevel as LevelT });
-  }
-
-  _changeFormat(newFormat: string) {
-    this.setState({ format: newFormat as FormatT });
   }
 
   override render() {
@@ -54,8 +50,10 @@ class Palette extends Component<ComposedProps, PaletteState> {
       id: paletteId,
       emoji,
       colors,
+      format,
+      changeFormat,
     } = this.props;
-    const { level, format } = this.state;
+    const { level } = this.state;
 
     const colorBoxes = colors[level].map(c => (
       <ColorBox
@@ -85,7 +83,7 @@ class Palette extends Component<ComposedProps, PaletteState> {
           onChangeLevel={this._changeLevel}
           showingAllColors
           format={format}
-          onChangeFormat={this._changeFormat}
+          onChangeFormat={changeFormat}
         />
         <div className={styleClasses.root}>
           <div className={styleClasses.colors}>{colorBoxes}</div>

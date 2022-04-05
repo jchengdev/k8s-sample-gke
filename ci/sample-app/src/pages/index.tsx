@@ -16,10 +16,10 @@ import PaletteList from '@/common/layouts/PaletteList';
 const HomePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
   const { palettes } = usePalettesCtxST();
-  const dispatch = usePalettesCtxDP();
+  const dispatch_palette = usePalettesCtxDP();
 
   const _deletePalette = (id: string) => {
-    dispatch({ type: 'DELETE', payload: { id } });
+    dispatch_palette({ type: 'DELETE', payload: { id } });
   };
 
   console.log(`ROUTER READY: `, router.isReady); // * client-side only

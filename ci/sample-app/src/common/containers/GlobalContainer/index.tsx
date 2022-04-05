@@ -7,12 +7,12 @@ import { useState as ReactUStt } from 'react';
 // import type { I18NConfig } from '@/common/contexts/I18NContext/_types';
 // import { I18NContextProvider } from '@/common/contexts/I18NContext/Provider';
 import { PalettesCtxProvider } from '@/common/contexts/PaletteListContext';
+import { ColorFormatCtxProvider } from '@/common/contexts/ColorFormatContext';
 
 const COMMIT_SHA = 'COMMIT_SHA: %%COMMIT_SHA%%';
 import Disclaimer from '@/common/components/Disclaimer';
 
 import { globalStyles } from '@/common/styles/globals';
-
 interface GlobalContainerProps {
   // initialAuth?: Auth;
   // initialI18N?: I18NConfig;
@@ -37,7 +37,9 @@ export const GlobalContainer: React.FC<GlobalContainerProps> = ({
     // </I18NContextProvider>
     <>
       {globalStyles}
-      <PalettesCtxProvider>{children}</PalettesCtxProvider>
+      <PalettesCtxProvider>
+        <ColorFormatCtxProvider>{children}</ColorFormatCtxProvider>
+      </PalettesCtxProvider>
       {show && (
         <Disclaimer
           message={`COMMIT_SHA: ${COMMIT_SHA}`}

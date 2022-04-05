@@ -4,6 +4,10 @@ import Head from 'next/head';
 import { STATICProps, STATICPaths } from '@/props';
 
 import { usePalettesCtxST } from '@/common/contexts/PaletteListContext';
+import {
+  useColorFormatCtxDP,
+  useColorFormatCtxST,
+} from '@/common/contexts/ColorFormatContext';
 
 import SingleColorPalette from '@/common/layouts/SingleColorPalette';
 
@@ -17,6 +21,8 @@ const SingleColorPalettePage = ({
   colorId,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { palettes } = usePalettesCtxST();
+  const { format } = useColorFormatCtxST();
+  const dispatch_color = useColorFormatCtxDP();
 
   const _findPalette = (id: string) => {
     return palettes.find(p => p.id === id) || palettes[palettes.length - 1];
@@ -40,6 +46,10 @@ const SingleColorPalettePage = ({
           <SingleColorPalette
             palette={generatePalette(currentPalette)}
             selectedColorId={colorId}
+            format={format}
+            changeFormat={newFormat =>
+              dispatch_color({ type: 'CHANGE', payload: { newFormat } })
+            }
           />
         ) : (
           <>

@@ -27,7 +27,7 @@ interface NavbarProps {
   onChangeLevel: (newLevel: number | number[]) => void;
   showingAllColors?: boolean;
   format: FormatT;
-  onChangeFormat: (newFormat: string) => void;
+  onChangeFormat: (newFormat: FormatT) => void;
 }
 interface ComposedProps extends NavbarProps, WithStyles<typeof styles> {}
 
@@ -45,9 +45,9 @@ class Navbar extends Component<ComposedProps, NavbarState> {
     this._closeSnackbar = this._closeSnackbar.bind(this);
   }
 
-  _handleFormatChange = (event: SelectChangeEvent<string>) => {
+  _handleFormatChange = (event: SelectChangeEvent<FormatT>) => {
     this.setState({ snackbarOpen: true });
-    this.props.onChangeFormat(event.target.value);
+    this.props.onChangeFormat(event.target.value as unknown as FormatT);
   };
 
   _closeSnackbar() {
