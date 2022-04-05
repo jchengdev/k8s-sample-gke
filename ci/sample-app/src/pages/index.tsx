@@ -1,4 +1,5 @@
 import type { InferGetStaticPropsType } from 'next';
+import Image from 'next/image';
 import Head from 'next/head';
 
 import { STATICProps } from '@/props';
@@ -12,6 +13,8 @@ import {
 } from '@/common/contexts/PaletteListContext';
 
 import PaletteList from '@/common/layouts/PaletteList';
+
+import bg from '@/assets/images/bg.jpg';
 
 const HomePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
@@ -31,6 +34,22 @@ const HomePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       </Head>
 
       <PaletteList
+        renderBackground={() => (
+          <div
+            style={{
+              position: 'absolute',
+              height: '100vh',
+              width: '100vw',
+              zIndex: 0,
+            }}
+          >
+            <Image
+              src={bg}
+              alt="Photo by @claybanks on Unsplash"
+              layout="fill"
+            />
+          </div>
+        )}
         palettes={palettes}
         goToPalette={id => goTo.PALETTE(router, id)}
         deletePalette={_deletePalette}

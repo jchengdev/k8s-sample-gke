@@ -24,6 +24,7 @@ import MiniPalette from '@/common/components/MiniPalette';
 import styles from './PaletteList.styles';
 
 interface PaletteListProps {
+  renderBackground?: () => JSX.Element;
   palettes: PaletteI[];
   goToPalette: (id: string) => void;
   deletePalette: (id: string) => void;
@@ -63,7 +64,7 @@ class PaletteList extends Component<ComposedProps, PaletteListState> {
   }
 
   override render() {
-    const { classes: styleClasses, palettes } = this.props;
+    const { classes: styleClasses, renderBackground, palettes } = this.props;
     const { openDeleteDialog } = this.state;
     return (
       <>
@@ -75,6 +76,7 @@ class PaletteList extends Component<ComposedProps, PaletteListState> {
             },
           }}
         />
+        {renderBackground && renderBackground()}
         <div className={styleClasses.root}>
           <div className={styleClasses.container}>
             <nav className={styleClasses.nav}>
