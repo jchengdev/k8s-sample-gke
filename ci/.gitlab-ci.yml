@@ -299,7 +299,5 @@ production check:
     - apk update && apk add curl
   script:
     - sleep 10
-    - curl "http://$PROD_DOMAIN" | tac | tac | grep -q "Github"
     - echo $CI_COMMIT_SHORT_SHA
-    - curl "http://$PROD_DOMAIN" | tac | tac | grep -q "$CI_COMMIT_SHORT_SHA"
-
+    - curl "http://$PROD_DOMAIN" | tac | tac | grep -q "__$CI_COMMIT_SHORT_SHA__"
