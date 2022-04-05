@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { STATICProps } from '@/props';
 
 import { useRouter } from 'next/router';
+import { goTo } from '@/routes/helpers';
 
 import {
   usePalettesCtxDP,
@@ -31,7 +32,7 @@ const NewPalettePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       <NewPaletteForm
         palettes={palettes}
         savePalette={_savePalette}
-        goToRoot={() => router.push('/')}
+        goToRoot={() => goTo.HOME(router)}
       />
     </>
   );

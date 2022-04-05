@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { STATICProps } from '@/props';
 
 import { useRouter } from 'next/router';
+import { goTo } from '@/routes/helpers';
 
 import {
   usePalettesCtxDP,
@@ -31,9 +32,7 @@ const HomePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
       <PaletteList
         palettes={palettes}
-        goToPalette={paletteUrl => {
-          router.push(paletteUrl);
-        }}
+        goToPalette={id => goTo.PALETTE(router, id)}
         deletePalette={_deletePalette}
       />
     </>

@@ -24,7 +24,7 @@ import styles from './PaletteList.styles';
 
 interface PaletteListProps {
   palettes: PaletteI[];
-  goToPalette: (paletteUrl: string) => void;
+  goToPalette: (id: string) => void;
   deletePalette: (id: string) => void;
 }
 interface ComposedProps extends PaletteListProps, WithStyles<typeof styles> {}
@@ -48,7 +48,7 @@ class PaletteList extends Component<ComposedProps, PaletteListState> {
   }
 
   _goToPalette(id: string) {
-    this.props.goToPalette(`/palette/${id}`);
+    this.props.goToPalette(id);
   }
   _openDialog(id: string) {
     this.setState({ openDeleteDialog: true, deletingId: id });
