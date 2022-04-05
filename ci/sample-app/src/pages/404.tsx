@@ -1,11 +1,14 @@
-import type { NextPage, NextPageContext } from 'next';
+import type { InferGetStaticPropsType, GetStaticProps } from 'next';
 
+import { useRouter } from 'next/router';
 import Link from '@/common/components/Link';
 import { ROOT } from '@/routes/helpers';
 
-interface Custom404Props {}
+const Custom404 = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const router = useRouter();
 
-const Custom404: NextPage<Custom404Props> = () => {
+  console.log(`ROUTER READY: `, router.isReady); // * client-side only
+  console.log(`PAGE: 404`);
   return (
     <>
       <h1>404 - Page Not Found</h1>
@@ -16,11 +19,14 @@ const Custom404: NextPage<Custom404Props> = () => {
   );
 };
 
-export async function getStaticProps(ctx: NextPageContext) {
-  // TODO: fetch something at build time
-  return {
-    props: {},
-  };
+interface Custom404Props {
+  unusedProp: string;
 }
+export const getStaticProps: GetStaticProps<Custom404Props> = async ctx => {
+  console.log(JSON.stringify(ctx));
+  return {
+    props: { unusedProp: 'NEVERMIND' },
+  };
+};
 
 export default Custom404;
