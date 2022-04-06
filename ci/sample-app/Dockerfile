@@ -83,13 +83,13 @@ COPY package*.json ./
 RUN npm config list \ 
   && npm ci --production \ 
   && npm cache clean --force
-COPY --from=builder --chown=node:node ./.next ./.next
+COPY --from=builder --chown=node:node /node/.next ./.next
 # TODO: revisit with-docker example after `outputStandalone: true` being promoted from experimental
-COPY --from=builder --chown=node:node ./public ./public
-COPY --from=builder --chown=node:node ./server ./server
-COPY --from=builder --chown=node:node ./.env ./.env
-COPY --from=builder --chown=node:node ./next.config.js ./next.config.js
-COPY --from=builder --chown=node:node ./package.json ./package.json
+COPY --from=builder --chown=node:node /node/public ./public
+COPY --from=builder --chown=node:node /node/server ./server
+COPY --from=builder --chown=node:node /node/.env ./.env
+COPY --from=builder --chown=node:node /node/next.config.js ./next.config.js
+COPY --from=builder --chown=node:node /node/package.json ./package.json
 RUN echo "BUILD_DATE: $BUILD_DATE"
 RUN echo "SHA: $SOURCE_COMMIT"
 CMD [ "node", "./server/index.js" ]
