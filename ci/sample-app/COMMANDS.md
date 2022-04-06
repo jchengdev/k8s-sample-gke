@@ -8,8 +8,8 @@
 - `cd sample-app`
 - `BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") COMMIT=$(git rev-parse --short HEAD) INT_PORT=3456 EXT_PORT=80 docker compose convert`
 - `docker build -t ci-cd-app:dependencies --target=dependencies --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" --progress=plain -f ./Dockerfile .` <!-- create image tag -->
-- `docker build -t ci-cd-app:node-base --target=node-base --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" --progress=plain -f ./Dockerfile .` <!-- create image tag -->
 - `docker run --rm ci-cd-app:dependencies list --depth=0`
+- `docker build -t ci-cd-app:node-base --target=node-base --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" --progress=plain -f ./Dockerfile .` <!-- create image tag -->
 - `BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") COMMIT=$(git rev-parse --short HEAD) docker compose build --progress plain nextjs-app` <!-- create image tag -->
 - `INT_PORT=3000 EXT_PORT=3000 docker compose up -d nextjs-app`
 
@@ -48,9 +48,9 @@
 ### Debugging Image Build
 
 - `docker build -t ci-cd-app:builder --target=builder --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" --progress=plain -f ./Dockerfile .`
-- `docker run --rm -v $(pwd)/package.json:/package.json:ro ci-cd-app:node-base run-script debug-hang-container`
-- `docker run --rm -it -v $(pwd):/node:ro ci-cd-app:node-base run-script debug-it-bash`
+- `docker run --rm -it ci-cd-app:node-base`
 - `docker run --rm ci-cd-app:builder list --depth=0`
+- `docker run --rm -it ci-cd-app:builder run-script debug-hang-container`
 - `docker run --rm -it ci-cd-app:builder run-script debug-it-bash`
 
 ## PROD
