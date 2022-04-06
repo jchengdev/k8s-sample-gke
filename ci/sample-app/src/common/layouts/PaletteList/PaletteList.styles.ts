@@ -28,8 +28,6 @@ const styles = {
   },
   heading: {
     fontSize: '2rem',
-    color: 'black',
-    zIndex: 1,
   },
   container: {
     width: '50%',
@@ -50,10 +48,11 @@ const styles = {
     width: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
-    color: 'white',
+    color: 'black',
     '& a': {
-      color: 'white',
+      color: 'black',
     },
+    zIndex: 1,
   },
   palettes: {
     boxSizing: 'border-box' as 'border-box',
