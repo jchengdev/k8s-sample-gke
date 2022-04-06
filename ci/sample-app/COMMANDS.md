@@ -46,8 +46,8 @@
 ### Debugging Image Build
 
 - `docker build -t ci-cd-app:builder --target=builder --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" --progress=plain -f ./Dockerfile .`
-- `docker run --rm ci-cd-app:node-base run-script hang-container`
-- `docker run --rm -it -v $(pwd):/node ci-cd-app:node-base run-script debug-it-bash`
+- `docker run --rm -v $(pwd)/package.json:/package.json:ro ci-cd-app:node-base run-script debug-hang-container`
+- `docker run --rm -it -v $(pwd):/node:ro ci-cd-app:node-base run-script debug-it-bash`
 - `docker run --rm ci-cd-app:builder list --depth=0`
 - `docker run --rm -it ci-cd-app:builder run-script debug-it-bash`
 
