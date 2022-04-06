@@ -142,6 +142,7 @@ tsbuild/
 *.stories.jsx
 *.stories.ts
 *.stories.tsx
+storybook-static/
 
 **/COMMANDS.md
 **/COMMENTS.md

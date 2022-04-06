@@ -35,6 +35,8 @@
 
 - `docker run --rm -v $(pwd):/app npx-util sb init --builder webpack5`
 - `INT_PORT=6006 EXT_PORT=6006 docker compose up -d storybook`
+- `docker run --rm -v $(pwd):/app npm-util run build-storybook`
+- `docker run --rm -v $(pwd):/app -p 6007:8080 npx-util http-server ./storybook-static`
 
 ### pre-commit
 
