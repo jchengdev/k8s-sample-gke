@@ -20,6 +20,16 @@ RUN npm config list \
   && npm cache clean --force
 ENTRYPOINT [ "npm" ] 
 
+FROM $node_image as node-base
+ARG BUILD_DATE
+ARG SOURCE_COMMIT
+LABEL org.opencontainers.image.created=$BUILD_DATE 
+LABEL org.opencontainers.image.revision=$SOURCE_COMMIT 
+RUN mkdir /node && chown -R node:node /node
+USER node
+WORKDIR /node
+ENTRYPOINT [ "npm" ] 
+
 FROM $node_image as dev
 ARG BUILD_DATE
 ARG SOURCE_COMMIT
