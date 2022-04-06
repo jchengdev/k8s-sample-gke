@@ -3,7 +3,7 @@ import type { ComponentStoryFn, ComponentMeta } from '@storybook/react';
 import PaletteList from '.';
 
 import seeds from '@/common/_seeds';
-import bg from '@/assets/images/bg.jpg';
+import bg from '@/assets/images/bg.svg';
 
 export default {
   title: 'Layouts/PaletteList',
