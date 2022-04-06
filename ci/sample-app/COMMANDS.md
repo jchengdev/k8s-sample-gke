@@ -56,6 +56,8 @@
 
 ### Sync DockerHub
 
+ <!-- ! this is optional, gitlab-ci.yml already executes this syncing step -->
+
 - `docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:latest`
 - `docker push jchengdeveng/k8s-sample-gke-ci-cd-app:latest`
 - `docker tag ci-cd-app:latest jchengdeveng/k8s-sample-gke-ci-cd-app:"$(git rev-parse HEAD)"`
