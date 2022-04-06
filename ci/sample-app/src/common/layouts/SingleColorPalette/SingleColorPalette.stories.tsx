@@ -22,7 +22,10 @@ const paletteSample = generatePalette(
 export default {
   title: 'Layouts/SingleColorPalette',
   component: SingleColorPalette,
-  argTypes: {},
+  argTypes: {
+    format: { options: ['hex', 'rgb', 'rgba'], control: { type: 'radio' } },
+    changeFormat: { action: 'CHANGE FORMAT' },
+  },
 } as ComponentMeta<typeof SingleColorPalette>;
 
 const Template: ComponentStoryFn<typeof SingleColorPalette> = args => (
@@ -33,10 +36,12 @@ export const Red = Template.bind({});
 Red.args = {
   palette: paletteSample,
   selectedColorId: seeds[0]?.colors[0]?.name || 'red',
+  format: 'hex',
 };
 
 export const Indigo = Template.bind({});
 Indigo.args = {
   palette: paletteSample,
   selectedColorId: seeds[0]?.colors[4]?.name || 'indigo',
+  format: 'hex',
 };

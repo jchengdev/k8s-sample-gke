@@ -1,9 +1,11 @@
 import type { InferGetStaticPropsType } from 'next';
+import Image from 'next/image';
 import Head from 'next/head';
 
 import { STATICProps } from '@/props';
 
 import { useRouter } from 'next/router';
+import { goTo } from '@/routes/helpers';
 
 import {
   usePalettesCtxDP,
@@ -12,13 +14,15 @@ import {
 
 import PaletteList from '@/common/layouts/PaletteList';
 
+import bg from '@/assets/images/bg.jpg';
+
 const HomePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
   const { palettes } = usePalettesCtxST();
-  const dispatch = usePalettesCtxDP();
+  const dispatch_palette = usePalettesCtxDP();
 
   const _deletePalette = (id: string) => {
-    dispatch({ type: 'DELETE', payload: { id } });
+    dispatch_palette({ type: 'DELETE', payload: { id } });
   };
 
   console.log(`ROUTER READY: `, router.isReady); // * client-side only
@@ -30,10 +34,24 @@ const HomePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       </Head>
 
       <PaletteList
+        renderBackground={() => (
+          <div
+            style={{
+              position: 'absolute',
+              height: '100vh',
+              width: '100vw',
+              zIndex: 0,
+            }}
+          >
+            <Image
+              src={bg}
+              alt="Photo by @claybanks on Unsplash"
+              layout="fill"
+            />
+          </div>
+        )}
         palettes={palettes}
-        goToPalette={paletteUrl => {
-          router.push(paletteUrl);
-        }}
+        goToPalette={id => goTo.PALETTE(router, id)}
         deletePalette={_deletePalette}
       />
     </>

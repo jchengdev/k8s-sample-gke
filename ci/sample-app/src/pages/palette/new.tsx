@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { STATICProps } from '@/props';
 
 import { useRouter } from 'next/router';
+import { goTo } from '@/routes/helpers';
 
 import {
   usePalettesCtxDP,
@@ -15,10 +16,10 @@ import NewPaletteForm from '@/common/layouts/NewPaletteForm';
 const NewPalettePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
   const { palettes } = usePalettesCtxST();
-  const dispatch = usePalettesCtxDP();
+  const dispatch_palette = usePalettesCtxDP();
 
   const _savePalette = (newPalette: PaletteI) => {
-    dispatch({ type: 'SAVE', payload: { newPalette } });
+    dispatch_palette({ type: 'SAVE', payload: { newPalette } });
   };
 
   console.log(`PAGE: /palette/new`);
@@ -31,7 +32,7 @@ const NewPalettePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       <NewPaletteForm
         palettes={palettes}
         savePalette={_savePalette}
-        goToRoot={() => router.push('/')}
+        goToRoot={() => goTo.HOME(router)}
       />
     </>
   );

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/prefer-as-const */
 import { sizes } from '@/common/utils/styles-helpers';
-import bg from './bg.svg';
+// import bg from './bg.svg';
 
 const styles = {
   '@global': {
@@ -19,8 +19,8 @@ const styles = {
     alignItems: 'flex-start',
     justifyContent: 'center',
     /* background by SVGBackgrounds.com */
-    backgroundColor: '#000000',
-    backgroundImage: `url(${bg})`,
+    // backgroundColor: '#000000',
+    // backgroundImage: `url(${bg})`,
     // backgroundAttachment: 'fixed',
     // backgroundRepeat: 'repeat',
     // backgroundPosition: 'top left',
@@ -28,6 +28,8 @@ const styles = {
   },
   heading: {
     fontSize: '2rem',
+    color: 'black',
+    zIndex: 1,
   },
   container: {
     width: '50%',

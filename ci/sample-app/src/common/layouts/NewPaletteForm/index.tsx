@@ -33,7 +33,7 @@ interface NewPaletteFormProps {
   maxColors?: number;
   goToRoot: () => void;
 }
-interface ComposedProps extends NewPaletteFormProps /*, RouteComponentProps*/ {}
+interface ComposedProps extends NewPaletteFormProps {}
 
 const NewPaletteForm: React.FC<ComposedProps> = (props: ComposedProps) => {
   const { palettes, savePalette, maxColors = 20, goToRoot } = props;
@@ -96,7 +96,6 @@ const NewPaletteForm: React.FC<ComposedProps> = (props: ComposedProps) => {
       id: partialNewPalette.paletteName.toLowerCase().replace(/ /g, '-'),
       colors,
     });
-    // props.history.push('/');
     _hideMetaForm();
     goToRoot();
   };
@@ -115,8 +114,6 @@ const NewPaletteForm: React.FC<ComposedProps> = (props: ComposedProps) => {
         <PaletteFormNav
           open={open}
           handleDrawerOpen={_handleDrawerOpen}
-          // palettes={palettes}
-          // handleSubmit={_handleSubmit}
           metaFormShowing={metaFormShowing}
           showMetaForm={_showMetaForm}
           renderMetaForm={() => (

@@ -12,18 +12,19 @@ import PaletteFooter from '@/common/components/PaletteFooter';
 import { LevelT, FormatT, PaletteMapProps } from '@/common/utils/color-helpers';
 
 import styles from '@/common/layouts/Palette/Palette.styles';
+import { ROOT } from '@/routes/helpers';
 
 interface SingleColorPaletteProps {
   palette: PaletteMapProps;
   selectedColorId: string;
+  format: FormatT;
+  changeFormat: (newFormat: FormatT) => void;
 }
 interface ComposedProps
   extends SingleColorPaletteProps,
     WithStyles<typeof styles> {}
 
-interface SingleColorPaletteState {
-  format: FormatT;
-}
+interface SingleColorPaletteState {}
 
 class SingleColorPalette extends Component<
   ComposedProps,
@@ -42,8 +43,6 @@ class SingleColorPalette extends Component<
       this.props.palette,
       this.props.selectedColorId
     );
-    this.state = { format: 'hex' };
-    this._changeFormat = this._changeFormat.bind(this);
   }
 
   _gatherShades(paletteMap: PaletteMapProps, colorToFilterBy: string) {
@@ -67,14 +66,9 @@ class SingleColorPalette extends Component<
     return shades.slice(1);
   }
 
-  _changeFormat(newFormat: string) {
-    this.setState({ format: newFormat as FormatT });
-  }
-
   override render() {
-    const { classes: styleClasses } = this.props;
+    const { classes: styleClasses, format, changeFormat } = this.props;
     const { paletteName, id, emoji } = this.props.palette;
-    const { format } = this.state;
 
     const colorBoxes = this._shades.map(shade => (
       <ColorBox
@@ -103,13 +97,13 @@ class SingleColorPalette extends Component<
           onChangeLevel={() => null}
           showingAllColors={false}
           format={format}
-          onChangeFormat={this._changeFormat}
+          onChangeFormat={changeFormat}
         />
         <div className={styleClasses.root}>
           <div className={styleClasses.colors}>
             {colorBoxes}
             <div className={styleClasses.goBack}>
-              <Link href={`/palette/${id}`}>GO BACK</Link>
+              <Link href={ROOT.PALETTE(id)}>GO BACK</Link>
             </div>
           </div>
           <PaletteFooter paletteName={paletteName} emoji={emoji} />

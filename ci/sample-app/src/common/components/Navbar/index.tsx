@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 import Link from '@/common/components/Link';
+import { ROOT } from '@/routes/helpers';
 import { FormatT } from '@/common/utils/color-helpers';
 
 import 'rc-slider/assets/index.css';
@@ -26,7 +27,7 @@ interface NavbarProps {
   onChangeLevel: (newLevel: number | number[]) => void;
   showingAllColors?: boolean;
   format: FormatT;
-  onChangeFormat: (newFormat: string) => void;
+  onChangeFormat: (newFormat: FormatT) => void;
 }
 interface ComposedProps extends NavbarProps, WithStyles<typeof styles> {}
 
@@ -44,9 +45,9 @@ class Navbar extends Component<ComposedProps, NavbarState> {
     this._closeSnackbar = this._closeSnackbar.bind(this);
   }
 
-  _handleFormatChange = (event: SelectChangeEvent<string>) => {
+  _handleFormatChange = (event: SelectChangeEvent<FormatT>) => {
     this.setState({ snackbarOpen: true });
-    this.props.onChangeFormat(event.target.value);
+    this.props.onChangeFormat(event.target.value as unknown as FormatT);
   };
 
   _closeSnackbar() {
@@ -68,7 +69,7 @@ class Navbar extends Component<ComposedProps, NavbarState> {
     return (
       <header className={styleClasses.Navbar}>
         <div className={styleClasses.logo}>
-          <Link href="/">reactcolorpicker</Link>
+          <Link href={ROOT.HOME}>reactcolorpicker</Link>
         </div>
         {!!showingAllColors && (
           <div className="slider-container">
