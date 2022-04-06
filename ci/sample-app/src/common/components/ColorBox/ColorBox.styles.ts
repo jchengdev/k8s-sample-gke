@@ -103,13 +103,14 @@ const styles = {
     opacity: '0',
     color: 'white',
     '& h1': {
+      fontFamily: 'sans-serif',
       fontWeight: '400',
       textShadow: '1px 2px black',
       background: 'rgba(255,255,255,0.2)',
       width: '100%',
       textAlign: 'center',
       marginBottom: '0',
-      padding: '1rem',
+      padding: '5rem',
       textTransform: 'uppercase',
       [sizes.down('xs')]: {
         fontSize: '6rem',
@@ -119,6 +120,7 @@ const styles = {
       fontSize: '2rem',
       fontWeight: '100',
       textTransform: 'uppercase',
+      fontFamily: 'monospace',
     },
   },
   showCopyMsg: {
