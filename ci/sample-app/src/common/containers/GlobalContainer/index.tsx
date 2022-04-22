@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from 'react';
 import { useState as ReactUStt } from 'react';
 
 // import useGoogleAnalytics from '~/domain/hooks/useGoogleAnalytics';
@@ -13,7 +14,8 @@ const COMMIT_SHA = 'COMMIT_SHA: %%COMMIT_SHA%%';
 import Disclaimer from '@/common/components/Disclaimer';
 
 import { globalStyles } from '@/common/styles/globals';
-interface GlobalContainerProps {
+
+interface GlobalContainerProps extends PropsWithChildren<unknown> {
   // initialAuth?: Auth;
   // initialI18N?: I18NConfig;
 }

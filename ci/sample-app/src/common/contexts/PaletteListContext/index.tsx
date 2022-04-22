@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from 'react';
 import { createContext as ReactCCtx, useContext as ReactUCtx } from 'react';
 
 import type { State, Dispatch } from './usePalettesReducer';
@@ -10,7 +11,7 @@ PalettesCtxST.displayName = 'PalettesContextState';
 const PalettesCtxDP = ReactCCtx((() => null) as Dispatch);
 PalettesCtxDP.displayName = 'PalettesContextDispatch';
 
-interface PalettesCtxProviderProps {}
+interface PalettesCtxProviderProps extends PropsWithChildren<unknown> {}
 const PalettesCtxProvider: React.FC<PalettesCtxProviderProps> = ({
   children,
 }) => {
