@@ -65,6 +65,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT $NEXT_PORT
 EXPOSE $PORT
 COPY --chown=node:node package*.json ./ 
+RUN rm -rf ./storybook-static
 RUN npm config list \ 
   && npm ci --production \ 
   && npm cache clean --force
