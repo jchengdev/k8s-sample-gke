@@ -50,6 +50,10 @@ stages:
   - stg deploy
   - prod deploy
   - smoke test
+  - build storybook
+  - post-build-sb
+  - storybook deploy
+  - sb smoke test
 
 ### GLOBAL CONFIGS ###
 
@@ -59,6 +63,7 @@ variables:
   CACHE_FALLBACK_KEY: $CI_COMMIT_REF_SLUG---$CI_PROJECT_DIR
   STG_DOMAIN: ci-cd-app-stg.k8s-sample-gke.jchengdev.com
   PROD_DOMAIN: ci-cd-app.k8s-sample-gke.jchengdev.com
+  SB_DOMAIN: ci-cd-app-storybook.k8s-sample-gke.jchengdev.com
 
 workflow: # pipeline activation
   rules:
@@ -144,7 +149,7 @@ build dev image:
   services:
     - docker:19.03.12-dind
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   image: 'docker:19.03.12'
   cache: {}
   before_script:
@@ -173,7 +178,7 @@ check dev image:
   services:
     - docker:19.03.12-dind
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   image: 'docker:19.03.12'
   cache: {}
   before_script:
@@ -199,7 +204,7 @@ build prod image:
   services:
     - docker:19.03.12-dind
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   image: 'docker:19.03.12'
   cache: {}
   before_script:
@@ -228,7 +233,7 @@ check prod image:
   services:
     - docker:19.03.12-dind
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   image: 'docker:19.03.12'
   cache: {}
   before_script:
@@ -301,3 +306,92 @@ production check:
     - sleep 10
     - echo $CI_COMMIT_SHORT_SHA
     - curl "http://$PROD_DOMAIN" | tac | tac | grep -q "__$CI_COMMIT_SHORT_SHA__"
+
+build storybook image:
+  stage: build storybook
+  rules:
+    - *job-rules-never-schedule
+    - *job-rules-always-pipeline-changes
+    - *job-rules-on-master-push
+  tags:
+    - 'gitlab-org-docker'
+  services:
+    - docker:19.03.12-dind
+  variables:
+    DOCKER_TLS_CERTDIR: '/certs'
+  image: 'docker:19.03.12'
+  cache: {}
+  before_script:
+    - echo $CI_RUNNER_ID
+    - docker info
+    - echo "$DOCKER_REGISTRY_PASS" | docker login --username $DOCKER_REGISTRY_USER --password-stdin
+  script:
+    - echo $CI_COMMIT_BEFORE_SHA
+    - echo $CI_COMMIT_SHORT_SHA
+    - cd $APP_ROOT && echo $PWD
+    - docker build -t ci-cd-app-storybook:latest --target=stories-static --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT=$CI_COMMIT_SHORT_SHA --progress=plain -f ./Dockerfile-sb .
+    - docker tag ci-cd-app-storybook:latest jchengdeveng/k8s-sample-gke-ci-cd-app-storybook:latest
+    - docker push jchengdeveng/k8s-sample-gke-ci-cd-app-storybook:latest
+    - docker tag ci-cd-app-storybook:latest jchengdeveng/k8s-sample-gke-ci-cd-app-storybook:$CI_COMMIT_SHA
+    - docker push jchengdeveng/k8s-sample-gke-ci-cd-app-storybook:$CI_COMMIT_SHA
+
+check storybook image:
+  stage: post-build-sb
+  rules:
+    - *job-rules-never-schedule
+    - *job-rules-always-pipeline-changes
+    - *job-rules-on-master-push
+  tags:
+    - 'gitlab-org-docker'
+  services:
+    - docker:19.03.12-dind
+  variables:
+    DOCKER_TLS_CERTDIR: '/certs'
+  image: 'docker:19.03.12'
+  cache: {}
+  before_script:
+    - echo $CI_RUNNER_ID
+    - docker info
+  script:
+    - echo $CI_COMMIT_BEFORE_SHA
+    - echo $CI_COMMIT_SHORT_SHA
+    - docker run --rm -d -p 65080:80 --name ci-cd-app-storybook jchengdeveng/k8s-sample-gke-ci-cd-app-storybook:latest
+    - '[[ $(docker inspect --format ''{{ index .Config.Labels "org.opencontainers.image.revision"}}'' ci-cd-app-storybook) == $CI_COMMIT_SHORT_SHA ]] && echo "true"'
+
+deploy storybook:
+  stage: storybook deploy
+  variables:
+    DOMAIN: $SB_DOMAIN
+  rules:
+    - *job-rules-never-schedule
+    - *job-rules-on-master-push
+  environment:
+    name: storybook
+    url: 'http://$SB_DOMAIN'
+  image: 'google/cloud-sdk:alpine'
+  cache: {}
+  before_script:
+    - echo $CI_RUNNER_ID
+    - gcloud components update kubectl
+    - mkdir -p ~/.kube && echo $KUBE_CONFIG_BASE64 | base64 -d > ~/.kube/config
+    - kubectl cluster-info
+  script:
+    - 'echo Deploy URL: http://$SB_DOMAIN'
+    - cd $APP_ROOT && echo $PWD
+    - kubectl apply -k ./k8s/storybook/.
+    - echo $CI_COMMIT_SHA && kubectl set image deploy/ci-cd-app-storybook ci-cd-app-storybook=jchengdeveng/k8s-sample-gke-ci-cd-app-storybook:$CI_COMMIT_SHA
+
+storybook deploy check:
+  stage: sb smoke test
+  rules:
+    - *job-rules-never-schedule
+    - *job-rules-on-master-push
+  image: 'alpine:latest'
+  cache: {}
+  before_script:
+    - echo $CI_RUNNER_ID
+    - apk update && apk add curl
+  script:
+    - sleep 10
+    - echo $CI_COMMIT_SHORT_SHA
+    - curl "http://$SB_DOMAIN" | tac | tac | grep -q "++$CI_COMMIT_SHORT_SHA++"

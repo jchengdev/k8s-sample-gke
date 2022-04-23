@@ -17,6 +17,7 @@ RUN npm config list \
 ENTRYPOINT [ "npm" ]
 
 FROM $node_image as node-base
+RUN apk add --no-cache libc6-compat
 RUN mkdir /node && chown -R node:node /node
 USER node
 WORKDIR /node
@@ -65,7 +66,6 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT $NEXT_PORT
 EXPOSE $PORT
 COPY --chown=node:node package*.json ./ 
-RUN rm -rf ./storybook-static
 RUN npm config list \ 
   && npm ci --production \ 
   && npm cache clean --force

@@ -1,14 +1,30 @@
-FROM nginx:1.20.1-alpine as prod
-
+# defaults
+ARG node_v=16.14.2
+ARG node_image=node:$node_v-alpine
 ARG BUILD_DATE=not-set 
-ARG SOURCE_COMMIT=not-set 
+ARG SOURCE_COMMIT=not-set
+
+FROM $node_image as builder
+ENV STORYBOOK_MODE=true
+COPY . .
+RUN apk add --no-cache libc6-compat
+RUN npm config list \ 
+  && npm ci \ 
+  && npm cache clean --force
+RUN npm run build-storybook
+ENTRYPOINT [ "npm" ]
+# ENTRYPOINT if this image ever needs debugging
+
+FROM nginx:1.20.1-alpine as stories-static
+ARG BUILD_DATE
+ARG SOURCE_COMMIT
+RUN echo "BUILD_DATE: $BUILD_DATE"
+RUN echo "SHA: $SOURCE_COMMIT"
 LABEL org.opencontainers.image.authors=jcheng.deveng@gmail.com
 LABEL org.opencontainers.image.created=$BUILD_DATE 
 LABEL org.opencontainers.image.revision=$SOURCE_COMMIT 
 LABEL org.opencontainers.image.title="Storybook of NextJS app components in K8s cluster" 
 LABEL org.opencontainers.image.licenses=MIT 
 EXPOSE 80
-
-COPY ./storybook-static/ /usr/share/nginx/html
-
-RUN sed -i "s~</head><body>~<meta name='gitlab-tac-tac-string' content='$SOURCE_COMMIT' /></head><body>~g" /usr/share/nginx/html/index.html
+COPY --from=builder ./storybook-static/ /usr/share/nginx/html
+RUN sed -i "s~</head><body>~<meta name='gitlab-tac-tac-string' content='++$SOURCE_COMMIT++' /></head><body>~g" /usr/share/nginx/html/index.html
