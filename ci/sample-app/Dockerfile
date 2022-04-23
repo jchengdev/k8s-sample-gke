@@ -17,34 +17,24 @@ RUN npm config list \
 ENTRYPOINT [ "npm" ]
 
 FROM $node_image as node-base
-ARG BUILD_DATE
-ARG SOURCE_COMMIT
-LABEL org.opencontainers.image.created=$BUILD_DATE 
-LABEL org.opencontainers.image.revision=$SOURCE_COMMIT 
 RUN mkdir /node && chown -R node:node /node
 USER node
 WORKDIR /node
 
 FROM node-base as dev
-ARG BUILD_DATE
-ARG SOURCE_COMMIT
 ARG NEXT_PORT
-LABEL org.opencontainers.image.created=$BUILD_DATE 
-LABEL org.opencontainers.image.revision=$SOURCE_COMMIT 
 ENV NODE_ENV=development
 ENV PORT $NEXT_PORT
 EXPOSE $PORT
 COPY . .
 COPY --from=dependencies ./node_modules ./node_modules
-RUN echo "BUILD_DATE: $BUILD_DATE"
-RUN echo "SHA: $SOURCE_COMMIT"
 CMD [ "node", "./server/index.js" ]
 
 FROM node-base as builder
 ARG BUILD_DATE
 ARG SOURCE_COMMIT
-LABEL org.opencontainers.image.created=$BUILD_DATE 
-LABEL org.opencontainers.image.revision=$SOURCE_COMMIT 
+RUN echo "BUILD_DATE: $BUILD_DATE"
+RUN echo "SHA: $SOURCE_COMMIT"
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY . .
@@ -55,8 +45,6 @@ USER node
 COPY --from=dependencies ./node_modules ./node_modules
 RUN rm -rf ./.next \
   && ./node_modules/.bin/next build
-RUN echo "BUILD_DATE: $BUILD_DATE"
-RUN echo "SHA: $SOURCE_COMMIT"
 ENTRYPOINT [ "npm" ]
 # ENTRYPOINT if this image ever needs debugging
 
@@ -65,6 +53,8 @@ ARG node_v
 ARG BUILD_DATE
 ARG SOURCE_COMMIT
 ARG NEXT_PORT
+RUN echo "BUILD_DATE: $BUILD_DATE"
+RUN echo "SHA: $SOURCE_COMMIT"
 LABEL org.opencontainers.image.authors=jcheng.deveng@gmail.com
 LABEL org.opencontainers.image.created=$BUILD_DATE 
 LABEL org.opencontainers.image.revision=$SOURCE_COMMIT 
@@ -86,6 +76,4 @@ COPY --from=builder --chown=node:node /node/server ./server
 COPY --from=builder --chown=node:node /node/.env ./.env
 COPY --from=builder --chown=node:node /node/next.config.js ./next.config.js
 COPY --from=builder --chown=node:node /node/package.json ./package.json
-RUN echo "BUILD_DATE: $BUILD_DATE"
-RUN echo "SHA: $SOURCE_COMMIT"
 CMD [ "node", "./server/index.js" ]
