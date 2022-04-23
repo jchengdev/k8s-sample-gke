@@ -136,13 +136,6 @@ docker-compose.*
 .old/
 k8s/
 tsbuild/
-.storybook/
-*/stories/
-*.stories.mdx
-*.stories.js
-*.stories.jsx
-*.stories.ts
-*.stories.tsx
 
 **/COMMANDS.md
 **/COMMENTS.md
