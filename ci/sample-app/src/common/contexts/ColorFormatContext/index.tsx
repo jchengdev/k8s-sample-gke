@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from 'react';
 import { createContext as ReactCCtx, useContext as ReactUCtx } from 'react';
 
 import type { State, Dispatch } from './useColorFormatReducer';
@@ -8,7 +9,7 @@ ColorFormatCtxST.displayName = 'ColorFormatContextState';
 const ColorFormatCtxDP = ReactCCtx((() => null) as Dispatch);
 ColorFormatCtxDP.displayName = 'ColorFormatContextDispatch';
 
-interface ColorFormatCtxProviderProps {}
+interface ColorFormatCtxProviderProps extends PropsWithChildren<unknown> {}
 const ColorFormatCtxProvider: React.FC<ColorFormatCtxProviderProps> = ({
   children,
 }) => {

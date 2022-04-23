@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from 'react';
 import { useState as ReactUStt } from 'react';
 
 // import useGoogleAnalytics from '~/domain/hooks/useGoogleAnalytics';
@@ -9,11 +10,13 @@ import { useState as ReactUStt } from 'react';
 import { PalettesCtxProvider } from '@/common/contexts/PaletteListContext';
 import { ColorFormatCtxProvider } from '@/common/contexts/ColorFormatContext';
 
-const COMMIT_SHA = 'COMMIT_SHA: %%COMMIT_SHA%%';
 import Disclaimer from '@/common/components/Disclaimer';
 
 import { globalStyles } from '@/common/styles/globals';
-interface GlobalContainerProps {
+
+import { disclaimer } from '@/common/_dev_notes';
+
+interface GlobalContainerProps extends PropsWithChildren<unknown> {
   // initialAuth?: Auth;
   // initialI18N?: I18NConfig;
 }
@@ -41,11 +44,12 @@ export const GlobalContainer: React.FC<GlobalContainerProps> = ({
         <ColorFormatCtxProvider>{children}</ColorFormatCtxProvider>
       </PalettesCtxProvider>
       {show && (
-        <Disclaimer
-          message={`COMMIT_SHA: ${COMMIT_SHA}`}
-          extLink={'https://www.udemy.com/course/modern-react-bootcamp'}
-          onClose={() => setShowDisclaimer(false)}
-        />
+        <div style={{ zIndex: 100 }}>
+          <Disclaimer
+            message={disclaimer}
+            onClose={() => setShowDisclaimer(false)}
+          />
+        </div>
       )}
     </>
   );

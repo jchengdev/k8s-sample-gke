@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  nextjs-app:
+  nextjs-app-dev:
     container_name: 'ci-cd-app-dev'
     image: 'ci-cd-app:dev'
     build:

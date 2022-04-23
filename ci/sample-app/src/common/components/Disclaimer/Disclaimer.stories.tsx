@@ -19,11 +19,26 @@ const Template: ComponentStoryFn<typeof Disclaimer> = args => (
 
 export const MessageOnly = Template.bind({});
 MessageOnly.args = {
-  message: 'Disclaimer for app credits',
+  message: (
+    <>
+      {'Disclaimer for app credits'}
+      <br />
+    </>
+  ),
 };
 
 export const WithLink = Template.bind({});
 WithLink.args = {
-  message: 'Disclaimer for app credits',
-  extLink: 'https://www.google.com',
+  message: (
+    <>
+      {'Disclaimer for app credits'}
+      <br />
+      {
+        <a target={'_blank'} href={'https://www.google.com'} rel="noreferrer">
+          https://www.google.com
+        </a>
+      }
+      <br />
+    </>
+  ),
 };

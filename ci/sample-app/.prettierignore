@@ -6,3 +6,4 @@ tsbuild
 **/_next/**
 **/build/**
 **/dist/**
+**/storybook-static/**

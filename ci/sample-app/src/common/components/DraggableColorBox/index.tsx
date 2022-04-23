@@ -12,9 +12,7 @@ export interface DraggableColorBoxProps {
   handleDelete: () => void;
 }
 
-const DraggableColorBox: React.FC<DraggableColorBoxProps> = (
-  props: DraggableColorBoxProps
-) => {
+const DraggableColorBox: React.FC<DraggableColorBoxProps> = props => {
   const styleClasses = useStyles(props);
   const { color, name, handleDelete } = props;
 

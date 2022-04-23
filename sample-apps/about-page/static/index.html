@@ -1,83 +1,130 @@
 <!DOCTYPE html>
 <html>
-    <head>
-    	<title>k8s-sample-gke - DEV NOTES</title>
-    </head>
-    <body>
-        <div style="font-family: monospace">
-          <h1>Kubernetes Sample in GCP - Developer Notes</h1>
 
-          <div style="width: 650px; padding: 5px; text-align: left; text-decoration: none; background-color: lightgray;">
-            <a style="padding-left: 10px" target="_blank" href="https://gitlab.com/jchengdev/k8s-sample-gke/-/pipelines">Open GitLab Pipeline        (CI/CD sample)</a><br/>
-            <a style="padding-left: 10px" target="_blank" href="http://ci-cd-app.k8s-sample-gke.jchengdev.com">Open GitLab Sample App      (CI/CD deployment)</a><br/>
-            <a style="padding-left: 10px" target="_blank" href="http://rancher.jchengdev.com">Open Rancher                (user: <em>public</em>, pass: <em>viewer</em>, GCP schedule: Mon-Fri 13-21PM UTC)</a><br/>
-            <a style="padding-left: 10px" target="_blank" href="http://kube-web-view.k8s-sample-gke.jchengdev.com/clusters/local/namespaces/_all/pods?join=metrics&sort=Memory+Usage:desc">Open Kube Web View          (cluster resources)</a><br/>
-            <a style="padding-left: 10px" target="_blank" href="http://traefik.k8s-sample-gke.jchengdev.com/dashboard/#/http/routers">Open Traefik                (Ingress routes)</a><br/>
-            <a style="padding-left: 10px" target="_blank" href="http://whoami-pod.k8s-sample-gke.jchengdev.com">Open whoami Sample          (gets PodID)</a><br/>
-            <a style="padding-left: 10px" target="_blank" href="http://cheddar.k8s-sample-gke.jchengdev.com">Open Sample App Deployment  (simple cheese page)</a><br/>
-            <!-- <a style="padding-left: 10px" target="_blank" href="http://kubeless-ui.k8s-sample-gke.jchengdev.com">Open Kubeless UI            (serverless functions dashboard)</a><br/> -->
-            <a style="padding-left: 10px; color: black" href="#">Open Kubeless UI            (serverless functions dashboard)</a>
-          </div>
-          <br/>
+<head>
+  <title>k8s-sample-gke - DEV NOTES</title>
+</head>
 
-          <a title="GO TO UDEMY COURSE" target="_blank" href="https://www.udemy.com/certificate/UC-e56596fc-e2c6-4daf-b8c5-8f5c3c6df8da">
-            <img alt="https://www.udemy.com/certificate/UC-e56596fc-e2c6-4daf-b8c5-8f5c3c6df8da" src="./images/UC-e56596fc-e2c6-4daf-b8c5-8f5c3c6df8da.jpg" style="height: 200px;">
-          </a>
+<body>
+  <div style="font-family: monospace">
+    <h1>Kubernetes Sample in GCP - Developer Notes</h1>
 
-          <a title="GO TO UDEMY COURSE" target="_blank" href="https://www.udemy.com/certificate/UC-64fc4721-bb1b-4e48-9b79-0c583408dd49">
-            <img alt="https://www.udemy.com/certificate/UC-64fc4721-bb1b-4e48-9b79-0c583408dd49" src="./images/UC-64fc4721-bb1b-4e48-9b79-0c583408dd49.jpg" style="height: 200px;">
-          </a>
+    <div style="width: 650px; padding: 5px; text-align: left; text-decoration: none; background-color: lightgray;">
+      <a style="padding-left: 10px" target="_blank" href="https://gitlab.com/jchengdev/k8s-sample-gke/-/pipelines">Open
+        <strong>GitLab</strong> Pipeline (CI/CD sample)</a><br />
+      <a style="padding-left: 10px" target="_blank" href="http://ci-cd-app.k8s-sample-gke.jchengdev.com">Open
+        <strong>NextJS</strong> Sample App (CI/CD deployment)</a><br />
+      <a style="padding-left: 10px" target="_blank" href="http://ci-cd-app-storybook.k8s-sample-gke.jchengdev.com">Open
+        <strong>Storybook</strong> Sample (CI/CD deployment)</a><br />
+      <a style="padding-left: 10px" target="_blank" href="http://rancher.jchengdev.com">Open <strong>Rancher</strong>
+        (user: <em>public</em>, pass: <em>viewer</em>, GCP schedule: Mon-Fri 4-8PM UTC)</a><br />
+      <a style="padding-left: 10px" target="_blank"
+        href="http://kube-web-view.k8s-sample-gke.jchengdev.com/clusters/local/namespaces/_all/pods?join=metrics&sort=Memory+Usage:desc">Open
+        <strong>Kube Web View</strong> (cluster resources)</a><br />
+      <a style="padding-left: 10px" target="_blank"
+        href="http://traefik.k8s-sample-gke.jchengdev.com/dashboard/#/http/routers">Open <strong>Traefik</strong>
+        (Ingress routes)</a><br />
+      <a style="padding-left: 10px" target="_blank" href="http://whoami-pod.k8s-sample-gke.jchengdev.com">Open whoami
+        Sample (gets PodID)</a><br />
+      <a style="padding-left: 10px" target="_blank" href="http://cheddar.k8s-sample-gke.jchengdev.com">Open Sample App
+        Deployment (simple cheese page)</a><br />
+      <!-- <a style="padding-left: 10px" target="_blank" href="http://kubeless-ui.k8s-sample-gke.jchengdev.com">Open <strong>Kubeless</strong> UI            (serverless functions dashboard)</a><br/> -->
+      <a style="padding-left: 10px; color: black" href="#">Open <strong>Kubeless</strong> UI (serverless functions
+        dashboard)</a>
+    </div>
+    <br />
 
-          <a title="GO TO UDEMY COURSE" target="_blank" href="https://www.udemy.com/certificate/UC-c02fb377-5eaf-4416-8b4a-63aeeae48dd2">
-            <img alt="https://www.udemy.com/certificate/UC-c02fb377-5eaf-4416-8b4a-63aeeae48dd2" src="./images/UC-c02fb377-5eaf-4416-8b4a-63aeeae48dd2.jpg" style="height: 200px;">
-          </a>
+    <a title="GO TO UDEMY COURSE" target="_blank"
+      href="https://www.udemy.com/certificate/UC-e56596fc-e2c6-4daf-b8c5-8f5c3c6df8da">
+      <img alt="https://www.udemy.com/certificate/UC-e56596fc-e2c6-4daf-b8c5-8f5c3c6df8da"
+        src="./images/UC-e56596fc-e2c6-4daf-b8c5-8f5c3c6df8da.jpg" style="height: 200px;">
+    </a>
 
-          <a title="GO TO UDEMY COURSE" target="_blank" href="https://www.udemy.com/certificate/UC-a7cfc491-1746-4e60-ad5a-33866eafc9bb">
-            <img alt="https://www.udemy.com/certificate/UC-a7cfc491-1746-4e60-ad5a-33866eafc9bb" src="./images/UC-a7cfc491-1746-4e60-ad5a-33866eafc9bb.jpg" style="height: 200px; border-style: dashed; border-color: lightgray; border-width:1px">
-          </a>
+    <a title="GO TO UDEMY COURSE" target="_blank"
+      href="https://www.udemy.com/certificate/UC-64fc4721-bb1b-4e48-9b79-0c583408dd49">
+      <img alt="https://www.udemy.com/certificate/UC-64fc4721-bb1b-4e48-9b79-0c583408dd49"
+        src="./images/UC-64fc4721-bb1b-4e48-9b79-0c583408dd49.jpg" style="height: 200px;">
+    </a>
 
-          <a title="GO TO UDEMY COURSE" target="_blank" href="https://www.udemy.com/certificate/UC-a2f38aa5-14ca-4866-9797-97932c2e0634">
-            <img alt="https://www.udemy.com/certificate/UC-a2f38aa5-14ca-4866-9797-97932c2e0634" src="./images/UC-a2f38aa5-14ca-4866-9797-97932c2e0634.jpg" style="height: 200px; border-style: dashed; border-color: lightgray; border-width:1px">
-          </a>
+    <a title="GO TO UDEMY COURSE" target="_blank"
+      href="https://www.udemy.com/certificate/UC-c02fb377-5eaf-4416-8b4a-63aeeae48dd2">
+      <img alt="https://www.udemy.com/certificate/UC-c02fb377-5eaf-4416-8b4a-63aeeae48dd2"
+        src="./images/UC-c02fb377-5eaf-4416-8b4a-63aeeae48dd2.jpg" style="height: 200px;">
+    </a>
 
-          <div style="margin-top: 5px; padding: 5px 5px 5px 30px; width: 500px; background-color: lightblue; font-family: calibri;">
-          <h4 style="margin: 0">DEVELOPER INFO</h4>
-            Jonathan Cheng<br/>
-            <em>jcheng.deveng@gmail.com</em><br/>
-            Github: <a href="https://github.com/jchengdev/">jchengdev</a><br/>
-            Linkedin: <a href="https://www.linkedin.com/in/jonathan-cheng-12616a15/">https://www.linkedin.com/in/jonathan-cheng-12616a15/</a>
-          </div>
+    <a title="GO TO UDEMY COURSE" target="_blank"
+      href="https://www.udemy.com/certificate/UC-a7cfc491-1746-4e60-ad5a-33866eafc9bb">
+      <img alt="https://www.udemy.com/certificate/UC-a7cfc491-1746-4e60-ad5a-33866eafc9bb"
+        src="./images/UC-a7cfc491-1746-4e60-ad5a-33866eafc9bb.jpg"
+        style="height: 200px; border-style: dashed; border-color: lightgray; border-width:1px">
+    </a>
 
-          <h4>Acquired knowledges:</h4>
-          <ul>
-            <li><strong>Docker</strong>: concepts (container, image, volume, lifecycle), CLI, BuildKit, multi-stage build, cross-platform (ARM), networking, registries, Compose, containerd</li>
-            <li><strong>Kubernetes (K8s) overview</strong>: core architecture & concepts/terms, objects (kind), production landscape, devops checklist</li>
-            <li><strong>K8s kubectl (core CLI)</strong>: config (contexts), cluster-info, namespaces, describe, logs, imperative commands (e.g. create)</li>
-            <li><strong>K8s YAML specs</strong>: syntax, declarative deployments, linting & --server-dry-run</li>
-            <li><strong>K8s deployment flow</strong>: create/update setup, rolling updates (history, undo, patching), shutdown, canary deployment</li>
-            <li><strong>K8s networking</strong>: model overview (DNS, CNI plugins), Service (load balancing), Ingress (Nginx/Traefik), SSL/TLS (cert-manager), NetworkPolicy</li>
-            <li><strong>K8s volumes</strong>: storage classes, persistent volumes (emptyDir/hostPath/CSI types), persistent volume claims, access modes</li>
-            <li><strong>K8s coding resources</strong>: Cronjob, ConfigMap+Secrets, DownwardAPI, probes (types, issues handling), rolling updates, autoscaling (HPA), Kustomize, LimitRange</li>
-            <li><strong>K8s infrastructure</strong>: Helm, Longhorn (volumes), Kubeless (serverless), Harbor (repositories)</li>
-            <li><strong>K8s cluster monitoring</strong>: Graylog, Prometheus+Grafana, Istio</li>
-            <li><strong>K8s cluster cost management</strong>: Kubecost</li>
-            <li><strong>Rancher</strong>: cluster creation/import, UI features, users & permissions management, legacy pipeline feature</li>
-            <li><strong>GitLab</strong>: CI/CD concepts (pipeline types, artifacts, builder, caching), DinD, multi-runners + shared runner cache, branching strategies, GitLab CE setup, Auto DevOps</li>
-            <li><strong>AWS</strong>: IAM, VPC, EC2, EBS, ECS, ELB, EFS volumes, MongoDB Atlas integration</li>
-            <li><strong>GCP</strong>: IAM, ComputeEngine (preemptibility+scheduling), GKE, VPC, domains</li>
-            <li><strong>Full-cycle live update</strong>: local source -> GitHub -> TravisCI -> DockerHub -> GCP production URL</li>
-            <li><strong>Extras</strong>: chaos engineering, etc.</li>
-          </ul>
+    <a title="GO TO UDEMY COURSE" target="_blank"
+      href="https://www.udemy.com/certificate/UC-a2f38aa5-14ca-4866-9797-97932c2e0634">
+      <img alt="https://www.udemy.com/certificate/UC-a2f38aa5-14ca-4866-9797-97932c2e0634"
+        src="./images/UC-a2f38aa5-14ca-4866-9797-97932c2e0634.jpg"
+        style="height: 200px; border-style: dashed; border-color: lightgray; border-width:1px">
+    </a>
 
-          <h4>Tools:</h4>
-          <ul>
-            <li><strong>Shell</strong>: Windows Terminal (WSL2), shpod</li>
-            <li><strong>Edit</strong>: VSCode, nano</li>
-            <li><strong>Check</strong>: Chrome Console, Postman, Docker for VS Code extension</li>
-            <li><strong>Cluster</strong>: Docker Desktop (WSL2), minikube, GKE, K3s (AWS), microk8s</li>
-          </ul>
+    <a title="GO TO UDEMY COURSE" target="_blank"
+      href="https://www.udemy.com/certificate/UC-edc94b9f-2a2d-4ac4-b491-265480048c3c">
+      <img alt="https://www.udemy.com/certificate/UC-edc94b9f-2a2d-4ac4-b491-265480048c3c"
+        src="./images/UC-edc94b9f-2a2d-4ac4-b491-265480048c3c.jpg"
+        style="height: 200px; border-style: dashed; border-color: lightgray; border-width:1px">
+    </a>
 
-          <h4>COMMIT_SHA: %%COMMIT_SHA%%</h4>
-        </div>
-    </body>
+    <div
+      style="margin-top: 5px; padding: 5px 5px 5px 30px; width: 500px; background-color: lightblue; font-family: calibri;">
+      <h4 style="margin: 0">DEVELOPER INFO</h4>
+      Jonathan Cheng<br />
+      <em>jcheng.deveng@gmail.com</em><br />
+      Github: <a href="https://github.com/jchengdev/">jchengdev</a><br />
+      Linkedin: <a
+        href="https://www.linkedin.com/in/jonathan-cheng-12616a15/">https://www.linkedin.com/in/jonathan-cheng-12616a15/</a>
+    </div>
+
+    <h4>Acquired knowledges:</h4>
+    <ul>
+      <li><strong>Docker</strong>: concepts (container, image, volume, lifecycle), CLI, BuildKit, multi-stage build,
+        cross-platform (ARM), networking, registries, Compose, containerd</li>
+      <li><strong>Kubernetes (K8s) overview</strong>: core architecture & concepts/terms, objects (kind), production
+        landscape, devops checklist</li>
+      <li><strong>K8s kubectl (core CLI)</strong>: config (contexts), cluster-info, namespaces, describe, logs,
+        imperative commands (e.g. create)</li>
+      <li><strong>K8s YAML specs</strong>: syntax, declarative deployments, linting & --server-dry-run</li>
+      <li><strong>K8s deployment flow</strong>: create/update setup, rolling updates (history, undo, patching),
+        shutdown, canary deployment</li>
+      <li><strong>K8s networking</strong>: model overview (DNS, CNI plugins), Service (load balancing), Ingress
+        (Nginx/Traefik), SSL/TLS (cert-manager), NetworkPolicy</li>
+      <li><strong>K8s volumes</strong>: storage classes, persistent volumes (emptyDir/hostPath/CSI types), persistent
+        volume claims, access modes</li>
+      <li><strong>K8s coding resources</strong>: Cronjob, ConfigMap+Secrets, DownwardAPI, probes (types, issues
+        handling), rolling updates, autoscaling (HPA), Kustomize, LimitRange</li>
+      <li><strong>K8s infrastructure</strong>: Helm, Longhorn (volumes), Kubeless (serverless), Harbor (repositories)
+      </li>
+      <li><strong>K8s cluster monitoring</strong>: Graylog, Prometheus+Grafana, Istio</li>
+      <li><strong>K8s cluster cost management</strong>: Kubecost</li>
+      <li><strong>Rancher</strong>: cluster creation/import, UI features, users & permissions management, legacy
+        pipeline feature</li>
+      <li><strong>GitLab</strong>: CI/CD concepts (pipeline types, artifacts, builder, caching), DinD, multi-runners +
+        shared runner cache, branching strategies, GitLab CE setup, Auto DevOps</li>
+      <li><strong>AWS</strong>: IAM, VPC, EC2, EBS, ECS, ELB, EFS volumes, MongoDB Atlas integration</li>
+      <li><strong>GCP</strong>: IAM, ComputeEngine (preemptibility+scheduling), GKE, VPC, domains</li>
+      <li><strong>Full-cycle live update</strong>: local source -> GitHub -> TravisCI -> DockerHub -> GCP production URL
+      </li>
+      <li><strong>Extras</strong>: chaos engineering, etc.</li>
+    </ul>
+
+    <h4>Tools:</h4>
+    <ul>
+      <li><strong>Shell</strong>: Windows Terminal (WSL2), shpod</li>
+      <li><strong>Edit</strong>: VSCode, nano</li>
+      <li><strong>Check</strong>: Chrome Console, Postman, Docker for VS Code extension</li>
+      <li><strong>Cluster</strong>: Docker Desktop (WSL2), minikube, GKE, K3s (AWS), microk8s</li>
+    </ul>
+
+    <h4>COMMIT_SHA: %%COMMIT_SHA%%</h4>
+  </div>
+</body>
+
 </html>

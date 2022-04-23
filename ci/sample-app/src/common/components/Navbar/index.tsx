@@ -145,7 +145,7 @@ class SliderWrapper extends Component<SliderProps> {
     const props = this.props as SliderProps;
     return (
       <div ref={this.sliderRef}>
-        <Slider {...props}>{this.props.children}</Slider>
+        <Slider {...props} />
       </div>
     );
   }

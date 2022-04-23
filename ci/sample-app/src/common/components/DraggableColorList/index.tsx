@@ -5,8 +5,10 @@ import {
   SortableContainerProps,
 } from 'react-sortable-hoc';
 
+import type { DraggableColorBoxProps } from '@/common/components/DraggableColorBox';
 import DraggableColorBox from '@/common/components/DraggableColorBox';
-const SortableColorBox = SortableElement(DraggableColorBox);
+const SortableColorBox =
+  SortableElement<DraggableColorBoxProps>(DraggableColorBox);
 
 interface DraggableColorListProps {
   colors: { color: string; name: string }[];
@@ -24,8 +26,8 @@ const DraggableColorList: React.ComponentClass<
       {/* 'div' required https://github.com/clauderic/react-sortable-hoc/issues/367#issuecomment-380523336 */}
       {colors.map((c, i) => (
         <SortableColorBox
-          index={i}
           key={uuidv4()}
+          index={i}
           color={c.color}
           name={c.name}
           handleDelete={() => onRemoveColor(c.name)}
