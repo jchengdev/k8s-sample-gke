@@ -13,8 +13,8 @@
 - `docker build -t ci-cd-app:dependencies --target=dependencies --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" --progress=plain -f ./Dockerfile .` <!-- create image tag -->
 - `docker run --rm ci-cd-app:dependencies list --depth=0`
 - `docker build -t ci-cd-app:node-base --target=node-base --build-arg BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg SOURCE_COMMIT="$(git rev-parse --short HEAD)" --progress=plain -f ./Dockerfile .` <!-- create image tag -->
-- `BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") COMMIT=$(git rev-parse --short HEAD) docker compose build --progress plain nextjs-app` <!-- create image tag -->
-- `INT_PORT=3000 EXT_PORT=3000 docker compose up -d nextjs-app`
+- `BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") COMMIT=$(git rev-parse --short HEAD) docker compose build --progress plain nextjs-app-dev` <!-- create image tag -->
+- `INT_PORT=3000 EXT_PORT=3000 docker compose up -d nextjs-app-dev`
 
 ### Change Dependencies
 
