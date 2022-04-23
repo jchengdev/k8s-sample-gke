@@ -40,7 +40,7 @@ const HomePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               position: 'absolute',
               height: '100vh',
               width: '100vw',
-              zIndex: 0,
+              zIndex: -1,
               backgroundColor: 'lightgray',
             }}
           >
