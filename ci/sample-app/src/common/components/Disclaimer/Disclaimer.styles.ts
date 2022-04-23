@@ -6,7 +6,7 @@ export const StyledRoot = styled('div')(({ theme }) => ({
   bottom: '5px',
   right: '5px',
   padding: '0.5rem',
-  textAlign: 'center',
+  // textAlign: 'center',
   height: 'auto',
   width: 'auto',
   border: '1px dashed black',
@@ -21,4 +21,7 @@ export const StyledButton = styled('button')(({ theme }) => ({
   border: 'none',
   backgroundColor: 'darkgray',
   cursor: 'pointer',
+  padding: '1.5px 5px 2px 5px',
+  fontFamily: 'monospace',
+  textAlign: 'center',
 }));

@@ -44,10 +44,12 @@ export const GlobalContainer: React.FC<GlobalContainerProps> = ({
         <ColorFormatCtxProvider>{children}</ColorFormatCtxProvider>
       </PalettesCtxProvider>
       {show && (
-        <Disclaimer
-          message={disclaimer}
-          onClose={() => setShowDisclaimer(false)}
-        />
+        <div style={{ zIndex: 100 }}>
+          <Disclaimer
+            message={disclaimer}
+            onClose={() => setShowDisclaimer(false)}
+          />
+        </div>
       )}
     </>
   );
