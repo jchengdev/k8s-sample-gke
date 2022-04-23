@@ -1,31 +1,15 @@
-import { StyledRoot } from './Disclaimer.styles';
+import { StyledButton, StyledRoot } from './Disclaimer.styles';
 
 interface DisclaimerProps {
-  message: string;
-  extLink?: string;
+  message: string | JSX.Element;
   onClose: () => void;
 }
 
-const Disclaimer: React.FC<DisclaimerProps> = ({
-  message,
-  extLink,
-  onClose,
-}) => {
+const Disclaimer: React.FC<DisclaimerProps> = ({ message, onClose }) => {
   return (
     <StyledRoot>
-      <h1 style={{ color: 'red' }}> THIS IS CURRENTLY BEING EDITED </h1>
       {message}
-      <br />{' '}
-      {extLink && (
-        <a target={'_blank'} href={extLink} rel="noreferrer">
-          {extLink}
-        </a>
-      )}
-      {
-        // TODO: handle popup onClose, change AppContext (memory)
-      }
-      <br />
-      <button onClick={() => onClose()}>X</button>
+      <StyledButton onClick={() => onClose()}>X</StyledButton>
     </StyledRoot>
   );
 };

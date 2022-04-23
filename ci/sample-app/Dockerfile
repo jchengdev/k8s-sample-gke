@@ -39,8 +39,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY . .
 USER root
-RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./src/common/containers/GlobalContainer/index.tsx
-RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./src/pages/_document.tsx
+RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./src/common/_dev_notes.ts
 USER node
 COPY --from=dependencies ./node_modules ./node_modules
 RUN rm -rf ./.next \

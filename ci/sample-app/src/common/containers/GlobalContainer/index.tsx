@@ -10,10 +10,11 @@ import { useState as ReactUStt } from 'react';
 import { PalettesCtxProvider } from '@/common/contexts/PaletteListContext';
 import { ColorFormatCtxProvider } from '@/common/contexts/ColorFormatContext';
 
-const COMMIT_SHA = 'COMMIT_SHA: %%COMMIT_SHA%%';
 import Disclaimer from '@/common/components/Disclaimer';
 
 import { globalStyles } from '@/common/styles/globals';
+
+import { disclaimer } from '@/common/_dev_notes';
 
 interface GlobalContainerProps extends PropsWithChildren<unknown> {
   // initialAuth?: Auth;
@@ -44,8 +45,7 @@ export const GlobalContainer: React.FC<GlobalContainerProps> = ({
       </PalettesCtxProvider>
       {show && (
         <Disclaimer
-          message={`COMMIT_SHA: ${COMMIT_SHA}`}
-          extLink={'https://www.udemy.com/course/modern-react-bootcamp'}
+          message={disclaimer}
           onClose={() => setShowDisclaimer(false)}
         />
       )}
