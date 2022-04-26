@@ -45,16 +45,15 @@ export const disclaimer: JSX.Element = (
       <strong style={{ fontSize: '14px' }}>{'React Colors App'}</strong>
       <br />
       <br />
-      This is a NextJS app converted from a React app (PWA), with some issues
-      left.
+      This is a NextJS app converted from a React app (PWA), with issues left.
       <br />
-      Users can navigate through existing palettes (seeds), create own color
-      palettes or
+      Users can navigate through existing palettes (seeds), create own palettes
+      or
       <br />
       delete palettes (synced with localStorage).
       <br />
       <br />
-      Components&apos; design:
+      Components&apos; design:{' '}
       {
         <a
           target={'_blank'}
@@ -65,32 +64,39 @@ export const disclaimer: JSX.Element = (
         </a>
       }
       <br />
-      Original project by @ColtSteele:
+      Original project by @ColtSteele:{' '}
       {
         <a
           target={'_blank'}
           href={'https://www.udemy.com/course/modern-react-bootcamp'}
           rel="noreferrer"
         >
-          Udemy course
+          Udemy
         </a>
       }
+      <br />
+      Tech stack: Express.js, Next.js (+React), Material-UI (+@emotion), utility
+      packages
+      <br />
+      Dev stack: Typescript, Storybook, ESLint, Prettier
+      <br />
+      Infra stack: Kubernetes, Docker, Gitlab
       <br />
       <br />
       <strong style={{ fontSize: '14px' }}>{'Possible Improvements'}</strong>
       <ul>
         <li>
-          React 18 upgrade (implement &lt;Suspense&gt; for loading components)
+          React 18 upgrade (implement &lt;Suspense&gt; for loading states)
         </li>
         <li>Revert background image (disabled due to memory leak issue)</li>
         <li>Emoji CSS too heavy</li>
-        <li>Global CSS refactoring (some issues related to FOUC flickering)</li>
+        <li>Global CSS refactoring (some issue related to FOUC/flickering)</li>
         <li>
-          Page transitions (<em>react-transition-group</em> not implemented for
+          Page transitions (<em>react-transition-group</em> not implemented in
           page level)
         </li>
-        <li>Change localStorage to cookies (current palettes)</li>
-        <li>Add back-end support (saving palette feature)</li>
+        <li>Change localStorage to cookies (local palettes state)</li>
+        <li>Add back-end support (persisting palette feature)</li>
         <li>General CSS improvements</li>
         <li>Features, etc.</li>
       </ul>
