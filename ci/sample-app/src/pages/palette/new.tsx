@@ -33,6 +33,10 @@ const NewPalettePage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
         palettes={palettes}
         savePalette={_savePalette}
         goToRoot={() => goTo.HOME(router)}
+        // ! There is space for more DRYness, instead of recovering `router` in all pages,
+        // ! and passing down to helper `goTo`, could create a useRoutingCustomHook (and
+        // ! move all helpers to that folder) and retrieve routing helpers with UI-less
+        // ! containers
       />
     </>
   );
