@@ -10,7 +10,7 @@
     "type-check": "tsc --build",
     "lint": "next lint",
     "analyze-bundle": "ANALYZE=true next build",
-    "storybook": "STORYBOOK_MODE=true start-storybook -p 6006",
+    "storybook": "STORYBOOK_MODE=true start-storybook -p 6006 --no-open",
     "build-storybook": "STORYBOOK_MODE=true build-storybook",
     "debug-hang-container": "top",
     "debug-it-bash": "sh"
