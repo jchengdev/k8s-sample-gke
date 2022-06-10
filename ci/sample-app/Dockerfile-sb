@@ -15,7 +15,7 @@ RUN npm run build-storybook
 ENTRYPOINT [ "npm" ]
 # ENTRYPOINT if this image ever needs debugging
 
-FROM nginx:1.20.1-alpine as stories-static
+FROM nginx:1.22.0-alpine as stories-static
 ARG BUILD_DATE
 ARG SOURCE_COMMIT
 RUN echo "BUILD_DATE: $BUILD_DATE"
@@ -25,6 +25,8 @@ LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.revision=$SOURCE_COMMIT 
 LABEL org.opencontainers.image.title="Storybook of NextJS app components in K8s cluster" 
 LABEL org.opencontainers.image.licenses=MIT 
-EXPOSE 80
+ENV NGINX_PORT=80
+EXPOSE $NGINX_PORT
 COPY --from=builder ./storybook-static/ /usr/share/nginx/html
 RUN sed -i "s~</head><body>~<meta name='gitlab-tac-tac-string' content='++$SOURCE_COMMIT++' /></head><body>~g" /usr/share/nginx/html/index.html
+CMD ["nginx", "-g", "daemon off;"]
