@@ -28,7 +28,7 @@ ENV NODE_ENV=development
 ENV PORT $NEXT_PORT
 EXPOSE $PORT
 COPY . .
-COPY --from=dependencies ./node_modules ./node_modules
+COPY --from=dependencies --chown=node:node ./node_modules ./node_modules
 CMD [ "node", "./server/index.js" ]
 
 FROM node-base as builder
@@ -42,7 +42,7 @@ COPY . .
 USER root
 RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./src/common/_dev_notes.tsx
 USER node
-COPY --from=dependencies ./node_modules ./node_modules
+COPY --from=dependencies --chown=node:node ./node_modules ./node_modules
 RUN rm -rf ./.next \
   && ./node_modules/.bin/next build
 ENTRYPOINT [ "npm" ]
