@@ -16,7 +16,7 @@ services:
     volumes:
       - .:/node
     # env_file:
-    #   - ./.env
+    #   - ./.env.local
     ports:
       - '${EXT_PORT:-3000}:${INT_PORT:-3000}/tcp'
     stdin_open: true
@@ -27,7 +27,7 @@ services:
     volumes:
       - .:/app
     # env_file:
-    #   - ./.env
+    #   - ./.env.local
     ports:
       - '${EXT_PORT:-6006}:${INT_PORT:-6006}/tcp'
     stdin_open: true
