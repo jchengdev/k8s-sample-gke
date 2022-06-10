@@ -5,7 +5,7 @@ ARG BUILD_DATE=not-set
 ARG SOURCE_COMMIT=not-set
 ARG NEXT_PORT=3000
 ARG NEXT_PUBLIC_SOMEBACKEND_URI=http://localhost:80
-# redeclare ARGs defined outside FROM scope for its default value (https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact)
+# redeclare ARGs defined outside FROM scope to get those default values (https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact)
 
 FROM $node_image as dependencies
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
