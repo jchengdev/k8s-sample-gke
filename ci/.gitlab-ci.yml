@@ -260,6 +260,9 @@ deploy to staging:
     - echo $CI_RUNNER_ID
     - gcloud components update kubectl
     - mkdir -p ~/.kube && echo $KUBE_CONFIG_BASE64 | base64 -d > ~/.kube/config
+    - gcloud components install gke-gcloud-auth-plugin && gke-gcloud-auth-plugin --version # GKE specific auth flow
+    - mkdir -p ~/.kube && echo $GSA_KEY_JSON_BASE64 | base64 -d > ~/.kube/gsa-key.json     # GKE specific auth flow
+    - export GOOGLE_APPLICATION_CREDENTIALS=~/.kube/gsa-key.json                           # GKE specific auth flow
     - kubectl cluster-info
   script:
     - 'echo Deploy URL: http://$STG_DOMAIN'
@@ -377,6 +380,9 @@ deploy storybook:
     - echo $CI_RUNNER_ID
     - gcloud components update kubectl
     - mkdir -p ~/.kube && echo $KUBE_CONFIG_BASE64 | base64 -d > ~/.kube/config
+    - gcloud components install gke-gcloud-auth-plugin && gke-gcloud-auth-plugin --version # GKE specific auth flow
+    - mkdir -p ~/.kube && echo $GSA_KEY_JSON_BASE64 | base64 -d > ~/.kube/gsa-key.json     # GKE specific auth flow
+    - export GOOGLE_APPLICATION_CREDENTIALS=~/.kube/gsa-key.json                           # GKE specific auth flow
     - kubectl cluster-info
   script:
     - 'echo Deploy URL: http://$SB_DOMAIN'
