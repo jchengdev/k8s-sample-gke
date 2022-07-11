@@ -5,7 +5,7 @@ ARG BUILD_DATE=not-set
 ARG SOURCE_COMMIT=not-set
 ARG NEXT_PORT=3000
 ARG NEXT_PUBLIC_SOMEBACKEND_URI=http://localhost:80
-# redeclare ARGs defined outside FROM scope for its default value (https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact)
+# redeclare ARGs defined outside FROM scope to get those default values (https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact)
 
 FROM $node_image as dependencies
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
@@ -28,7 +28,7 @@ ENV NODE_ENV=development
 ENV PORT $NEXT_PORT
 EXPOSE $PORT
 COPY . .
-COPY --from=dependencies ./node_modules ./node_modules
+COPY --from=dependencies --chown=node:node ./node_modules ./node_modules
 CMD [ "node", "./server/index.js" ]
 
 FROM node-base as builder
@@ -39,10 +39,11 @@ RUN echo "SHA: $SOURCE_COMMIT"
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY . .
+COPY ./.env ./.env
 USER root
 RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./src/common/_dev_notes.tsx
 USER node
-COPY --from=dependencies ./node_modules ./node_modules
+COPY --from=dependencies --chown=node:node ./node_modules ./node_modules
 RUN rm -rf ./.next \
   && ./node_modules/.bin/next build
 ENTRYPOINT [ "npm" ]
@@ -73,7 +74,7 @@ COPY --from=builder --chown=node:node /node/.next ./.next
 # TODO: revisit with-docker example after `outputStandalone: true` being promoted from experimental
 COPY --from=builder --chown=node:node /node/public ./public
 COPY --from=builder --chown=node:node /node/server ./server
-COPY --from=builder --chown=node:node /node/.env ./.env
+# COPY --from=builder --chown=node:node /node/.env ./.env # TODO: confirm this is only needed in `builder` stage
 COPY --from=builder --chown=node:node /node/next.config.js ./next.config.js
 COPY --from=builder --chown=node:node /node/package.json ./package.json
 CMD [ "node", "./server/index.js" ]

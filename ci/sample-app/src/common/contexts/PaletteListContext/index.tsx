@@ -18,11 +18,9 @@ const PalettesCtxProvider: React.FC<PalettesCtxProviderProps> = ({
   const [state, dispatch] = usePalettesReducer({ palettes: seeds });
 
   return (
-    <PalettesCtxST.Provider value={state}>
-      <PalettesCtxDP.Provider value={dispatch}>
-        {children}
-      </PalettesCtxDP.Provider>
-    </PalettesCtxST.Provider>
+    <PalettesCtxDP.Provider value={dispatch}>
+      <PalettesCtxST.Provider value={state}>{children}</PalettesCtxST.Provider>
+    </PalettesCtxDP.Provider>
   );
 };
 

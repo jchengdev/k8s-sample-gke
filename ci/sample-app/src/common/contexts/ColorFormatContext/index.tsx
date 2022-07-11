@@ -16,11 +16,11 @@ const ColorFormatCtxProvider: React.FC<ColorFormatCtxProviderProps> = ({
   const [state, dispatch] = useColorFormatReducer({ format: 'hex' });
 
   return (
-    <ColorFormatCtxST.Provider value={state}>
-      <ColorFormatCtxDP.Provider value={dispatch}>
+    <ColorFormatCtxDP.Provider value={dispatch}>
+      <ColorFormatCtxST.Provider value={state}>
         {children}
-      </ColorFormatCtxDP.Provider>
-    </ColorFormatCtxST.Provider>
+      </ColorFormatCtxST.Provider>
+    </ColorFormatCtxDP.Provider>
   );
 };
 

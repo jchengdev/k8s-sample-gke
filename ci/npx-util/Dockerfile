@@ -1,4 +1,5 @@
-FROM node:16-alpine 
-USER node 
-WORKDIR /app 
-ENTRYPOINT [ "npx" ] 
+FROM node:18.4.0-alpine
+COPY entrypoint.sh /
+RUN chmod +x entrypoint.sh
+WORKDIR /app
+ENTRYPOINT [ "sh", "/entrypoint.sh", "node:18.4.0-alpine", "npx" ]

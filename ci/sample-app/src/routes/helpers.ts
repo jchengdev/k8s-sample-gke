@@ -1,4 +1,4 @@
-import { NextRouter } from 'next/router';
+import type { NextRouter } from 'next/router';
 
 /**
  * ! This is meant to be just a helper, but if something changes in routing packages (e.g. 'next-routes' module)
@@ -39,6 +39,10 @@ export const ROOT = {
 /**
  * Helper CONSTANT for all App's internal navigation paths
  */
+// ! There is space for more DRYness, instead of recovering `router` in all pages,
+// ! and passing down to helper `goTo`, could create a useRoutingCustomHook (and
+// ! move all helpers to that folder) and retrieve routing helpers with UI-less
+// ! containers
 export const goTo = {
   // TODO: needs to trigger HTTP -> HTTPS somehow
 
