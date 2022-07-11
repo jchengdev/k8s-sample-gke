@@ -20,7 +20,7 @@
 # RUN sed -i "s~%%COMMIT_SHA%%~$SOURCE_COMMIT~g" ./index.html
 
 # Switch to the scratch image
-FROM nginx:1.20.1-alpine AS prod
+FROM nginx:1.23.0-alpine AS prod
 
 ARG BUILD_DATE=not-set 
 ARG SOURCE_COMMIT=not-set 
