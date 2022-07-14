@@ -1,5 +1,5 @@
 # defaults
-ARG node_v=16.14.2
+ARG node_v=18.5.0
 ARG node_image=node:$node_v-alpine
 ARG BUILD_DATE=not-set 
 ARG SOURCE_COMMIT=not-set
@@ -15,7 +15,7 @@ RUN npm run build-storybook
 ENTRYPOINT [ "npm" ]
 # ENTRYPOINT if this image ever needs debugging
 
-FROM nginx:1.22.0-alpine as stories-static
+FROM nginx:1.23.0-alpine as stories-static
 ARG BUILD_DATE
 ARG SOURCE_COMMIT
 RUN echo "BUILD_DATE: $BUILD_DATE"

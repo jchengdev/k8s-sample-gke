@@ -1,5 +1,5 @@
 # defaults
-ARG node_v=16.14.2
+ARG node_v=18.5.0
 ARG node_image=node:$node_v-alpine
 ARG BUILD_DATE=not-set 
 ARG SOURCE_COMMIT=not-set
@@ -56,11 +56,11 @@ ARG SOURCE_COMMIT
 ARG NEXT_PORT
 RUN echo "BUILD_DATE: $BUILD_DATE"
 RUN echo "SHA: $SOURCE_COMMIT"
-LABEL org.opencontainers.image.authors=jcheng.deveng@gmail.com
+LABEL org.opencontainers.image.authors="jcheng.deveng@gmail.com"
 LABEL org.opencontainers.image.created=$BUILD_DATE 
 LABEL org.opencontainers.image.revision=$SOURCE_COMMIT 
 LABEL org.opencontainers.image.title="NodeJS app for CI/CD sample in K8s cluster" 
-LABEL org.opencontainers.image.licenses=MIT
+LABEL org.opencontainers.image.licenses="MIT"
 ENV NODE_VERSION=$node_v-alpine
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
