@@ -49,7 +49,7 @@
 - `docker run --rm -v $(pwd):/app npx-util prettier --check .`
 - `docker run --rm -v $(pwd):/app npm-util run type-check`
 - `docker run --rm -v $(pwd):/app npm-util run lint`
-- `rm -rf .next && docker run --rm -v $(pwd):/app npm-util run analyze-bundle`
+- `rm -rf ./.next && docker run --rm -v $(pwd):/app npm-util run analyze-bundle`
 
 ## PROD
 
