@@ -1,5 +1,14 @@
+import Head from 'next/head';
+
 import type { PropsWithChildren } from 'react';
 import { useState as ReactUStt } from 'react';
+
+import type { EmotionCache } from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '@/common/styles/mui-theme';
+import { globalStyles } from '@/common/styles/globals';
 
 // import useGoogleAnalytics from '~/domain/hooks/useGoogleAnalytics';
 
@@ -12,18 +21,18 @@ import { ColorFormatCtxProvider } from '@/common/contexts/ColorFormatContext';
 
 import Disclaimer from '@/common/components/Disclaimer';
 
-import { globalStyles } from '@/common/styles/globals';
-
 import { disclaimer } from '@/common/_dev_notes';
 
 interface GlobalContainerProps extends PropsWithChildren<unknown> {
   // initialAuth?: Auth;
   // initialI18N?: I18NConfig;
+  emotionCache: EmotionCache;
 }
 
 export const GlobalContainer: React.FC<GlobalContainerProps> = ({
   // initialAuth,
   // initialI18N,
+  emotionCache,
   children,
 }) => {
   const [show, setShowDisclaimer] = ReactUStt(true as boolean);
@@ -39,18 +48,25 @@ export const GlobalContainer: React.FC<GlobalContainerProps> = ({
     //   </AuthContextProvider>
     // </I18NContextProvider>
     <>
-      {globalStyles}
-      <PalettesCtxProvider>
-        <ColorFormatCtxProvider>{children}</ColorFormatCtxProvider>
-      </PalettesCtxProvider>
-      {show && (
-        <div style={{ zIndex: 100 }}>
-          <Disclaimer
-            message={disclaimer}
-            onClose={() => setShowDisclaimer(false)}
-          />
-        </div>
-      )}
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
+        <ThemeProvider theme={theme}>
+          {globalStyles}
+          <PalettesCtxProvider>
+            <ColorFormatCtxProvider>{children}</ColorFormatCtxProvider>
+          </PalettesCtxProvider>
+          {show && (
+            <div style={{ zIndex: 100 }}>
+              <Disclaimer
+                message={disclaimer}
+                onClose={() => setShowDisclaimer(false)}
+              />
+            </div>
+          )}
+        </ThemeProvider>
+      </CacheProvider>
     </>
   );
 };
