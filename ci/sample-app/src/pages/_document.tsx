@@ -103,18 +103,14 @@ class MyDocument extends Document {
           <link rel="icon" href="/favicon.ico" />
           {/* ! IMPORTANT: check createCache.ts meta name */}
           <meta name="emotion-insertion-point" content="" />
-          {(function (styles) {
+          {(styles => {
             // console.log(`INJECTED STYLES: ${JSON.stringify(styles)}`);
-            return (
-              <>
-                <style data-emotion="debugger" />
-                {styles}
-              </>
-            );
+            return <>{styles}</>;
           })(
             (this.props as unknown as ExtendedDocumentInitialProps)
               .emotionStyleTags
           )}
+          <meta name="emotion-insertion-point-end" content="" />
         </Head>
         <body>
           <Main />
