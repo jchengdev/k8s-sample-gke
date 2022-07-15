@@ -1,4 +1,4 @@
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from '@mui/styles'; // ! deprecated (https://mui.com/system/styles/basics)
 import styles from './PaletteFooter.styles';
 
 const useStyles = makeStyles(styles);

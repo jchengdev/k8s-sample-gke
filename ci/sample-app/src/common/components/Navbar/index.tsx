@@ -1,6 +1,6 @@
 import { Component, createRef } from 'react';
-import type { WithStyles } from '@mui/styles';
-import { withStyles } from '@mui/styles';
+import type { WithStyles } from '@mui/styles'; // ! deprecated (https://mui.com/system/styles/basics)
+import { withStyles } from '@mui/styles'; // ! deprecated (https://mui.com/system/styles/basics)
 import type { SliderProps } from 'rc-slider';
 import Slider from 'rc-slider';
 
