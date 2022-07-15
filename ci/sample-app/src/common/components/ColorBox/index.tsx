@@ -1,12 +1,13 @@
-import { Component } from 'react';
+import { useState as ReactUStt, useEffect as ReactUEff } from 'react';
 import classnames from 'classnames';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import type { WithStyles } from '@mui/styles';
-import { withStyles } from '@mui/styles';
+import { makeStyles } from '@mui/styles'; // ! deprecated (https://mui.com/system/styles/basics)
 
 import Link from '@/common/components/Link';
 
 import styles from './ColorBox.styles';
+
+const useStyles = makeStyles(styles);
 
 export interface ColorBoxProps {
   name: string;
@@ -14,78 +15,65 @@ export interface ColorBoxProps {
   moreUrl: string;
   showingFullPalette?: boolean;
 }
-interface ComposedProps extends ColorBoxProps, WithStyles<typeof styles> {}
 
-interface ColorBoxState {
-  copied: boolean;
-}
+const ColorBox: React.FC<ColorBoxProps> = props => {
+  const styleClasses = useStyles(props);
+  const { name, background, moreUrl, showingFullPalette } = props;
 
-class ColorBox extends Component<ComposedProps, ColorBoxState> {
-  constructor(props: ComposedProps) {
-    super(props);
-    this.state = { copied: false };
-    this._changeCopyState = this._changeCopyState.bind(this);
-  }
+  const [copied, setCurrentColor] = ReactUStt(false as boolean);
 
-  _changeCopyState() {
-    this.setState({ copied: true }, () => {
+  const _changeCopyState = () => {
+    setCurrentColor(true);
+  };
+
+  ReactUEff(() => {
+    if (copied) {
       setTimeout(() => {
-        this.setState({ copied: false });
+        setCurrentColor(false);
       }, 1500);
-    });
-  }
+    }
+  }, [copied]);
 
-  override render() {
-    const {
-      classes: styleClasses,
-      name,
-      background,
-      moreUrl,
-      showingFullPalette,
-    } = this.props;
-    const { copied } = this.state;
-
-    return (
-      <CopyToClipboard text={background} onCopy={this._changeCopyState}>
+  return (
+    <CopyToClipboard text={background} onCopy={_changeCopyState}>
+      <div
+        style={{ backgroundColor: background }}
+        className={styleClasses.root}
+      >
         <div
           style={{ backgroundColor: background }}
-          className={styleClasses.root}
+          className={classnames(styleClasses.copyOverlay, {
+            [styleClasses.showOverlay]: copied,
+          })}
+        />
+        {/* importing classnames just as alternative syntax */}
+        <div
+          className={`${styleClasses.copyMsg} ${
+            copied && styleClasses.showCopyMsg
+          }`}
         >
-          <div
-            style={{ backgroundColor: background }}
-            className={classnames(styleClasses.copyOverlay, {
-              [styleClasses.showOverlay]: copied,
-            })}
-          />
-          {/* importing classnames just as alternative syntax */}
-          <div
-            className={`${styleClasses.copyMsg} ${
-              copied && styleClasses.showCopyMsg
-            }`}
-          >
-            <h1>copied!</h1>
-            <p className={styleClasses.copyText}>{background}</p>
-          </div>
-          <div>
-            <div className={styleClasses.boxContent}>
-              <span className={styleClasses.colorName}>{name}</span>
-            </div>
-            <button className={styleClasses.copyButton}>Copy</button>
-          </div>
-          {showingFullPalette && (
-            <Link href={moreUrl}>
-              <span
-                className={styleClasses.seeMore}
-                onClick={e => e.stopPropagation()}
-              >
-                MORE
-              </span>
-            </Link>
-          )}
+          <h1>copied!</h1>
+          <p className={styleClasses.copyText}>{background}</p>
         </div>
-      </CopyToClipboard>
-    );
-  }
-}
+        <div>
+          <div className={styleClasses.boxContent}>
+            <span className={styleClasses.colorName}>{name}</span>
+          </div>
+          <button className={styleClasses.copyButton}>Copy</button>
+        </div>
+        {showingFullPalette && (
+          <Link href={moreUrl}>
+            <span
+              className={styleClasses.seeMore}
+              onClick={e => e.stopPropagation()}
+            >
+              MORE
+            </span>
+          </Link>
+        )}
+      </div>
+    </CopyToClipboard>
+  );
+};
 
-export default withStyles(styles)(ColorBox);
+export default ColorBox;
