@@ -20,7 +20,7 @@
 
 - `docker compose down`
 - `docker run --rm -v $(pwd):/app npm-util install -D @next/bundle-analyzer @typescript-eslint/eslint-plugin prettier eslint-config-prettier`
-- `docker run --rm -v $(pwd):/app npm-util install express @emotion/react @emotion/styled @mui/material @mui/styles @mui/icons-material uuid chroma-js react-copy-to-clipboard rc-slider react-color react-material-ui-form-validator react-sortable-hoc array-move emoji-mart react-transition-group`
+- `docker run --rm -v $(pwd):/app npm-util install express @emotion/react @emotion/styled @mui/material @mui/icons-material uuid chroma-js react-copy-to-clipboard rc-slider react-color react-material-ui-form-validator react-sortable-hoc array-move emoji-mart react-transition-group`
 - `docker run --rm -v $(pwd):/app npm-util install -D @types/uuid @types/chroma-js @types/react-copy-to-clipboard @types/react-color @types/react-material-ui-form-validator @types/emoji-mart @types/react-transition-group`
 - Repeat from (+)
 

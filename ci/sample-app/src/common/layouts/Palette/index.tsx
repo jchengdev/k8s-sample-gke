@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import type { WithStyles } from '@mui/styles';
-import { withStyles } from '@mui/styles';
+import type { WithStyles } from '@mui/styles'; // ! deprecated (https://mui.com/system/styles/basics)
+import { withStyles } from '@mui/styles'; // ! deprecated (https://mui.com/system/styles/basics)
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { Global } from '@emotion/react';
