@@ -1,15 +1,12 @@
 import type { DocumentContext, DocumentInitialProps } from 'next/document';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
-import {
-  createServerInstance,
-  emotionWrapper,
-} from '@/common/ssr/emotion/server';
+import { createServerInstance, emotionWrapper } from '@/ssr/emotion/server';
 import {
   generateEmotionStyles,
   injectEmotionStyles,
-} from '@/common/ssr/emotion/headStyles';
-import { EMOTION_INSERTION_POINT } from '@/common/ssr/emotion/_constants';
+} from '@/ssr/emotion/headStyles';
+import { EMOTION_INSERTION_POINT } from '@/ssr/emotion/_constants';
 
 import { COMMIT_SHA } from '@/common/_dev_notes';
 

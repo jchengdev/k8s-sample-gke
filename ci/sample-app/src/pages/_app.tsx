@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 
 import type { EmotionCache } from '@emotion/cache';
-import { createEmotionCache } from '@/common/ssr/emotion/createCache';
+import { createEmotionCache } from '@/ssr/emotion/createCache';
 
 import { GlobalContainer } from '@/common/containers/GlobalContainer';
 
