@@ -29,7 +29,7 @@ const injectEmotionStyles = (styles: React.ReactNode[]): JSX.Element => {
   return (
     <>
       {styles}
-      <meta name={EMOTION_INSERTION_POINT + '-end'} content="" />
+      <meta name={`${EMOTION_INSERTION_POINT}-end`} content="" />
     </>
   );
 };

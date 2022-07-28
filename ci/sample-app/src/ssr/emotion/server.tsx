@@ -21,7 +21,10 @@ const createServerInstance = (): {
 
 type EnhancedApp =
   | AppType
-  | React.ComponentType<{ emotionCache: EmotionCache }>;
+  | React.ComponentType<{
+      [propName: string]: unknown;
+      emotionCache: EmotionCache;
+    }>;
 
 const emotionWrapper = (MyApp: EnhancedApp, cache: EmotionCache) => {
   return function EnhancedApp(props: PropsWithChildren<AppPropsType>) {

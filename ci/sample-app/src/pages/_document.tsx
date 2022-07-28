@@ -14,7 +14,7 @@ interface ExtendedDocumentInitialProps extends DocumentInitialProps {
   emotionStyleTags: React.ReactNode[];
 }
 
-class MyDocument extends Document {
+class MyDocument extends Document<ExtendedDocumentInitialProps> {
   /**
    * ! DON'T CHANGE `renderPage` or `getInitialProps` unless you're really sure what you're doing
    * * https://nextjs.org/docs/advanced-features/custom-document#customizing-renderpage
@@ -44,9 +44,11 @@ class MyDocument extends Document {
     // 3. app.render
     // 4. page.render
     console.log(
-      `_document.js getInitialProps(ctx) called: ${JSON.stringify(
-        Object.assign({}, ctx, { req: null, res: null })
-      )}`
+      `_document.js getInitialProps(ctx) called: ${JSON.stringify({
+        ...ctx,
+        req: null,
+        res: null,
+      })}`
     );
 
     const originalRenderPage = ctx.renderPage;
@@ -85,10 +87,7 @@ class MyDocument extends Document {
           <meta name="gitlab-tac-tac-string" content={`__${COMMIT_SHA}__`} />
           <link rel="icon" href="/favicon.ico" />
           <meta name={EMOTION_INSERTION_POINT} content="" />
-          {injectEmotionStyles(
-            (this.props as unknown as ExtendedDocumentInitialProps)
-              .emotionStyleTags
-          )}
+          {injectEmotionStyles(this.props.emotionStyleTags)}
         </Head>
         <body>
           <Main />
