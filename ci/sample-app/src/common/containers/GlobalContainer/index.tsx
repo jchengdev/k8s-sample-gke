@@ -7,8 +7,8 @@ import type { EmotionCache } from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 
 import { ThemeProvider } from '@mui/material/styles';
+import { globalStyles } from '@/common/styles/globals'; // ! shouldn't depend on theme
 import theme from '@/common/styles/mui-theme';
-import { globalStyles } from '@/common/styles/globals';
 
 // import useGoogleAnalytics from '~/domain/hooks/useGoogleAnalytics';
 
@@ -52,8 +52,8 @@ export const GlobalContainer: React.FC<GlobalContainerProps> = ({
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
+        {globalStyles} {/* ! shouldn't depend on theme */}
         <ThemeProvider theme={theme}>
-          {globalStyles}
           <PalettesCtxProvider>
             <ColorFormatCtxProvider>{children}</ColorFormatCtxProvider>
           </PalettesCtxProvider>

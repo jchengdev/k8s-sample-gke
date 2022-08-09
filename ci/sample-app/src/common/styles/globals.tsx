@@ -1,6 +1,22 @@
-import { css, Global, keyframes } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
+import { GlobalStyles } from '@mui/material';
 import styled from '@emotion/styled';
 // import { CssBaseline } from '@mui/material';
+
+const emotionStyles = css({
+  'html,body': {
+    padding: 0,
+    margin: 0,
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+    WebkitFontSmoothing: 'antialiased',
+    MozOsxFontSmoothing: 'grayscale',
+  },
+  code: {
+    fontFamily:
+      'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
+  },
+});
 
 export const globalStyles = (
   <>
@@ -11,22 +27,7 @@ export const globalStyles = (
       // TODO: switch CssBaseline for ScopedCssBaseline on those cases
       // * left that way because this is a ported app (with adjustments)
     }
-    <Global
-      styles={css({
-        'html,body': {
-          padding: 0,
-          margin: 0,
-          fontFamily:
-            '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
-          WebkitFontSmoothing: 'antialiased',
-          MozOsxFontSmoothing: 'grayscale',
-        },
-        code: {
-          fontFamily:
-            'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
-        },
-      })}
-    />
+    <GlobalStyles styles={emotionStyles} />
   </>
 );
 
