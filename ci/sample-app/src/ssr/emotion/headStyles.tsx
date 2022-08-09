@@ -10,14 +10,16 @@ const generateEmotionStyles = (
   // console.log(`INITIALPROPSHTML: ${JSON.stringify(html)}`);
   const emotionStyles = stylesExtractor(html);
   // console.log(`EMOTIONSTYLES: ${JSON.stringify(emotionStyles)}`);
-  const emotionStyleTags = emotionStyles.styles.map(style => (
-    <style
-      data-emotion={`${style.key} ${style.ids.join(' ')}`}
-      key={style.key}
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: style.css }}
-    />
-  ));
+  const emotionStyleTags = emotionStyles.styles.map(
+    (style: { key: string; ids: string[]; css: string }) => (
+      <style
+        data-emotion={`${style.key} ${style.ids.join(' ')}`}
+        key={style.key}
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: style.css }}
+      />
+    )
+  );
 
   return emotionStyleTags;
 };
@@ -27,7 +29,7 @@ const injectEmotionStyles = (styles: React.ReactNode[]): JSX.Element => {
   return (
     <>
       {styles}
-      <meta name={EMOTION_INSERTION_POINT + '-end'} content="" />
+      <meta name={`${EMOTION_INSERTION_POINT}-end`} content="" />
     </>
   );
 };
